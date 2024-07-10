@@ -1,4 +1,3 @@
-// IndexPage.tsx
 import React, { useState, useEffect, FC } from "react";
 import styled from "styled-components";
 import one from "./1.png";
@@ -101,15 +100,29 @@ const IndexPage: FC = () => {
   useEffect(() => {
     const style = document.createElement('style');
     style.textContent = `
-      @keyframes moveUp {
-        0% {
-          transform: translateX(-50%) translateY(0);
-        }
-        100% {
-          transform: translateX(-50%) translateY(-100vh);
-        }
+    @keyframes moveUp {
+      0% {
+        transform: translateX(-50%) translateY(0);
       }
-    `;
+      100% {
+        transform: translateX(-50%) translateY(-100vh);
+      }
+    }
+
+    @keyframes slideDown {
+      0% {
+        transform: translateX(-50%) translateY(-100%);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+    }
+  `;
     document.head.append(style);
 
     return () => {
@@ -135,6 +148,9 @@ const IndexPage: FC = () => {
         top: '20%',
         left: '50%',
         transform: 'translateX(-50%)',
+        opacity: 0,
+        animation: 'slideDown 2s forwards',
+        animationDelay: '1s',
       }}>
         Elapsed Time:<br></br> {elapsedTime.toFixed(2)} seconds<br></br>
         <StyledButton onClick={() => {
