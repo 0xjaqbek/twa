@@ -141,7 +141,7 @@ const handleGearClick = () => {
         borderRadius: '5px',
         zIndex: 4,
         position: 'absolute',
-        top: '5%',
+        top: '20%',
         left: '50%',
         transform: 'translateX(-50%)',
       }}>

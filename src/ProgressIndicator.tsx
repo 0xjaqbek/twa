@@ -11,11 +11,11 @@ const ProgressWrapper = styled.div`
   padding: 10px 20px;
   border-radius: 5px;
   z-index: 1000;
-  font-size: 28px;
+  font-size: 14px;
 `;
 
 const LargeNumber = styled.span`
-  font-size: 56px; // 2x larger
+  font-size: 32px; // 2x larger
 `;
 
 interface ProgressIndicatorProps {

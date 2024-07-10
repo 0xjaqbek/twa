@@ -1,5 +1,5 @@
 // newLogic.ts
-export const MAX_SPEED = 55; // Maximum move distance in pixels per click
+export const MAX_SPEED = 60; // Maximum move distance in pixels per click
 export const RESET_POSITION = -600; // Height of road image (in pixels)
 
 export const calculateMoveDistance = (clickCount: number): number => {
