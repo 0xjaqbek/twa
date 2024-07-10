@@ -1,5 +1,4 @@
-// ProgressIndicator.tsx
-import React, { FC } from "react";
+import { FC } from "react";
 import styled from "styled-components";
 
 const ProgressWrapper = styled.div`
@@ -13,6 +12,10 @@ const ProgressWrapper = styled.div`
   border-radius: 5px;
   z-index: 1000;
   font-size: 28px;
+`;
+
+const LargeNumber = styled.span`
+  font-size: 56px; // 2x larger
 `;
 
 interface ProgressIndicatorProps {
@@ -30,9 +33,12 @@ const ProgressIndicator: FC<ProgressIndicatorProps> = ({ clickCount }) => {
     return "7/7";
   };
 
+  const progress = calculateProgress(clickCount);
+  const [largeNumber, smallNumber] = progress.split("/");
+
   return (
     <ProgressWrapper>
-      {calculateProgress(clickCount)}
+      <LargeNumber>{largeNumber}</LargeNumber>/{smallNumber}
     </ProgressWrapper>
   );
 };

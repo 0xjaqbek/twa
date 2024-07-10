@@ -43,8 +43,7 @@ const IndexPage: FC = () => {
   const [showInstructions, setShowInstructions] = useState(true);
   const [gameStarted, setGameStarted] = useState(false);
   const [carAnimation, setCarAnimation] = useState('');
- // const [showPowerIndicator, setShowPowerIndicator] = useState(false);
- // const [powerIndicatorValue, setPowerIndicatorValue] = useState(0);
+
 
   useEffect(() => {
     if (gameStarted) {
@@ -142,14 +141,28 @@ const handleGearClick = () => {
         borderRadius: '5px',
         zIndex: 4,
         position: 'absolute',
-        top: '35%',
+        top: '5%',
         left: '50%',
         transform: 'translateX(-50%)',
       }}>
         Elapsed Time: {elapsedTime.toFixed(2)} seconds<br></br>
-          <StyledButton onClick={() => window.location.reload()} style={{ margin: '20px', cursor: 'pointer' }}>
-            Restart Race
-          </StyledButton>
+        <StyledButton onClick={() => {
+  setPosition1(0);
+  setPosition2(RESET_POSITION);
+  setClickCount(0);
+  setMoveDistance(INITIAL_MOVE_DISTANCE);
+  setShowGear(false);
+  setShowingImage('');
+  setClickEnabled(false);
+  setStartTime(0);
+  setEndTime(0);
+  setVerticalBlurLevel(0);
+  setShowInstructions(true);
+  setGameStarted(false);
+  setCarAnimation('');
+}} style={{ margin: '20px', cursor: 'pointer' }}>
+  Restart
+</StyledButton>
       </div>
     );
   };
