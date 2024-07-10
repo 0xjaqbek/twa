@@ -215,7 +215,7 @@ const handleGearClick = () => {
             }}
             onClick={handleClick}
           >
-            <img src={bryka} alt="bryka" style={{ width: '170px', height: 'auto' }} />
+            <img src={bryka} alt="bryka" style={{ width: '150px', height: 'auto' }} />
           </div>
           <div style={{ position: 'absolute', top: `${position1}px`, left: '50%', transform: 'translateX(-50%)', zIndex: 0 }}>
             <img
