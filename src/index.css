@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'Pixelify';
+    src: url('./Pixelify.ttf') format('truetype');
+  }
+  
+  :root {
+    --primary-text-color: black;
+    --button-hover-color: darkgrey;
+  }
+  
+  body {
+    margin: 0;
+    font-family: 'Pixelify', sans-serif;
+    background-color: #e8e8e8;
+    color: black;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #222;
+      color: white;
+    }
+  }
+  

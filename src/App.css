@@ -1,5 +1,21 @@
+/* Global Styles (e.g., in index.css or a global styles component) */
 :root {
-  --tg-theme-bg-color: #efeff3;
-  --tg-theme-button-color: #2eaddc;
-  --tg-theme-button-text-color: white;
+  --primary-color: #2eaddc;
+  --primary-text-color: white;
+  --secondary-color: #f0f0f0;
+  --secondary-text-color: #333;
+  --button-hover-color: #2492b3;
+  font-family: 'Pixelify', Verdana;
+}
+
+
+button {
+  background-color: var(--primary-color);
+  color: var(--primary-text-color);
+  border-radius: var(--button-radius);
+  padding: 15px 32px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
