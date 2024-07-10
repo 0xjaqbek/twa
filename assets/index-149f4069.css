@@ -1,0 +1,1 @@
+@font-face{font-family:Pixelify;src:url(/twa/assets/Pixelify-c47b8f5e.ttf) format("truetype")}:root{--primary-text-color: black;--button-hover-color: darkgrey}body{margin:0;font-family:Pixelify,sans-serif;background-color:#e8e8e8;color:#000}@media (prefers-color-scheme: dark){body{background-color:#222;color:#fff}}
