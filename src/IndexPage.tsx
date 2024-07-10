@@ -215,7 +215,7 @@ const handleGearClick = () => {
             }}
             onClick={handleClick}
           >
-            <img src={bryka} alt="bryka" style={{ width: '200px', height: 'auto' }} />
+            <img src={bryka} alt="bryka" style={{ width: '170px', height: 'auto' }} />
           </div>
           <div style={{ position: 'absolute', top: `${position1}px`, left: '50%', transform: 'translateX(-50%)', zIndex: 0 }}>
             <img
@@ -241,7 +241,7 @@ const handleGearClick = () => {
           </div>
           {showGear && (
             <div style={{ position: 'absolute', top: '10%', left: '50%', transform: 'translateX(-50%)', zIndex: 2, cursor: 'pointer' }} onClick={handleGearClick}>
-              <img src={gear} alt="gear" style={{ width: '200px', height: 'auto' }} />
+              <img src={gear} alt="gear" style={{ width: '150px', height: 'auto' }} />
             </div>
           )}
 {gameStarted && endTime === 0 && (
