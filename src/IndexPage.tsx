@@ -1,33 +1,20 @@
+// IndexPage.tsx
 import React, { useState, useEffect, FC } from "react";
 import styled from "styled-components";
-import bryka from "./bryka.png";
-import ulica from "./ulica.png";
-import gear from "./gear.png";
 import one from "./1.png";
 import two from "./2.png";
 import three from "./3.png";
 import PowerIndicator from "./PowerIndicator";
 import ProgressIndicator from "./ProgressIndicator";
+import Timer from "./Timer";
+import Instructions from "./Instructions";
+import Car from "./Car";
+import Road from "./Road";
+import Gear from "./Gear";
 import { calculateMoveDistance, animateRoad, RESET_POSITION } from "./speed";
+import { StyledButton } from "./StyledButton";
 
 const INITIAL_MOVE_DISTANCE = 0.01; // Initial distance to move road on each click
-
-const StyledButton = styled.button`
-  background-color: grey;
-  font-family: 'Pixelify', sans-serif;
-  color: var(--primary-text-color);
-  border: 2px solid white;
-  button-radius: 10px;
-  padding: 20px 30px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
-  &:hover {
-    background-color: var(--button-hover-color);
-  }
-`;
 
 const IndexPage: FC = () => {
   const [position1, setPosition1] = useState(0);
@@ -43,7 +30,7 @@ const IndexPage: FC = () => {
   const [showInstructions, setShowInstructions] = useState(true);
   const [gameStarted, setGameStarted] = useState(false);
   const [carAnimation, setCarAnimation] = useState('');
-
+  const [showBrykaO, setShowBrykaO] = useState(false);
 
   useEffect(() => {
     if (gameStarted) {
@@ -92,11 +79,15 @@ const IndexPage: FC = () => {
     }
   };
 
-const handleGearClick = () => {
-  setShowGear(false);
-  setClickEnabled(true);
-  setClickCount(prevCount => prevCount + 1); // Increment click count after gear click
-};
+  const handleGearClick = () => {
+    setShowGear(false);
+    setClickEnabled(true);
+    setClickCount(prevCount => prevCount + 1); // Increment click count after gear click
+    setShowBrykaO(true); // Show brykaO
+    setTimeout(() => {
+      setShowBrykaO(false); // Hide brykaO after 0.3 seconds
+    }, 300);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -110,15 +101,15 @@ const handleGearClick = () => {
   useEffect(() => {
     const style = document.createElement('style');
     style.textContent = `
-    @keyframes moveUp {
-      0% {
-        transform: translateX(-50%) translateY(0);
+      @keyframes moveUp {
+        0% {
+          transform: translateX(-50%) translateY(0);
+        }
+        100% {
+          transform: translateX(-50%) translateY(-100vh);
+        }
       }
-      100% {
-        transform: translateX(-50%) translateY(-100vh);
-      }
-    }
-  `;
+    `;
     document.head.append(style);
 
     return () => {
@@ -145,124 +136,54 @@ const handleGearClick = () => {
         left: '50%',
         transform: 'translateX(-50%)',
       }}>
-        Elapsed Time: {elapsedTime.toFixed(2)} seconds<br></br>
+        Elapsed Time:<br></br> {elapsedTime.toFixed(2)} seconds<br></br>
         <StyledButton onClick={() => {
-  setPosition1(0);
-  setPosition2(RESET_POSITION);
-  setClickCount(0);
-  setMoveDistance(INITIAL_MOVE_DISTANCE);
-  setShowGear(false);
-  setShowingImage('');
-  setClickEnabled(false);
-  setStartTime(0);
-  setEndTime(0);
-  setVerticalBlurLevel(0);
-  setShowInstructions(true);
-  setGameStarted(false);
-  setCarAnimation('');
-}} style={{ margin: '20px', cursor: 'pointer' }}>
-  Restart
-</StyledButton>
+          setPosition1(0);
+          setPosition2(RESET_POSITION);
+          setClickCount(0);
+          setMoveDistance(INITIAL_MOVE_DISTANCE);
+          setShowGear(false);
+          setShowingImage('');
+          setClickEnabled(false);
+          setStartTime(0);
+          setEndTime(0);
+          setVerticalBlurLevel(0);
+          setShowInstructions(true);
+          setGameStarted(false);
+          setCarAnimation('');
+        }} style={{ margin: '20px', cursor: 'pointer' }}>
+          Restart
+        </StyledButton>
       </div>
     );
   };
 
   return (
     <div style={{ textAlign: 'center', position: 'relative', overflow: 'hidden', height: '100vh' }}>
-      {showInstructions && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 999,
-        }}>
-          <div style={{
-            backgroundColor: 'black',
-            padding: '20px',
-            borderRadius: '10px',
-            maxWidth: '80%',
-            textAlign: 'center',
-          }}>
-            <h2>Instructions</h2>
-            <p>To play:</p>
-            <ol>
-              <li>Click on the car image to move forward.</li>
-              <li>Every 10 clicks will reveal the gear, which disables clicking on the car temporarily.</li>
-              <li>To resume clicking on the car after the gear is shown, click on the gear image.</li>
-              <li>Your goal is to reach 69 clicks as fast as possible.</li>
-            </ol>
-            <p>When you're ready click</p>
-            <StyledButton onClick={handleStartGame}>Start Game</StyledButton>
-          </div>
-        </div>
-      )}
+      {showInstructions && <Instructions onStartGame={handleStartGame} />}
 
       {!showInstructions && (
         <>
-          <svg width="0" height="0">
-            <filter id="vertical-blur">
-              <feGaussianBlur in="SourceGraphic" stdDeviation={`0 ${verticalBlurLevel}`} />
-            </filter>
-          </svg>
+          <Road position1={position1} position2={position2} verticalBlurLevel={verticalBlurLevel} />
           {showingImage && (
             <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 3 }}>
               <img src={showingImage} alt="showing" style={{ width: '300px', height: 'auto' }} />
             </div>
           )}
-          <div
-            className={carAnimation}
-            style={{
-              position: 'absolute',
-              bottom: '10%',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              zIndex: 1,
-              cursor: clickEnabled ? 'pointer' : 'default',
-              animation: carAnimation === 'car-move-up' ? 'moveUp 2s forwards' : 'none',
-            }}
+          <Car
+            clickEnabled={clickEnabled}
             onClick={handleClick}
-          >
-            <img src={bryka} alt="bryka" style={{ width: '150px', height: 'auto' }} />
-          </div>
-          <div style={{ position: 'absolute', top: `${position1}px`, left: '50%', transform: 'translateX(-50%)', zIndex: 0 }}>
-            <img
-              src={ulica}
-              alt="ulica"
-              style={{
-                width: '300px',
-                height: 'auto',
-                filter: 'url(#vertical-blur)',
-              }}
-            />
-          </div>
-          <div style={{ position: 'absolute', top: `${position2}px`, left: '50%', transform: 'translateX(-50%)', zIndex: 0 }}>
-            <img
-              src={ulica}
-              alt="ulica"
-              style={{
-                width: '300px',
-                height: 'auto',
-                filter: 'url(#vertical-blur)',
-              }}
-            />
-          </div>
-          {showGear && (
-            <div style={{ position: 'absolute', top: '10%', left: '50%', transform: 'translateX(-50%)', zIndex: 2, cursor: 'pointer' }} onClick={handleGearClick}>
-              <img src={gear} alt="gear" style={{ width: '150px', height: 'auto' }} />
-            </div>
+            carAnimation={carAnimation}
+            showBrykaO={showBrykaO}
+          />
+          <Gear showGear={showGear} onClick={handleGearClick} />
+          {gameStarted && endTime === 0 && (
+            <>
+              <PowerIndicator clickCount={clickCount} />
+              <ProgressIndicator clickCount={clickCount} />
+              <Timer startTime={startTime} gameStarted={gameStarted} endTime={endTime} />
+            </>
           )}
-{gameStarted && endTime === 0 && (
-  <>
-    <PowerIndicator clickCount={clickCount} />
-    <ProgressIndicator clickCount={clickCount} />
-  </>
-)}
         </>
       )}
       {calculateElapsedTime()}

@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 const ProgressWrapper = styled.div`
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 5px;
+  left: 5px;
   font-family: 'Pixelify', sans-serif;
   color: white;
   background-color: rgba(0, 0, 0, 0.7);
