@@ -7,6 +7,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      overflow: hidden; /* Prevent scrolling */
+      height: 100%; /* Ensure the body takes up full height */
+    }
+  </style>
   <title>DragRaceGame by jaqbek</title>
 </head>
 <body>
@@ -32,13 +38,18 @@
     });
 
     document.addEventListener('touchmove', function (e) {
+      e.preventDefault(); // Prevent scrolling on touch move
+    });
+
+    document.addEventListener('touchend', function (e) {
       if (e.touches.length > 1) {
         e.preventDefault();
       }
     });
 
-    document.addEventListener('touchend', function (e) {
-      if (e.touches.length > 1) {
+    // Optional: Prevent scrolling with the keyboard
+    window.addEventListener('keydown', function(e) {
+      if ([32, 37, 38, 39, 40].includes(e.keyCode)) {
         e.preventDefault();
       }
     });
