@@ -28,9 +28,9 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => (
       textAlign: 'center',
       fontSize: '0.7rem', // Reduce font size for the instruction box
     }}>
-      <h2 style={{ fontSize: '1.2rem' }}>Instructions</h2> {/* Smaller heading */}
-      <p style={{ fontSize: '0.9rem' }}>To play:</p> {/* Slightly larger paragraph */}
-      <ol style={{ fontSize: '0.8rem' }}> {/* Smaller list */}
+      <h2 style={{ fontSize: '1rem' }}>Instructions</h2> {/* Smaller heading */}
+      <p style={{ fontSize: '0.7rem' }}>To play:</p> {/* Slightly larger paragraph */}
+      <ol style={{ fontSize: '0.6rem' }}> {/* Smaller list */}
         <li>Click on the car image to move forward.</li>
         <li>Every 10 clicks will reveal the gear, which disables clicking on the car temporarily.</li>
         <li>To resume clicking on the car after the gear is shown, click on the gear image.</li>
