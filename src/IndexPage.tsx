@@ -1,3 +1,4 @@
+// IndexPage.tsx
 import React, { useState, useEffect, FC } from "react";
 import styled from "styled-components";
 import one from "./1.png";
@@ -30,6 +31,8 @@ const IndexPage: FC = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [carAnimation, setCarAnimation] = useState('');
   const [showBrykaO, setShowBrykaO] = useState(false);
+  const [roadOpacity, setRoadOpacity] = useState(1);
+  const [powerLevel, setPowerLevel] = useState(0); // State to track power level
 
   useEffect(() => {
     if (gameStarted) {
@@ -76,12 +79,15 @@ const IndexPage: FC = () => {
       setClickEnabled(false);
       setCarAnimation('car-move-up');
     }
+
+    // Increase power level
+    setPowerLevel((prevPowerLevel) => (prevPowerLevel + 1) % 7);
   };
 
   const handleGearClick = () => {
     setShowGear(false);
     setClickEnabled(true);
-    setClickCount(prevCount => prevCount + 1); // Increment click count after gear click
+    setClickCount(prevCount => prevCount + 1);
     setShowBrykaO(true); // Show brykaO
     setTimeout(() => {
       setShowBrykaO(false); // Hide brykaO after 0.3 seconds
@@ -130,6 +136,15 @@ const IndexPage: FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (endTime !== 0) {
+      const timeout = setTimeout(() => {
+        setRoadOpacity(0);
+      }, 1500);
+      return () => clearTimeout(timeout);
+    }
+  }, [endTime]);
+
   const calculateElapsedTime = () => {
     if (endTime === 0 || startTime === 0) {
       return null;
@@ -167,6 +182,7 @@ const IndexPage: FC = () => {
           setShowInstructions(true);
           setGameStarted(false);
           setCarAnimation('');
+          setRoadOpacity(1);
         }} style={{ margin: '20px', cursor: 'pointer' }}>
           Restart
         </StyledButton>
@@ -180,7 +196,9 @@ const IndexPage: FC = () => {
 
       {!showInstructions && (
         <>
-          <Road position1={position1} position2={position2} verticalBlurLevel={verticalBlurLevel} />
+          <div style={{ opacity: roadOpacity, transition: 'opacity 1s' }}>
+            <Road position1={position1} position2={position2} verticalBlurLevel={verticalBlurLevel} />
+          </div>
           {showingImage && (
             <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 3 }}>
               <img src={showingImage} alt="showing" style={{ width: '300px', height: 'auto' }} />
@@ -191,6 +209,7 @@ const IndexPage: FC = () => {
             onClick={handleClick}
             carAnimation={carAnimation}
             showBrykaO={showBrykaO}
+            powerLevel={powerLevel} // Pass powerLevel to Car component
           />
           <Gear showGear={showGear} onClick={handleGearClick} />
           {gameStarted && endTime === 0 && (

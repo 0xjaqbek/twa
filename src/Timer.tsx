@@ -5,7 +5,7 @@ const TimerWrapper = styled.div`
   position: absolute;
   bottom: 20px;
   right: 5%;
-  font-family: 'Pixelify', sans-serif;
+  font-family: 'PublicPixel', sans-serif;
   color: white;
   background-color: rgba(0, 0, 0, 0.7);
   padding: 10px 10px;

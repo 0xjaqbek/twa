@@ -38,15 +38,15 @@ const PowerIndicator: FC<PowerIndicatorProps> = ({ clickCount }) => {
   let powerIndex = -1;
 
   // Adjusted conditional logic to handle 10th click
-  if (clickCount % 10 === 1) powerIndex = 0;
-  else if (clickCount % 10 === 2) powerIndex = 1;
-  else if (clickCount % 10 === 3) powerIndex = 2;
-  else if (clickCount % 10 === 4) powerIndex = 3;
-  else if (clickCount % 10 === 5) powerIndex = 4;
-  else if (clickCount % 10 === 6) powerIndex = 5;
-  else if (clickCount % 10 === 7) powerIndex = 6;
-  else if (clickCount % 10 === 8) powerIndex = 7;
-  else if (clickCount % 10 === 9) powerIndex = 8;
+  if (clickCount % 10 === 1) powerIndex = -1;
+  else if (clickCount % 10 === 2) powerIndex = 0;
+  else if (clickCount % 10 === 3) powerIndex = 1;
+  else if (clickCount % 10 === 4) powerIndex = 2;
+  else if (clickCount % 10 === 5) powerIndex = 3;
+  else if (clickCount % 10 === 6) powerIndex = 4;
+  else if (clickCount % 10 === 7) powerIndex = 5;
+  else if (clickCount % 10 === 8) powerIndex = 6;
+  else if (clickCount % 10 === 9) powerIndex = 7;
   else if (clickCount === 10) powerIndex = 8;
   else if (clickCount === 20) powerIndex = 8;
   else if (clickCount === 30) powerIndex = 8;
