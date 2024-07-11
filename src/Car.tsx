@@ -50,7 +50,7 @@ const Car: React.FC<CarProps> = ({ clickEnabled, onClick, carAnimation, showBryk
   useEffect(() => {
     if (showBrykaO) {
       // Adjust vertical offset when brykaO is shown
-      setVerticalOffset(prevOffset => prevOffset - -7);
+      setVerticalOffset(prevOffset => prevOffset - 11);
     }
   }, [showBrykaO]);
 
