@@ -12,11 +12,44 @@
       overflow: hidden; /* Prevent scrolling */
       height: 100%; /* Ensure the body takes up full height */
     }
+    /* Hide content in landscape mode */
+    @media screen and (orientation: landscape) {
+      #root {
+        display: none;
+      }
+      .landscape-warning {
+        display: block;
+      }
+    }
+
+    /* Show content in portrait mode */
+    @media screen and (orientation: portrait) {
+      #root {
+        display: block;
+      }
+      .landscape-warning {
+        display: none;
+      }
+    }
+
+    .landscape-warning {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      font-size: 1.5em;
+      font-family: 'Public Pixel', sans-serif;
+    }
   </style>
   <title>DragRaceGame by jaqbek</title>
 </head>
 <body>
   <div id="root"></div>
+  <div class="landscape-warning">
+    <h1>Please switch to portrait mode to play the game.</h1>
+  </div>
   <script type="module" src="/src/main.tsx"></script>
   <script>
     document.addEventListener('gesturestart', function (e) {
@@ -53,6 +86,23 @@
         e.preventDefault();
       }
     });
+
+    // Attempt to lock screen orientation to portrait mode
+    const lockOrientation = () => {
+      if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock('portrait').catch(err => {
+          console.log('Orientation lock failed: ', err);
+        });
+      } else {
+        console.log('Orientation lock is not supported on this device.');
+      }
+    };
+
+    // Try to lock orientation when the page loads
+    window.addEventListener('load', lockOrientation);
+
+    // Try to lock orientation when the orientation changes
+    window.addEventListener('orientationchange', lockOrientation);
   </script>
 </body>
 </html>
