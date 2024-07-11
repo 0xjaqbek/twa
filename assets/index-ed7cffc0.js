@@ -1131,7 +1131,7 @@ PERFORMANCE OF THIS SOFTWARE.
   position: absolute;
   top: 5px;
   left: 5px;
-  font-family: 'Pixelify', sans-serif;
+  font-family: 'PublicPixel', sans-serif;
   color: white;
   background-color: rgba(0, 0, 0, 0.7);
   padding: 10px 20px;
@@ -1153,7 +1153,7 @@ PERFORMANCE OF THIS SOFTWARE.
   font-size: 14px;
 `,mT=({startTime:e,gameStarted:t,endTime:r})=>{const[n,o]=dt.useState("0.00");return dt.useEffect(()=>{let i;return t&&e!==0&&r===0&&(i=setInterval(()=>{if(e===0||!t||r!==0){o("0.00");return}const c=(performance.now()-e)/1e3;o(c.toFixed(2))},10)),()=>clearInterval(i)},[e,t,r]),!t||r!==0?null:On(gT,{children:[n," sec"]})},Db=io.button`
   background-color: grey;
-  font-family: 'Pixelify', sans-serif;
+  font-family: 'PublicPixel', sans-serif;
   color: var(--primary-text-color);
   border: 2px solid white;
   border-radius: 10px;
@@ -1192,7 +1192,7 @@ PERFORMANCE OF THIS SOFTWARE.
   `,document.head.append(p),()=>{document.head.removeChild(p)}},[]),dt.useEffect(()=>{if(A!==0){const p=setTimeout(()=>{g(0)},1e3);return()=>clearTimeout(p)}},[A]),On("div",{style:{textAlign:"center",position:"relative",overflow:"hidden",height:"100vh"},children:[L&&mt("div",{style:{opacity:s,transition:"opacity 1s"},children:mt(yT,{onStartGame:E})}),!L&&On(gh,{children:[mt("div",{style:{opacity:b,transition:"opacity 1s"},children:mt(_T,{position1:e,position2:r,verticalBlurLevel:k})}),u&&mt("div",{style:{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%, -50%)",zIndex:3},children:mt("img",{src:u,alt:"showing",style:{width:"300px",height:"auto"}})}),On("div",{style:{opacity:b,transition:"opacity 1s"},children:[mt(xT,{clickEnabled:d,onClick:B,carAnimation:V,showBrykaO:ne,powerLevel:x}),mt(MT,{showGear:l,onClick:_}),q&&A===0&&On(gh,{children:[mt(dT,{clickCount:o}),mt(vT,{clickCount:o}),mt(mT,{startTime:y,gameStarted:q,endTime:A})]})]})]}),(()=>{if(A===0||y===0)return null;const p=(A-y)/1e3;return On("div",{style:{border:"2px solid white",backgroundColor:"black",color:"white",padding:"20px",borderRadius:"10px",zIndex:4,position:"absolute",top:"5%",left:"50%",transform:"translateX(-50%)",opacity:0,animation:"slideDown 2s forwards",animationDelay:"1s",fontSize:"1rem"},children:["Elapsed Time:",mt("br",{}),mt("span",{style:{fontSize:"3rem",fontWeight:"bold"},children:p.toFixed(2)})," seconds",mt("br",{}),mt(Db,{onClick:()=>window.location.reload(),style:{margin:"20px",cursor:"pointer"},children:"Restart"})]})})()]})},kT=io.div`
   background-color: #e8e8e8;
   color: black;
-  font-family: 'Pixelify', sans-serif;
+  font-family: 'PublicPixel', sans-serif;
 
   @media (prefers-color-scheme: dark) {
     background-color: #222;
@@ -1201,7 +1201,7 @@ PERFORMANCE OF THIS SOFTWARE.
   min-height: 100vh;
   padding: 20px 20px;
 `,RT=io.div`
-  font-family: 'Pixelify', sans-serif;
+  font-family: 'PublicPixel', sans-serif;
   max-width: 900px;
   margin: 0 auto;
 `,BT=()=>mt(kT,{children:mt(RT,{children:mt(AT,{})})});const TT="https://raw.githubusercontent.com/ton-community/tutorials/main/03-client/test/public/tonconnect-manifest.json",IT=new E9({defaultOptions:{queries:{refetchOnWindowFocus:!1}}});L1.createRoot(document.getElementById("root")).render(mt(GR,{manifestUrl:TT,children:mt(Pw,{client:IT,children:mt(BT,{})})}));
