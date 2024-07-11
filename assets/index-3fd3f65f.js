@@ -1137,13 +1137,13 @@ PERFORMANCE OF THIS SOFTWARE.
   padding: 10px 20px;
   border-radius: 5px;
   z-index: 1000;
-  font-size: 14px;
+  font-size: 10px;
 `,pT=io.span`
-  font-size: 32px; // 2x larger
+  font-size: 20px; // 2x larger
 `,vT=({clickCount:e})=>{const r=(i=>i<=10?"1/7":i<=20?"2/7":i<=30?"3/7":i<=40?"4/7":i<=50?"5/7":i<=60?"6/7":"7/7")(e),[n,o]=r.split("/");return On(hT,{children:[mt(pT,{children:n}),"/",o]})},gT=io.div`
   position: absolute;
-  bottom: 20px;
-  right: 5%;
+  top: 5px;
+  right: 2px;
   font-family: 'PublicPixel', sans-serif;
   color: white;
   background-color: rgba(0, 0, 0, 0.7);
