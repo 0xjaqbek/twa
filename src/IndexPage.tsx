@@ -173,7 +173,7 @@ const IndexPage: FC = () => {
         fontSize: '1rem', // Example of larger font size
       }}>
         Elapsed Time:<br></br> 
-        <span style={{ fontSize: '3rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br></br>
+        <span style={{ fontSize: '2rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br></br>
         <StyledButton onClick={() => window.location.reload()} style={{ margin: '20px', cursor: 'pointer' }}>
           Restart
         </StyledButton>

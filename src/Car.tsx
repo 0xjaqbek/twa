@@ -54,6 +54,7 @@ const Car: React.FC<CarProps> = ({ clickEnabled, onClick, carAnimation, showBryk
     }
   }, [showBrykaO]);
 
+  
   return (
     <div
       className={carAnimation}

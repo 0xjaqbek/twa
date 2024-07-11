@@ -10,6 +10,7 @@ export const Card = styled.div`
   }
 `;
 
+
 export const FlexBoxRow = styled.div`
   display: flex;
   flex-direction: row;

@@ -8,6 +8,10 @@
   font-family: 'PublicPixel', Verdana;
 }
 
+img {
+  user-select: none; /* Prevents selection */
+  pointer-events: none; /* Prevents mouse interactions */
+}
 
 button {
   background-color: var(--primary-color);
