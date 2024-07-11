@@ -1,4 +1,3 @@
-// IndexPage.tsx
 import React, { useState, useEffect, FC } from "react";
 import styled from "styled-components";
 import one from "./1.png";
@@ -31,7 +30,8 @@ const IndexPage: FC = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [carAnimation, setCarAnimation] = useState('');
   const [showBrykaO, setShowBrykaO] = useState(false);
-  const [roadOpacity, setRoadOpacity] = useState(1);
+  const [roadOpacity, setRoadOpacity] = useState(0); // Initially 0 for fade-in effect
+  const [instructionsOpacity, setInstructionsOpacity] = useState(1); // New state for instructions opacity
   const [powerLevel, setPowerLevel] = useState(0); // State to track power level
 
   useEffect(() => {
@@ -46,16 +46,20 @@ const IndexPage: FC = () => {
               setShowingImage('');
               setClickEnabled(true);
               setStartTime(performance.now());
-            }, 1000);
-          }, 1000);
-        }, 1000);
-      }, 1000);
+            }, 500);
+          }, 500);
+        }, 500);
+      }, 500);
     }
   }, [gameStarted]);
 
   const handleStartGame = () => {
-    setShowInstructions(false);
-    setGameStarted(true);
+    setInstructionsOpacity(0); // Reduce instructions opacity
+    setTimeout(() => {
+      setShowInstructions(false); // Hide instructions after transition
+      setGameStarted(true);
+      setRoadOpacity(1); // Start fading in the road and other elements
+    }, 750); // Delay to match the opacity transition
   };
 
   const handleClick = () => {
@@ -98,7 +102,7 @@ const IndexPage: FC = () => {
     const interval = setInterval(() => {
       setPosition1(prevPosition => animateRoad(prevPosition, moveDistance, window.innerHeight));
       setPosition2(prevPosition => animateRoad(prevPosition, moveDistance, window.innerHeight));
-    }, 16); // Approximately 60 frames per second
+    }, 11); // Approximately 60 frames per second
 
     return () => clearInterval(interval);
   }, [moveDistance]);
@@ -140,7 +144,7 @@ const IndexPage: FC = () => {
     if (endTime !== 0) {
       const timeout = setTimeout(() => {
         setRoadOpacity(0);
-      }, 1500);
+      }, 1000);
       return () => clearTimeout(timeout);
     }
   }, [endTime]);
@@ -156,34 +160,21 @@ const IndexPage: FC = () => {
         border: '2px solid white',
         backgroundColor: 'black',
         color: 'white',
-        padding: '10px',
-        borderRadius: '5px',
+        padding: '20px',
+        borderRadius: '10px',
         zIndex: 4,
         position: 'absolute',
-        top: '20%',
+        top: '5%',
         left: '50%',
         transform: 'translateX(-50%)',
         opacity: 0,
         animation: 'slideDown 2s forwards',
         animationDelay: '1s',
+        fontSize: '1rem', // Example of larger font size
       }}>
-        Elapsed Time:<br></br> {elapsedTime.toFixed(2)} seconds<br></br>
-        <StyledButton onClick={() => {
-          setPosition1(0);
-          setPosition2(RESET_POSITION);
-          setClickCount(0);
-          setMoveDistance(INITIAL_MOVE_DISTANCE);
-          setShowGear(false);
-          setShowingImage('');
-          setClickEnabled(false);
-          setStartTime(0);
-          setEndTime(0);
-          setVerticalBlurLevel(0);
-          setShowInstructions(true);
-          setGameStarted(false);
-          setCarAnimation('');
-          setRoadOpacity(1);
-        }} style={{ margin: '20px', cursor: 'pointer' }}>
+        Elapsed Time:<br></br> 
+        <span style={{ fontSize: '3rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br></br>
+        <StyledButton onClick={() => window.location.reload()} style={{ margin: '20px', cursor: 'pointer' }}>
           Restart
         </StyledButton>
       </div>
@@ -192,7 +183,11 @@ const IndexPage: FC = () => {
 
   return (
     <div style={{ textAlign: 'center', position: 'relative', overflow: 'hidden', height: '100vh' }}>
-      {showInstructions && <Instructions onStartGame={handleStartGame} />}
+      {showInstructions && (
+        <div style={{ opacity: instructionsOpacity, transition: 'opacity 1s' }}>
+          <Instructions onStartGame={handleStartGame} />
+        </div>
+      )}
 
       {!showInstructions && (
         <>
@@ -204,21 +199,23 @@ const IndexPage: FC = () => {
               <img src={showingImage} alt="showing" style={{ width: '300px', height: 'auto' }} />
             </div>
           )}
-          <Car
-            clickEnabled={clickEnabled}
-            onClick={handleClick}
-            carAnimation={carAnimation}
-            showBrykaO={showBrykaO}
-            powerLevel={powerLevel} // Pass powerLevel to Car component
-          />
-          <Gear showGear={showGear} onClick={handleGearClick} />
-          {gameStarted && endTime === 0 && (
-            <>
-              <PowerIndicator clickCount={clickCount} />
-              <ProgressIndicator clickCount={clickCount} />
-              <Timer startTime={startTime} gameStarted={gameStarted} endTime={endTime} />
-            </>
-          )}
+          <div style={{ opacity: roadOpacity, transition: 'opacity 1s' }}>
+            <Car
+              clickEnabled={clickEnabled}
+              onClick={handleClick}
+              carAnimation={carAnimation}
+              showBrykaO={showBrykaO}
+              powerLevel={powerLevel} // Pass powerLevel to Car component
+            />
+            <Gear showGear={showGear} onClick={handleGearClick} />
+            {gameStarted && endTime === 0 && (
+              <>
+                <PowerIndicator clickCount={clickCount} />
+                <ProgressIndicator clickCount={clickCount} />
+                <Timer startTime={startTime} gameStarted={gameStarted} endTime={endTime} />
+              </>
+            )}
+          </div>
         </>
       )}
       {calculateElapsedTime()}

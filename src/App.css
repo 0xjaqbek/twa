@@ -19,3 +19,15 @@ button {
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+@keyframes move-car {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(20px); /* Adjust the distance as needed */
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
