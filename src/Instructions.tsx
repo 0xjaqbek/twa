@@ -33,7 +33,7 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => (
       <ol style={{ fontSize: '0.6rem' }}> {/* Smaller list */}
         <li>Click on the car image to move forward.</li>
         <li>Every 10 clicks will reveal the gear that disables clicking on the car.</li>
-        <li>Click on the gear image to activate further car clicks .</li>
+        <li>Click on the gear image to activate further car clicks.</li>
         <li>Your goal is to reach 69 clicks as fast as possible.</li>
       </ol>
       <p style={{ fontSize: '0.9rem' }}>When you're ready click</p> {/* Slightly larger paragraph */}
