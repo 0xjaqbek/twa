@@ -28,18 +28,15 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => (
       textAlign: 'center',
       fontSize: '0.7rem', // Reduce font size for the instruction box
     }}>
-      <h1 style={{ fontSize: '1.2rem' }}>Tap</h1>
-      <h1 style={{ fontSize: '1.2rem' }}>Race</h1>
-      <h1 style={{ fontSize: '1.2rem' }}>Sprint</h1>
-      <h2 style={{ fontSize: '1rem' }}>Instructions</h2> {/* Smaller heading */}
-      <p style={{ fontSize: '0.7rem' }}>To play:</p> {/* Slightly larger paragraph */}
+      <h1 style={{ fontSize: '1.2rem' }}>TapRaceSprint</h1>
+      <p style={{ fontSize: '0.8rem' }}>How to play:</p> {/* Slightly larger paragraph */}
       <ol style={{ fontSize: '0.6rem' }}> {/* Smaller list */}
-        <li>Click on the car image to move forward.</li>
-        <li>Every 10 clicks will reveal the gear that disables clicking on the car.</li>
-        <li>Click on the gear image to activate further car clicks.</li>
-        <li>Your goal is to reach 69 clicks as fast as possible.</li>
+        <li>Click on the car image to move forward.</li><br></br>
+        <li>Every 10 clicks will reveal the gear that disables clicking on the car.</li><br></br>
+        <li>Click on the gear image to activate further car clicks.</li><br></br>
+        <li>Your goal is to reach 69 clicks as fast as possible.</li><br></br>
       </ol>
-      <p style={{ fontSize: '0.9rem' }}>When you're ready click</p> {/* Slightly larger paragraph */}
+      <p style={{ fontSize: '0.5rem' }}>When you're ready click</p><br></br> {/* Slightly larger paragraph */}
       <StyledButton onClick={onStartGame}>Start Game</StyledButton>
     </div>
   </div>
