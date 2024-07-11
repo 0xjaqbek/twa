@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 const TimerWrapper = styled.div`
   position: absolute;
-  bottom: 20px;
-  right: 5%;
+  top: 5px;
+  right: 2px;
   font-family: 'PublicPixel', sans-serif;
   color: white;
   background-color: rgba(0, 0, 0, 0.7);
