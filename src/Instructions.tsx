@@ -28,6 +28,9 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => (
       textAlign: 'center',
       fontSize: '0.7rem', // Reduce font size for the instruction box
     }}>
+      <h1 style={{ fontSize: '1.2rem' }}>Tap</h1>
+      <h1 style={{ fontSize: '1.2rem' }}>Race</h1>
+      <h1 style={{ fontSize: '1.2rem' }}>Sprint</h1>
       <h2 style={{ fontSize: '1rem' }}>Instructions</h2> {/* Smaller heading */}
       <p style={{ fontSize: '0.7rem' }}>To play:</p> {/* Slightly larger paragraph */}
       <ol style={{ fontSize: '0.6rem' }}> {/* Smaller list */}
