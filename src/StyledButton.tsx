@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const StyledButton = styled.button`
   background-color: grey;
-  font-family: 'Pixelify', sans-serif;
+  font-family: 'PublicPixel', sans-serif;
   color: var(--primary-text-color);
   border: 2px solid white;
   border-radius: 10px;

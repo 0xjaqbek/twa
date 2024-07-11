@@ -5,7 +5,7 @@ const ProgressWrapper = styled.div`
   position: absolute;
   top: 5px;
   left: 5px;
-  font-family: 'Pixelify', sans-serif;
+  font-family: 'PublicPixel', sans-serif;
   color: white;
   background-color: rgba(0, 0, 0, 0.7);
   padding: 10px 20px;

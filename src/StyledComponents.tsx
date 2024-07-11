@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const StyledButton = styled.button`
   background-color: grey;
-  font-family: 'Pixelify', sans-serif;
+  font-family: 'PublicPixel', sans-serif;
   color: var(--primary-text-color);
   border: 2px solid white;
   button-radius: 10px;
@@ -20,7 +20,7 @@ export const StyledButton = styled.button`
 export const StyledApp = styled.div`
   background-color: #e8e8e8;
   color: black;
-  font-family: 'Pixelify', sans-serif;
+  font-family: 'PublicPixel', sans-serif;
 
   @media (prefers-color-scheme: dark) {
     background-color: #222;
@@ -31,7 +31,7 @@ export const StyledApp = styled.div`
 `;
 
 export const AppContainer = styled.div`
-  font-family: 'Pixelify', sans-serif;
+  font-family: 'PublicPixel', sans-serif;
   max-width: 900px;
   margin: 0 auto;
 `;

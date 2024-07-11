@@ -1,6 +1,6 @@
 @font-face {
-    font-family: 'Pixelify';
-    src: url('./Pixelify.ttf') format('truetype');
+    font-family: 'PublicPixel';
+    src: url('./PublicPixel.ttf') format('truetype');
   }
   
   :root {
@@ -10,7 +10,7 @@
   
   body {
     margin: 0;
-    font-family: 'Pixelify', sans-serif;
+    font-family: 'PublicPixel', sans-serif;
     background-color: #e8e8e8;
     color: black;
   }

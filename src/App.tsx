@@ -1,13 +1,13 @@
 import { FC } from "react";
 import styled from "styled-components";
-import "./Pixelify.ttf";
+import "./PublicPixel.ttf";
 import IndexPage from "./IndexPage";
 
 
 const StyledApp = styled.div`
   background-color: #e8e8e8;
   color: black;
-  font-family: 'Pixelify', sans-serif;
+  font-family: 'PublicPixel', sans-serif;
 
   @media (prefers-color-scheme: dark) {
     background-color: #222;
@@ -18,7 +18,7 @@ const StyledApp = styled.div`
 `;
 
 const AppContainer = styled.div`
-  font-family: 'Pixelify', sans-serif;
+  font-family: 'PublicPixel', sans-serif;
   max-width: 900px;
   margin: 0 auto;
 `;
