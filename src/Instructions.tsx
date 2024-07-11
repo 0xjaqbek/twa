@@ -26,7 +26,7 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => (
       borderRadius: '10px',
       maxWidth: '80%',
       textAlign: 'center',
-      fontSize: '0.8rem', // Reduce font size for the instruction box
+      fontSize: '0.7rem', // Reduce font size for the instruction box
     }}>
       <h2 style={{ fontSize: '1.2rem' }}>Instructions</h2> {/* Smaller heading */}
       <p style={{ fontSize: '0.9rem' }}>To play:</p> {/* Slightly larger paragraph */}
