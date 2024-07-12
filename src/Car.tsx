@@ -70,7 +70,7 @@ const Car: React.FC<CarProps> = ({ clickEnabled, onClick, carAnimation, showBryk
       }}
       onClick={onClick}
     >
-      <img src={showBrykaO ? brykaO : bryka} alt="bryka" style={{ width: '150px', height: 'auto' }} />
+      <img src={showBrykaO ? brykaO : bryka} alt="bryka" style={{ width: '125px', height: 'auto' }} />
     </div>
   );
 };
