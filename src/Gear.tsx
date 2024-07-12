@@ -10,7 +10,7 @@ interface GearProps {
 const Gear: React.FC<GearProps> = ({ showGear, onClick }) => (
   showGear ? (
     <div style={{ position: 'absolute', top: '10%', left: '50%', transform: 'translateX(-50%)', zIndex: 2, cursor: 'pointer' }} onClick={onClick}>
-      <img src={gear} alt="gear" style={{ width: '150px', height: 'auto' }} />
+      <img src={gear} alt="gear" style={{ width: '125px', height: 'auto' }} />
     </div>
   ) : null
 );
