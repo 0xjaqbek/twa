@@ -4,7 +4,6 @@ import { StyledButton } from './StyledButton';
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { Button, FlexBoxRow } from "./components/styled/styled";
 import { useTonAddress } from "@tonconnect/ui-react";
-import "@twa-dev/sdk";
 import { getLeaderboard, updateLeaderboard } from './gistService';
 
 interface LeaderboardPageProps {
@@ -35,11 +34,6 @@ const LeaderboardContent = styled.div`
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
 
-const Header = styled.h2`
-  text-align: center;
-  margin-bottom: 20px;
-`;
-
 const ElapsedTime = styled.p`
   text-align: center;
   margin-bottom: 20px;
@@ -66,14 +60,30 @@ const LeaderboardItem = styled.li`
   border-radius: 5px;
 `;
 
+const StyledButtonSecondary = styled(StyledButton)`
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 10px;
+  cursor: pointer;
+`;
+
 const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose }) => {
   const rawAddress = useTonAddress(false); // false for raw address
   const [leaderboard, setLeaderboard] = useState<{ address: string; time: number }[]>([]);
+  const [topScores, setTopScores] = useState<{ address: string; time: number }[]>([]);
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
       const scores = await getLeaderboard();
       setLeaderboard(scores);
+      const topScores = getTopScores(scores, 10); // Get top 10 scores
+      setTopScores(topScores);
     };
     fetchLeaderboard();
   }, []);
@@ -91,23 +101,34 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
     }
   };
 
+  const getTopScores = (scores: { address: string; time: number }[], count: number) => {
+    return scores
+      .sort((a, b) => a.time - b.time) // Sort ascending by time
+      .slice(0, count); // Take top 'count' scores
+  };
+
+  const handleShowTopScores = () => {
+    const topScores = getTopScores(leaderboard, 10); // Get top 10 scores
+    setTopScores(topScores);
+  };
+
   return (
     <LeaderboardContainer>
       <LeaderboardContent>
-        <Header>Leaderboard</Header>
         <ElapsedTime>Your Time: {elapsedTime.toFixed(2)} seconds</ElapsedTime>
         <FlexBoxRow>
           <TonConnectButton />
           <Button>
-            {/* You can add any additional content or leave it empty if not needed */}
+            {/* Additional content if needed */}
           </Button>
         </FlexBoxRow>
         <ActionsContainer>
           <StyledButton onClick={handleSaveScore} style={{ marginBottom: '10px' }}>Save Score</StyledButton>
-          <StyledButton onClick={onClose}>Close Leaderboard</StyledButton>
+          <StyledButton onClick={onClose}>Close</StyledButton>
+          <StyledButtonSecondary onClick={handleShowTopScores}>Top Scores</StyledButtonSecondary>
         </ActionsContainer>
         <LeaderboardList>
-          {leaderboard.map((entry, index) => (
+          {topScores.map((entry, index) => (
             <LeaderboardItem key={index}>
               Address: {entry.address}, Time: {entry.time.toFixed(2)} seconds
             </LeaderboardItem>

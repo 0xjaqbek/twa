@@ -3,8 +3,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const GIST_ID = process.env.GIST_ID;
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const GIST_ID = 'c21b8e37060a00aadcae5f277543ef0c';
+const GITHUB_TOKEN = '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';
 
 const apiClient = axios.create({
   baseURL: 'https://api.github.com',
