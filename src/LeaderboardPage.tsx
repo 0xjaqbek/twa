@@ -50,7 +50,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
   return (
     <LeaderboardContainer>
       <LeaderboardContent>
-        <StyledButton onClick={onClose} style={{ position: 'absolute', top: '10px', right: '10px' }}>
+        <StyledButton onClick={onClose} style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
           Close Leaderboard
         </StyledButton>
         <h2 style={{ textAlign: 'center' }}>Leaderboard</h2>
@@ -60,8 +60,8 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
           <Button>
 
           </Button>
-          <Button onClick={handleSaveScore}>Save Score</Button>
         </FlexBoxRow>
+        <StyledButton onClick={handleSaveScore} style={{ position: 'absolute', top: '10px', right: '10px' }}>Save Score</StyledButton>
       </LeaderboardContent>
     </LeaderboardContainer>
   );
