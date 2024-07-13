@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const GIST_ID = 'c21b8e37060a00aadcae5f277543ef0c';  // Example Gist ID
-const GITHUB_TOKEN = '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';  // Example GitHub Token
+const GITHUB_TOKEN = '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';  // Example GitHub Token
 
 const apiClient = axios.create({
   baseURL: 'https://api.github.com',
