@@ -1,6 +1,7 @@
 import axios from 'axios';
-require('dotenv').config();
+import dotenv from 'dotenv';
 
+dotenv.config();
 
 const GIST_ID = process.env.GIST_ID;
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
