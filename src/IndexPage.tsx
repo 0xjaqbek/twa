@@ -47,29 +47,30 @@ const IndexPage: FC = () => {
   const [clickCount, setClickCount] = useState(0);
   const [moveDistance, setMoveDistance] = useState(INITIAL_MOVE_DISTANCE);
   const [showGear, setShowGear] = useState(false);
-  const [showingText, setShowingText] = useState('');
+  const [showingText, setShowingText] = useState("");
   const [clickEnabled, setClickEnabled] = useState(false);
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(0);
   const [verticalBlurLevel, setVerticalBlurLevel] = useState(0);
   const [showInstructions, setShowInstructions] = useState(true);
   const [gameStarted, setGameStarted] = useState(false);
-  const [carAnimation, setCarAnimation] = useState('');
+  const [carAnimation, setCarAnimation] = useState("");
   const [showBrykaO, setShowBrykaO] = useState(false);
   const [roadOpacity, setRoadOpacity] = useState(0); // Initially 0 for fade-in effect
   const [instructionsOpacity, setInstructionsOpacity] = useState(1); // New state for instructions opacity
   const [powerLevel, setPowerLevel] = useState(0); // State to track power level
+  const [telegramUser, setTelegramUser] = useState<TelegramUser | null>(null); // State to store Telegram user info
 
   useEffect(() => {
     if (gameStarted) {
       setTimeout(() => {
-        setShowingText('3');
+        setShowingText("3");
         setTimeout(() => {
-          setShowingText('2');
+          setShowingText("2");
           setTimeout(() => {
-            setShowingText('1');
+            setShowingText("1");
             setTimeout(() => {
-              setShowingText('');
+              setShowingText("");
               setClickEnabled(true);
               setStartTime(performance.now());
             }, 1000);
@@ -91,23 +92,23 @@ const IndexPage: FC = () => {
   const handleClick = () => {
     if (!clickEnabled) return;
 
-    setClickCount(prevCount => prevCount + 1);
+    setClickCount((prevCount) => prevCount + 1);
     const newMoveDistance = calculateMoveDistance(clickCount + 1);
     setMoveDistance(newMoveDistance);
 
     if ((clickCount + 1) % 10 === 0) {
       setShowGear(true);
       setClickEnabled(false);
-      setVerticalBlurLevel(prevBlurLevel => {
+      setVerticalBlurLevel((prevBlurLevel) => {
         const newBlurLevel = prevBlurLevel + 1;
         return newBlurLevel <= 6 ? newBlurLevel : prevBlurLevel;
       });
     }
 
-    if ((clickCount + 1) === 69) {
+    if (clickCount + 1 === 69) {
       setEndTime(performance.now());
       setClickEnabled(false);
-      setCarAnimation('car-move-up');
+      setCarAnimation("car-move-up");
     }
 
     // Increase power level
@@ -117,7 +118,7 @@ const IndexPage: FC = () => {
   const handleGearClick = () => {
     setShowGear(false);
     setClickEnabled(true);
-    setClickCount(prevCount => prevCount + 1);
+    setClickCount((prevCount) => prevCount + 1);
     setShowBrykaO(true); // Show brykaO
     setTimeout(() => {
       setShowBrykaO(false); // Hide brykaO after 0.3 seconds
@@ -126,15 +127,19 @@ const IndexPage: FC = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setPosition1(prevPosition => animateRoad(prevPosition, moveDistance, window.innerHeight));
-      setPosition2(prevPosition => animateRoad(prevPosition, moveDistance, window.innerHeight));
+      setPosition1((prevPosition) =>
+        animateRoad(prevPosition, moveDistance, window.innerHeight)
+      );
+      setPosition2((prevPosition) =>
+        animateRoad(prevPosition, moveDistance, window.innerHeight)
+      );
     }, 11); // Approximately 60 frames per second
 
     return () => clearInterval(interval);
   }, [moveDistance]);
 
   useEffect(() => {
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = `
     @keyframes moveUp {
       0% {
@@ -182,65 +187,99 @@ const IndexPage: FC = () => {
 
     const elapsedTime = (endTime - startTime) / 1000;
     return (
-      <div style={{
-        border: '2px solid white',
-        backgroundColor: 'black',
-        color: 'white',
-        padding: '20px',
-        borderRadius: '10px',
-        zIndex: 4,
-        position: 'absolute',
-        top: '5%', // Move 50px lower
-        left: '50%',
-        transform: 'translateX(-50%)',
-        opacity: 0,
-        animation: 'slideDown 2s forwards',
-        animationDelay: '1s',
-        fontSize: '1rem', // Example of larger font size
-      }}>
-        <StyledButton onClick={() => window.location.reload()} style={{ margin: '15px', cursor: 'pointer' }}>
+      <div
+        style={{
+          border: "2px solid white",
+          backgroundColor: "black",
+          color: "white",
+          padding: "20px",
+          borderRadius: "10px",
+          zIndex: 4,
+          position: "absolute",
+          top: "5%", // Move 50px lower
+          left: "50%",
+          transform: "translateX(-50%)",
+          opacity: 0,
+          animation: "slideDown 2s forwards",
+          animationDelay: "1s",
+          fontSize: "1rem", // Example of larger font size
+        }}
+      >
+        <StyledButton
+          onClick={() => window.location.reload()}
+          style={{ margin: "15px", cursor: "pointer" }}
+        >
           Restart
-        </StyledButton><br></br><br></br>
-        Elapsed Time:<br></br> 
-        <span style={{ fontSize: '1.8rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br></br>
-        <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
-        <div id="telegram-login-container"></div>
+        </StyledButton>
+        <br />
+        <br />
+        Elapsed Time:
+        <br />
+        <span style={{ fontSize: "1.8rem", fontWeight: "bold" }}>
+          {elapsedTime.toFixed(2)}
+        </span>{" "}
+        seconds
+        <br />
+        <br />
+        {telegramUser && (
+          <div>
+            Telegram User: {telegramUser.first_name} {telegramUser.last_name}
+            {telegramUser.username && <span> (@{telegramUser.username})</span>}
+          </div>
+        )}
       </div>
     );
   };
 
   useEffect(() => {
     window.onTelegramAuth = function (user: TelegramUser) {
-      alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+      setTelegramUser(user);
+      alert(
+        "Logged in as " +
+          user.first_name +
+          " " +
+          user.last_name +
+          " (" +
+          user.id +
+          (user.username ? ", @" + user.username : "") +
+          ")"
+      );
     };
 
-    const script = document.createElement('script');
-    script.src = 'https://telegram.org/js/telegram-widget.js?22';
+    const script = document.createElement("script");
+    script.src =
+      "https://telegram.org/js/telegram-widget.js?22";
     script.async = true;
-    script.setAttribute('data-telegram-login', 'TapRaceSprint');
-    script.setAttribute('data-size', 'small');
-    script.setAttribute('data-onauth', 'onTelegramAuth(user)');
-    script.setAttribute('data-request-access', 'write');
-    document.getElementById('telegram-login-container')?.appendChild(script);
+    script.setAttribute("data-telegram-login", "TapRaceSprint");
+    script.setAttribute("data-size", "large"); // Changed to large for better visibility
+    script.setAttribute("data-onauth", "onTelegramAuth(user)"); // Corrected data-onauth attribute
+    script.setAttribute("data-request-access", "write");
+    const telegramLoginContainer = document.getElementById("telegram-login-container");
+    telegramLoginContainer?.appendChild(script);
+
+    // Clean up the script tag on component unmount
+    return () => {
+      if (telegramLoginContainer) {
+        telegramLoginContainer.removeChild(script);
+      }
+    };
   }, []);
 
   return (
-    <div style={{ textAlign: 'center', position: 'relative', overflow: 'hidden', height: '100vh' }}>
+    <div style={{ textAlign: "center", position: "relative", overflow: "hidden", height: "100vh" }}>
       {showInstructions && (
-        <div style={{ opacity: instructionsOpacity, transition: 'opacity 1s' }}>
+        <div style={{ opacity: instructionsOpacity, transition: "opacity 1s" }}>
           <Instructions onStartGame={handleStartGame} />
         </div>
       )}
 
       {!showInstructions && (
         <>
-          <div style={{ opacity: roadOpacity, transition: 'opacity 1s' }}>
+          <div style={{ opacity: roadOpacity, transition: "opacity 1s" }}>
             <Road position1={position1} position2={position2} verticalBlurLevel={verticalBlurLevel} />
           </div>
-          {showingText && (
-            <CountdownText>{showingText}</CountdownText>
-          )}
-          <div style={{ opacity: roadOpacity, transition: 'opacity 1s' }}>
+          {showingText && <CountdownText>{showingText}</CountdownText>}
+          <div style={{ opacity: roadOpacity, transition: "opacity 1s" }}>
             <Car
               clickEnabled={clickEnabled}
               onClick={handleClick}
@@ -253,13 +292,18 @@ const IndexPage: FC = () => {
               <>
                 <PowerIndicator clickCount={clickCount} />
                 <ProgressIndicator clickCount={clickCount} />
-                <Timer startTime={startTime} gameStarted={gameStarted} endTime={endTime} />
+                <Timer
+                  startTime={startTime}
+                  gameStarted={gameStarted}
+                  endTime={endTime}
+                />
               </>
             )}
           </div>
         </>
       )}
       {calculateElapsedTime()}
+      <div id="telegram-login-container"></div>
     </div>
   );
 };
