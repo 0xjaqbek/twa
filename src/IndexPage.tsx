@@ -205,9 +205,6 @@ const IndexPage: FC = () => {
         <span style={{ fontSize: '1.8rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br></br>
         <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
         <div id="telegram-login-container"></div>
-        <StyledButton onClick={() => alert('Show leaderboard!')} style={{ margin: '15px', cursor: 'pointer' }}>
-          Leaderboard
-        </StyledButton>
       </div>
     );
   };
