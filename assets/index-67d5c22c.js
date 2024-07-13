@@ -1231,6 +1231,7 @@ PERFORMANCE OF THIS SOFTWARE.
   width: 80%;
   max-width: 600px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  align-items: center;
 `,hP=Rr.p`
   text-align: center;
   margin-bottom: 20px;
@@ -1240,7 +1241,7 @@ PERFORMANCE OF THIS SOFTWARE.
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
-`,vP=({elapsedTime:e,onClose:t})=>{const r=$T(!1),n=()=>{r?(console.log(`Wallet Address: ${r}`),console.log(`Elapsed Time: ${e.toFixed(2)} seconds`)):alert("Please connect your wallet first.")};return Ye(cP,{children:Jr(dP,{children:[Jr(hP,{children:["Your Time: ",e.toFixed(2)," seconds"]}),Jr(uP,{children:[Ye(NT,{}),Ye(fP,{})]}),Jr(pP,{children:[Ye(qa,{onClick:n,style:{marginBottom:"10px"},children:"Save Score"}),Ye(qa,{onClick:t,children:"Close"})]})]})})},J6=60,X9=-600,gP=e=>{let r=J6*.01449*e;return Math.min(r,J6)},ey=(e,t,r)=>e>=r?X9:e+t,mP=.01,yP=Rr.div`
+`,vP=({elapsedTime:e,onClose:t})=>{const r=$T(!1),n=()=>{r?(console.log(`Wallet Address: ${r}`),console.log(`Elapsed Time: ${e.toFixed(2)} seconds`)):alert("Please connect your wallet first.")};return Ye(cP,{children:Jr(dP,{children:[Jr(uP,{children:[Ye(NT,{}),Ye(fP,{})]}),Jr(hP,{children:["Your Time: ",e.toFixed(2)," seconds"]}),Jr(pP,{children:[Ye(qa,{onClick:n,style:{marginBottom:"10px"},children:"Save Score"}),Ye(qa,{onClick:t,children:"Close"})]})]})})},J6=60,X9=-600,gP=e=>{let r=J6*.01449*e;return Math.min(r,J6)},ey=(e,t,r)=>e>=r?X9:e+t,mP=.01,yP=Rr.div`
   font-size: 150px;
   font-family: 'PublicPixel'; // Replace with your actual font
   color: black;
