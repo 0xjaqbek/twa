@@ -21,6 +21,9 @@ const CountdownText = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 3;
+  text-shadow: 22px 22px 44px white;
+  background-color: rgba(0, 0, 0, 0.5); // Black background with 50% opacity
+  padding: 40px;
 `;
 
 const IndexPage: FC = () => {
@@ -186,12 +189,6 @@ const IndexPage: FC = () => {
         Elapsed Time:<br></br> 
         <span style={{ fontSize: '1.8rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br></br>
         <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
-        <StyledButton onClick={() => alert('Score saved!')} style={{ margin: '15px', cursor: 'pointer' }}>
-          Save Score
-        </StyledButton>
-        <StyledButton onClick={() => alert('Show leaderboard!')} style={{ margin: '15px', cursor: 'pointer' }}>
-          Leaderboard
-        </StyledButton>
       </div>
     );
   };
