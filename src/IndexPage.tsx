@@ -12,35 +12,6 @@ import { StyledButton } from "./StyledButton";
 
 const INITIAL_MOVE_DISTANCE = 0.01; // Initial distance to move road on each click
 
-const CountdownText = styled.div`
-  font-size: 150px;
-  font-family: 'PublicPixel'; // Replace with your actual font
-  color: black;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 3;
-  text-shadow: 22px 22px 44px white;
-  background-color: rgba(0, 0, 0, 0.5); // Black background with 50% opacity
-  padding: 40px;
-`;
-
-// Define the types for the Telegram user object
-interface TelegramUser {
-  id: number;
-  first_name: string;
-  last_name: string;
-  username?: string;
-}
-
-// Extend the window object to include the onTelegramAuth function
-declare global {
-  interface Window {
-    onTelegramAuth: (user: TelegramUser) => void;
-  }
-}
-
 const IndexPage: FC = () => {
   const [position1, setPosition1] = useState(0);
   const [position2, setPosition2] = useState(RESET_POSITION);
@@ -202,11 +173,9 @@ const IndexPage: FC = () => {
           Restart
         </StyledButton><br></br><br></br>
         Elapsed Time:<br></br> 
-        <span style={{ fontSize: '1.8rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br></br>
-        <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
-        <div id="telegram-login-container"></div>
-        <StyledButton onClick={() => alert('Show leaderboard!')} style={{ margin: '15px', cursor: 'pointer' }}>
-          Leaderboard
+        <span style={{ fontSize: '2rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br></br>
+        <StyledButton onClick={() => window.location.reload()} style={{ margin: '20px', cursor: 'pointer' }}>
+          Restart
         </StyledButton>
       </div>
     );
