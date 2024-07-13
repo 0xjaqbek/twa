@@ -1,4 +1,9 @@
 import { FC } from "react";
+import { TonConnectButton } from "@tonconnect/ui-react";
+import { Button, FlexBoxCol, FlexBoxRow } from "./components/styled/styled";
+import { useTonConnect } from "./hooks/useTonConnect";
+import { CHAIN } from "@tonconnect/protocol";
+import "@twa-dev/sdk";
 import styled from "styled-components";
 import "./PublicPixel.ttf";
 import IndexPage from "./IndexPage";

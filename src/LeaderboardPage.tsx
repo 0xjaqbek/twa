@@ -1,8 +1,11 @@
-// LeaderboardPage.tsx
-
 import React from 'react';
 import styled from 'styled-components';
 import { StyledButton } from './StyledButton';
+import { TonConnectButton } from "@tonconnect/ui-react";
+import { Button, FlexBoxCol, FlexBoxRow } from "./components/styled/styled";
+import { useTonConnect } from "./hooks/useTonConnect";
+import { CHAIN } from "@tonconnect/protocol";
+import "@twa-dev/sdk";
 
 interface LeaderboardPageProps {
   elapsedTime: number;
@@ -32,6 +35,8 @@ const LeaderboardContent = styled.div`
 `;
 
 const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose }) => {
+  const { network } = useTonConnect();
+
   return (
     <LeaderboardContainer>
       <LeaderboardContent>
@@ -40,7 +45,16 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
         </StyledButton>
         <h2 style={{ textAlign: 'center' }}>Leaderboard</h2>
         <p style={{ textAlign: 'center' }}>Elapsed Time: {elapsedTime.toFixed(2)} seconds</p>
-        {/* Add your leaderboard content here */}
+        <FlexBoxRow>
+          <TonConnectButton />
+          <Button>
+            {network
+              ? network === CHAIN.MAINNET
+                ? "mainnet"
+                : "testnet"
+              : "N/A"}
+          </Button>
+        </FlexBoxRow>
       </LeaderboardContent>
     </LeaderboardContainer>
   );
