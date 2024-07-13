@@ -1,8 +1,5 @@
 import React, { useState, useEffect, FC } from "react";
 import styled from "styled-components";
-import one from "./1.png";
-import two from "./2.png";
-import three from "./3.png";
 import PowerIndicator from "./PowerIndicator";
 import ProgressIndicator from "./ProgressIndicator";
 import Timer from "./Timer";
@@ -15,13 +12,28 @@ import { StyledButton } from "./StyledButton";
 
 const INITIAL_MOVE_DISTANCE = 0.01; // Initial distance to move road on each click
 
+const CountdownText = styled.div`
+  font-size: 150px;
+  font-family: 'PublicPixel'; // Replace with your actual font
+  color: black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  text-shadow: 22px 22px 44px white;
+  background-color: rgba(0, 0, 0, 0.5); // Black background with 50% opacity
+  padding: 40px;
+`;
+
+
 const IndexPage: FC = () => {
   const [position1, setPosition1] = useState(0);
   const [position2, setPosition2] = useState(RESET_POSITION);
   const [clickCount, setClickCount] = useState(0);
   const [moveDistance, setMoveDistance] = useState(INITIAL_MOVE_DISTANCE);
   const [showGear, setShowGear] = useState(false);
-  const [showingImage, setShowingImage] = useState('');
+  const [showingText, setShowingText] = useState('');
   const [clickEnabled, setClickEnabled] = useState(false);
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(0);
@@ -37,19 +49,19 @@ const IndexPage: FC = () => {
   useEffect(() => {
     if (gameStarted) {
       setTimeout(() => {
-        setShowingImage(three);
+        setShowingText('3');
         setTimeout(() => {
-          setShowingImage(two);
+          setShowingText('2');
           setTimeout(() => {
-            setShowingImage(one);
+            setShowingText('1');
             setTimeout(() => {
-              setShowingImage('');
+              setShowingText('');
               setClickEnabled(true);
               setStartTime(performance.now());
-            }, 500);
-          }, 500);
-        }, 500);
-      }, 500);
+            }, 1000);
+          }, 1000);
+        }, 1000);
+      }, 1000);
     }
   }, [gameStarted]);
 
@@ -164,7 +176,7 @@ const IndexPage: FC = () => {
         borderRadius: '10px',
         zIndex: 4,
         position: 'absolute',
-        top: '5%',
+        top: '5%', // Move 50px lower
         left: '50%',
         transform: 'translateX(-50%)',
         opacity: 0,
@@ -172,10 +184,17 @@ const IndexPage: FC = () => {
         animationDelay: '1s',
         fontSize: '1rem', // Example of larger font size
       }}>
-        Elapsed Time:<br></br> 
-        <span style={{ fontSize: '2rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br></br>
-        <StyledButton onClick={() => window.location.reload()} style={{ margin: '20px', cursor: 'pointer' }}>
+        <StyledButton onClick={() => window.location.reload()} style={{ margin: '15px', cursor: 'pointer' }}>
           Restart
+        </StyledButton><br></br><br></br>
+        Elapsed Time:<br></br> 
+        <span style={{ fontSize: '1.8rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br></br>
+        <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+        <StyledButton onClick={() => alert('Score saved!')} style={{ margin: '15px', cursor: 'pointer' }}>
+          Save Score
+        </StyledButton>
+        <StyledButton onClick={() => alert('Show leaderboard!')} style={{ margin: '15px', cursor: 'pointer' }}>
+          Leaderboard
         </StyledButton>
       </div>
     );
@@ -194,10 +213,8 @@ const IndexPage: FC = () => {
           <div style={{ opacity: roadOpacity, transition: 'opacity 1s' }}>
             <Road position1={position1} position2={position2} verticalBlurLevel={verticalBlurLevel} />
           </div>
-          {showingImage && (
-            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 3 }}>
-              <img src={showingImage} alt="showing" style={{ width: '300px', height: 'auto' }} />
-            </div>
+          {showingText && (
+            <CountdownText>{showingText}</CountdownText>
           )}
           <div style={{ opacity: roadOpacity, transition: 'opacity 1s' }}>
             <Car
