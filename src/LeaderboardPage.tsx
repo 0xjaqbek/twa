@@ -4,7 +4,6 @@ import { StyledButton } from './StyledButton';
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { Button, FlexBoxRow } from "./components/styled/styled";
 import { useTonAddress } from "@tonconnect/ui-react";
-import { CHAIN } from "@tonconnect/protocol";
 import "@twa-dev/sdk";
 
 interface LeaderboardPageProps {
@@ -20,23 +19,35 @@ const LeaderboardContainer = styled.div`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const LeaderboardContent = styled.div`
   color: black;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   background-color: white;
-  padding: 20px;
+  padding: 30px;
   border-radius: 10px;
   width: 80%;
   max-width: 600px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+`;
+
+const ElapsedTime = styled.p`
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.2em;
+`;
+
+const ActionsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
 `;
 
 const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose }) => {
-  const userFriendlyAddress = useTonAddress(true); // true for user-friendly address
   const rawAddress = useTonAddress(false); // false for raw address
 
   const handleSaveScore = () => {
@@ -50,21 +61,18 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
 
   return (
     <LeaderboardContainer>
-        <br></br>
       <LeaderboardContent>
-        <StyledButton onClick={onClose} style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
-          Close Leaderboard
-        </StyledButton>
-        <br></br>
-        <p style={{ textAlign: 'center' }}>Your Time: {elapsedTime.toFixed(2)} seconds</p>
-        <br></br>
+        <ElapsedTime>Your Time: {elapsedTime.toFixed(2)} seconds</ElapsedTime>
         <FlexBoxRow>
           <TonConnectButton />
           <Button>
-
+            {/* You can add any additional content or leave it empty if not needed */}
           </Button>
         </FlexBoxRow>
-        <StyledButton onClick={handleSaveScore} style={{ position: 'absolute', top: '10px', right: '10px' }}>Save Score</StyledButton>
+        <ActionsContainer>
+          <StyledButton onClick={handleSaveScore} style={{ marginBottom: '10px' }}>Save Score</StyledButton>
+          <StyledButton onClick={onClose}>Close</StyledButton>
+        </ActionsContainer>
       </LeaderboardContent>
     </LeaderboardContainer>
   );
