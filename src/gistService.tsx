@@ -28,7 +28,7 @@ export const getLeaderboard = async () => {
   }
 };
 
-export const updateLeaderboard = async (leaderboard) => {
+export const updateLeaderboard = async (leaderboard: { address: string; time: number; }[]) => {
   try {
     console.log('Updating leaderboard...');
     const content = JSON.stringify(leaderboard, null, 2);
