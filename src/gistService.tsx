@@ -9,7 +9,7 @@ const GITHUB_TOKEN = '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';  // Example Git
 const apiClient = axios.create({
   baseURL: 'https://api.github.com',
   headers: {
-    Authorization: `token ${GITHUB_TOKEN}`,
+    Authorization: `Bearer ${GITHUB_TOKEN}`,  // Use "Bearer" instead of "token"
     'Content-Type': 'application/json',
   },
 });
@@ -28,7 +28,7 @@ export const getLeaderboard = async () => {
   }
 };
 
-export const updateLeaderboard = async (leaderboard: { address: string; time: number }[]) => {
+export const updateLeaderboard = async (leaderboard: { address: string; time: number; }[]) => {  // Removed type annotation
   try {
     console.log('Updating leaderboard...');
     const content = JSON.stringify(leaderboard, null, 2);
