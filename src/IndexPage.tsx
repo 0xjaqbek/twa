@@ -1,3 +1,5 @@
+// IndexPage.tsx
+
 import React, { useState, useEffect, FC } from "react";
 import styled from "styled-components";
 import PowerIndicator from "./PowerIndicator";
@@ -7,6 +9,7 @@ import Instructions from "./Instructions";
 import Car from "./Car";
 import Road from "./Road";
 import Gear from "./Gear";
+import LeaderboardPage from "./LeaderboardPage"; // Import the LeaderboardPage component
 import { calculateMoveDistance, animateRoad, RESET_POSITION } from "./speed";
 import { StyledButton } from "./StyledButton";
 
@@ -26,21 +29,6 @@ const CountdownText = styled.div`
   padding: 40px;
 `;
 
-// Define the types for the Telegram user object
-interface TelegramUser {
-  id: number;
-  first_name: string;
-  last_name: string;
-  username?: string;
-}
-
-// Extend the window object to include the onTelegramAuth function
-declare global {
-  interface Window {
-    onTelegramAuth: (user: TelegramUser) => void;
-  }
-}
-
 const IndexPage: FC = () => {
   const [position1, setPosition1] = useState(0);
   const [position2, setPosition2] = useState(RESET_POSITION);
@@ -59,6 +47,8 @@ const IndexPage: FC = () => {
   const [roadOpacity, setRoadOpacity] = useState(0); // Initially 0 for fade-in effect
   const [instructionsOpacity, setInstructionsOpacity] = useState(1); // New state for instructions opacity
   const [powerLevel, setPowerLevel] = useState(0); // State to track power level
+
+  const [showLeaderboard, setShowLeaderboard] = useState(false); // State to show leaderboard
 
   useEffect(() => {
     if (gameStarted) {
@@ -204,28 +194,12 @@ const IndexPage: FC = () => {
         Elapsed Time:<br></br> 
         <span style={{ fontSize: '1.8rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br></br>
         <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
-        <div id="telegram-login-container"></div>
-        <StyledButton onClick={() => alert('Show leaderboard!')} style={{ margin: '15px', cursor: 'pointer' }}>
+        <StyledButton onClick={() => setShowLeaderboard(true)} style={{ margin: '15px', cursor: 'pointer' }}>
           Leaderboard
         </StyledButton>
       </div>
     );
   };
-
-  useEffect(() => {
-    window.onTelegramAuth = function (user: TelegramUser) {
-      alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
-    };
-
-    const script = document.createElement('script');
-    script.src = 'https://telegram.org/js/telegram-widget.js?22';
-    script.async = true;
-    script.setAttribute('data-telegram-login', 'TapRaceSprint');
-    script.setAttribute('data-size', 'small');
-    script.setAttribute('data-onauth', 'onTelegramAuth(user)');
-    script.setAttribute('data-request-access', 'write');
-    document.getElementById('telegram-login-container')?.appendChild(script);
-  }, []);
 
   return (
     <div style={{ textAlign: 'center', position: 'relative', overflow: 'hidden', height: '100vh' }}>
@@ -262,6 +236,14 @@ const IndexPage: FC = () => {
           </div>
         </>
       )}
+
+      {showLeaderboard && (
+        <LeaderboardPage
+          elapsedTime={(endTime - startTime) / 1000}
+          onClose={() => setShowLeaderboard(false)} // Close the leaderboard page
+        />
+      )}
+
       {calculateElapsedTime()}
     </div>
   );
