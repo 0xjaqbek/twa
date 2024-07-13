@@ -29,7 +29,7 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => (
       fontSize: '0.7rem', // Reduce font size for the instruction box
     }}>
       <h1 style={{ fontSize: '1.2rem' }}>TapRaceSprint</h1>
-      <p style={{ fontSize: '0.8rem' }}>How to play:</p> {/* Slightly larger paragraph */}
+      <p style={{ fontSize: '0.8rem' }}>TEST</p> {/* Slightly larger paragraph */}
       <ol style={{ fontSize: '0.6rem' }}> {/* Smaller list */}
         <li>Click on the car image to move forward.</li><br></br>
         <li>Every 10 clicks will reveal the gear that disables clicking on the car.</li><br></br>
