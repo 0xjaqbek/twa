@@ -28,6 +28,7 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => (
       textAlign: 'center',
       fontSize: '0.7rem', // Reduce font size for the instruction box
     }}>
+      <StyledButton >UNDER DEVELOPMENT may not work</StyledButton>
       <h1 style={{ fontSize: '1.2rem' }}>TapRaceSprint</h1>
       <p style={{ fontSize: '0.8rem' }}>How to play:</p> {/* Slightly larger paragraph */}
       <ol style={{ fontSize: '0.6rem' }}> {/* Smaller list */}
