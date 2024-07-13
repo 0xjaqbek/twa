@@ -31,6 +31,7 @@ interface TelegramUser {
   id: number;
   first_name: string;
   last_name: string;
+  username?: string;
 }
 
 // Extend the window object to include the onTelegramAuth function
@@ -58,8 +59,6 @@ const IndexPage: FC = () => {
   const [roadOpacity, setRoadOpacity] = useState(0); // Initially 0 for fade-in effect
   const [instructionsOpacity, setInstructionsOpacity] = useState(1); // New state for instructions opacity
   const [powerLevel, setPowerLevel] = useState(0); // State to track power level
-  const [telegramUser, setTelegramUser] = useState<TelegramUser | null>(null);
-  const [isLoadingUser, setIsLoadingUser] = useState(false);
 
   useEffect(() => {
     if (gameStarted) {
@@ -183,106 +182,68 @@ const IndexPage: FC = () => {
 
     const elapsedTime = (endTime - startTime) / 1000;
     return (
-      <div
-        style={{
-          border: "2px solid white",
-          backgroundColor: "black",
-          color: "white",
-          padding: "20px",
-          borderRadius: "10px",
-          zIndex: 4,
-          position: "absolute",
-          top: "5%", // Move 50px lower
-          left: "50%",
-          transform: "translateX(-50%)",
-          opacity: 0,
-          animation: "slideDown 2s forwards",
-          animationDelay: "1s",
-          fontSize: "1rem", // Example of larger font size
-        }}
-      >
-        <StyledButton
-          onClick={() => window.location.reload()}
-          style={{ margin: "15px", cursor: "pointer" }}
-        >
+      <div style={{
+        border: '2px solid white',
+        backgroundColor: 'black',
+        color: 'white',
+        padding: '20px',
+        borderRadius: '10px',
+        zIndex: 4,
+        position: 'absolute',
+        top: '5%', // Move 50px lower
+        left: '50%',
+        transform: 'translateX(-50%)',
+        opacity: 0,
+        animation: 'slideDown 2s forwards',
+        animationDelay: '1s',
+        fontSize: '1rem', // Example of larger font size
+      }}>
+        <StyledButton onClick={() => window.location.reload()} style={{ margin: '15px', cursor: 'pointer' }}>
           Restart
+        </StyledButton><br></br><br></br>
+        Elapsed Time:<br></br> 
+        <span style={{ fontSize: '1.8rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br></br>
+        <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+        <div id="telegram-login-container"></div>
+        <StyledButton onClick={() => alert('Show leaderboard!')} style={{ margin: '15px', cursor: 'pointer' }}>
+          Leaderboard
         </StyledButton>
-        <br />
-        <br />
-        Elapsed Time:
-        <br />
-        <span style={{ fontSize: "1.8rem", fontWeight: "bold" }}>
-          {elapsedTime.toFixed(2)}
-        </span>{" "}
-        seconds
-        <br />
-        <br />
-        {telegramUser ? (
-          <div>
-            Telegram User ID: {telegramUser.id}
-          </div>
-        ) : (
-          <div>Telegram User: Loading...</div>
-        )}
       </div>
     );
   };
 
   useEffect(() => {
     window.onTelegramAuth = function (user: TelegramUser) {
-      setIsLoadingUser(true); // Start loading indicator
-      setTelegramUser(user);
-      setIsLoadingUser(false); // Stop loading indicator
-      alert(
-        "Logged in as " +
-          user.first_name +
-          " " +
-          user.last_name +
-          " (" +
-          user.id +
-          ")"
-      );
+      alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
     };
 
-    const script = document.createElement("script");
-    script.src = "https://telegram.org/js/telegram-widget.js?22";
+    const script = document.createElement('script');
+    script.src = 'https://telegram.org/js/telegram-widget.js?22';
     script.async = true;
-    script.setAttribute("data-telegram-login", "TapRaceSprint");
-    script.setAttribute("data-size", "large"); // Ensure correct widget size
-    script.setAttribute("data-onauth", "onTelegramAuth(user)");
-    script.setAttribute("data-request-access", "write");
-
-    const telegramLoginContainer = document.getElementById(
-      "telegram-login-container"
-    );
-    if (telegramLoginContainer) {
-      telegramLoginContainer.innerHTML = ""; // Clear container before appending script
-      telegramLoginContainer.appendChild(script);
-    }
-
-    // Clean up the script tag on component unmount
-    return () => {
-      if (telegramLoginContainer) {
-        telegramLoginContainer.removeChild(script);
-      }
-    };
+    script.setAttribute('data-telegram-login', 'TapRaceSprint');
+    script.setAttribute('data-size', 'small');
+    script.setAttribute('data-onauth', 'onTelegramAuth(user)');
+    script.setAttribute('data-request-access', 'write');
+    document.getElementById('telegram-login-container')?.appendChild(script);
   }, []);
 
   return (
-    <div style={{ textAlign: "center", position: "relative", overflow: "hidden", height: "100vh" }}>
+    <div style={{ textAlign: 'center', position: 'relative', overflow: 'hidden', height: '100vh' }}>
       {showInstructions && (
-        <div style={{ opacity: instructionsOpacity, transition: "opacity 1s" }}>
+        <div style={{ opacity: instructionsOpacity, transition: 'opacity 1s' }}>
           <Instructions onStartGame={handleStartGame} />
         </div>
       )}
 
       {!showInstructions && (
         <>
-          <div style={{ opacity: roadOpacity, transition: "opacity 1s" }}>
+          <div style={{ opacity: roadOpacity, transition: 'opacity 1s' }}>
             <Road position1={position1} position2={position2} verticalBlurLevel={verticalBlurLevel} />
           </div>
-          {showingText && <CountdownText>{showingText}</CountdownText>}
-          <div style={{ opacity: roadOpacity, transition: "opacity 1s" }}>
+          {showingText && (
+            <CountdownText>{showingText}</CountdownText>
+          )}
+          <div style={{ opacity: roadOpacity, transition: 'opacity 1s' }}>
             <Car
               clickEnabled={clickEnabled}
               onClick={handleClick}
@@ -302,17 +263,6 @@ const IndexPage: FC = () => {
         </>
       )}
       {calculateElapsedTime()}
-      
-      {/* Display user information or loading indicator */}
-      {isLoadingUser ? (
-        <div>Loading user information...</div>
-      ) : telegramUser ? (
-        <div>
-          Telegram User ID: {telegramUser.id}
-        </div>
-      ) : (
-        <div>Telegram User: Not logged in</div>
-      )}
     </div>
   );
 };
