@@ -1175,7 +1175,7 @@ PERFORMANCE OF THIS SOFTWARE.
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 3;
-  text-shadow: 22px 22px 44px white;
+  text-shadow: 22px 22px 43px white;
   background-color: rgba(0, 0, 0, 0.5); // Black background with 50% opacity
   padding: 40px;
 `,CT=()=>{const[e,t]=dt.useState(0),[r,n]=dt.useState($b),[o,i]=dt.useState(0),[a,f]=dt.useState(ST),[l,c]=dt.useState(!1),[u,v]=dt.useState(""),[d,m]=dt.useState(!1),[y,w]=dt.useState(0),[A,S]=dt.useState(0),[k,T]=dt.useState(0),[L,N]=dt.useState(!0),[q,W]=dt.useState(!1),[V,Z]=dt.useState(""),[ne,D]=dt.useState(!1),[b,g]=dt.useState(0),[s,h]=dt.useState(1),[x,M]=dt.useState(0);dt.useEffect(()=>{q&&setTimeout(()=>{v("3"),setTimeout(()=>{v("2"),setTimeout(()=>{v("1"),setTimeout(()=>{v(""),m(!0),w(performance.now())},1e3)},1e3)},1e3)},1e3)},[q]);const E=()=>{h(0),setTimeout(()=>{N(!1),W(!0),g(1)},750)},B=()=>{if(!d)return;i(R=>R+1);const p=_T(o+1);f(p),(o+1)%10===0&&(c(!0),m(!1),T(R=>{const X=R+1;return X<=6?X:R})),o+1===69&&(S(performance.now()),m(!1),Z("car-move-up")),M(R=>(R+1)%7)},_=()=>{c(!1),m(!0),i(p=>p+1),D(!0),setTimeout(()=>{D(!1)},300)};dt.useEffect(()=>{const p=setInterval(()=>{t(R=>d5(R,a,window.innerHeight)),n(R=>d5(R,a,window.innerHeight))},11);return()=>clearInterval(p)},[a]),dt.useEffect(()=>{const p=document.createElement("style");return p.textContent=`
