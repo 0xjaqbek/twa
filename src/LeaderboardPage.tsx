@@ -107,9 +107,20 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
       .slice(0, count); // Take top 'count' scores
   };
 
-  const handleShowTopScores = () => {
-    const topScores = getTopScores(leaderboard, 10); // Get top 10 scores
-    setTopScores(topScores);
+  const handleShowTopScores = async () => {
+    try {
+      // Fetch leaderboard data from the GitHub Gist
+      const leaderboardData = await getLeaderboard();
+      
+      // Calculate top 10 scores from the fetched data (assuming getTopScores is defined elsewhere)
+      const topScores = getTopScores(leaderboardData, 10); // Adjust getTopScores based on your implementation
+      
+      // Set the topScores state with the calculated top scores
+      setTopScores(topScores);
+    } catch (error) {
+      console.error('Error fetching or processing leaderboard:', error);
+      // Handle error appropriately
+    }
   };
 
   return (
