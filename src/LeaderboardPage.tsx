@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { StyledButton } from './StyledButton';
 import { TonConnectButton } from "@tonconnect/ui-react";
-import { Button, FlexBoxCol, FlexBoxRow } from "./components/styled/styled";
-import { useTonConnect } from "./hooks/useTonConnect";
+import { Button, FlexBoxRow } from "./components/styled/styled";
+import { useTonAddress } from "@tonconnect/ui-react";
 import { CHAIN } from "@tonconnect/protocol";
 import "@twa-dev/sdk";
 
@@ -35,7 +35,17 @@ const LeaderboardContent = styled.div`
 `;
 
 const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose }) => {
-  const { network } = useTonConnect();
+  const userFriendlyAddress = useTonAddress(true); // true for user-friendly address
+  const rawAddress = useTonAddress(false); // false for raw address
+
+  const handleSaveScore = () => {
+    if (rawAddress) {
+      console.log(`Wallet Address: ${rawAddress}`);
+      console.log(`Elapsed Time: ${elapsedTime.toFixed(2)} seconds`);
+    } else {
+      alert("Please connect your wallet first.");
+    }
+  };
 
   return (
     <LeaderboardContainer>
@@ -48,12 +58,9 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
         <FlexBoxRow>
           <TonConnectButton />
           <Button>
-            {network
-              ? network === CHAIN.MAINNET
-                ? "mainnet"
-                : "testnet"
-              : "N/A"}
+
           </Button>
+          <Button onClick={handleSaveScore}>Save Score</Button>
         </FlexBoxRow>
       </LeaderboardContent>
     </LeaderboardContainer>
