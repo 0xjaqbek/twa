@@ -31,7 +31,6 @@ interface TelegramUser {
   id: number;
   first_name: string;
   last_name: string;
-  username?: string;
 }
 
 // Extend the window object to include the onTelegramAuth function
@@ -47,30 +46,31 @@ const IndexPage: FC = () => {
   const [clickCount, setClickCount] = useState(0);
   const [moveDistance, setMoveDistance] = useState(INITIAL_MOVE_DISTANCE);
   const [showGear, setShowGear] = useState(false);
-  const [showingText, setShowingText] = useState("");
+  const [showingText, setShowingText] = useState('');
   const [clickEnabled, setClickEnabled] = useState(false);
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(0);
   const [verticalBlurLevel, setVerticalBlurLevel] = useState(0);
   const [showInstructions, setShowInstructions] = useState(true);
   const [gameStarted, setGameStarted] = useState(false);
-  const [carAnimation, setCarAnimation] = useState("");
+  const [carAnimation, setCarAnimation] = useState('');
   const [showBrykaO, setShowBrykaO] = useState(false);
   const [roadOpacity, setRoadOpacity] = useState(0); // Initially 0 for fade-in effect
   const [instructionsOpacity, setInstructionsOpacity] = useState(1); // New state for instructions opacity
   const [powerLevel, setPowerLevel] = useState(0); // State to track power level
-  const [telegramUser, setTelegramUser] = useState<TelegramUser | null>(null); // State to store Telegram user info
+  const [telegramUser, setTelegramUser] = useState<TelegramUser | null>(null);
+  const [isLoadingUser, setIsLoadingUser] = useState(false);
 
   useEffect(() => {
     if (gameStarted) {
       setTimeout(() => {
-        setShowingText("3");
+        setShowingText('3');
         setTimeout(() => {
-          setShowingText("2");
+          setShowingText('2');
           setTimeout(() => {
-            setShowingText("1");
+            setShowingText('1');
             setTimeout(() => {
-              setShowingText("");
+              setShowingText('');
               setClickEnabled(true);
               setStartTime(performance.now());
             }, 1000);
@@ -92,23 +92,23 @@ const IndexPage: FC = () => {
   const handleClick = () => {
     if (!clickEnabled) return;
 
-    setClickCount((prevCount) => prevCount + 1);
+    setClickCount(prevCount => prevCount + 1);
     const newMoveDistance = calculateMoveDistance(clickCount + 1);
     setMoveDistance(newMoveDistance);
 
     if ((clickCount + 1) % 10 === 0) {
       setShowGear(true);
       setClickEnabled(false);
-      setVerticalBlurLevel((prevBlurLevel) => {
+      setVerticalBlurLevel(prevBlurLevel => {
         const newBlurLevel = prevBlurLevel + 1;
         return newBlurLevel <= 6 ? newBlurLevel : prevBlurLevel;
       });
     }
 
-    if (clickCount + 1 === 69) {
+    if ((clickCount + 1) === 69) {
       setEndTime(performance.now());
       setClickEnabled(false);
-      setCarAnimation("car-move-up");
+      setCarAnimation('car-move-up');
     }
 
     // Increase power level
@@ -118,7 +118,7 @@ const IndexPage: FC = () => {
   const handleGearClick = () => {
     setShowGear(false);
     setClickEnabled(true);
-    setClickCount((prevCount) => prevCount + 1);
+    setClickCount(prevCount => prevCount + 1);
     setShowBrykaO(true); // Show brykaO
     setTimeout(() => {
       setShowBrykaO(false); // Hide brykaO after 0.3 seconds
@@ -127,19 +127,15 @@ const IndexPage: FC = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setPosition1((prevPosition) =>
-        animateRoad(prevPosition, moveDistance, window.innerHeight)
-      );
-      setPosition2((prevPosition) =>
-        animateRoad(prevPosition, moveDistance, window.innerHeight)
-      );
+      setPosition1(prevPosition => animateRoad(prevPosition, moveDistance, window.innerHeight));
+      setPosition2(prevPosition => animateRoad(prevPosition, moveDistance, window.innerHeight));
     }, 11); // Approximately 60 frames per second
 
     return () => clearInterval(interval);
   }, [moveDistance]);
 
   useEffect(() => {
-    const style = document.createElement("style");
+    const style = document.createElement('style');
     style.textContent = `
     @keyframes moveUp {
       0% {
@@ -221,11 +217,12 @@ const IndexPage: FC = () => {
         seconds
         <br />
         <br />
-        {telegramUser && (
+        {telegramUser ? (
           <div>
-            Telegram User: {telegramUser.first_name} {telegramUser.last_name}
-            {telegramUser.username && <span> (@{telegramUser.username})</span>}
+            Telegram User ID: {telegramUser.id}
           </div>
+        ) : (
+          <div>Telegram User: Loading...</div>
         )}
       </div>
     );
@@ -233,7 +230,9 @@ const IndexPage: FC = () => {
 
   useEffect(() => {
     window.onTelegramAuth = function (user: TelegramUser) {
+      setIsLoadingUser(true); // Start loading indicator
       setTelegramUser(user);
+      setIsLoadingUser(false); // Stop loading indicator
       alert(
         "Logged in as " +
           user.first_name +
@@ -241,21 +240,25 @@ const IndexPage: FC = () => {
           user.last_name +
           " (" +
           user.id +
-          (user.username ? ", @" + user.username : "") +
           ")"
       );
     };
 
     const script = document.createElement("script");
-    script.src =
-      "https://telegram.org/js/telegram-widget.js?22";
+    script.src = "https://telegram.org/js/telegram-widget.js?22";
     script.async = true;
     script.setAttribute("data-telegram-login", "TapRaceSprint");
-    script.setAttribute("data-size", "large"); // Changed to large for better visibility
-    script.setAttribute("data-onauth", "onTelegramAuth(user)"); // Corrected data-onauth attribute
+    script.setAttribute("data-size", "large"); // Ensure correct widget size
+    script.setAttribute("data-onauth", "onTelegramAuth(user)");
     script.setAttribute("data-request-access", "write");
-    const telegramLoginContainer = document.getElementById("telegram-login-container");
-    telegramLoginContainer?.appendChild(script);
+
+    const telegramLoginContainer = document.getElementById(
+      "telegram-login-container"
+    );
+    if (telegramLoginContainer) {
+      telegramLoginContainer.innerHTML = ""; // Clear container before appending script
+      telegramLoginContainer.appendChild(script);
+    }
 
     // Clean up the script tag on component unmount
     return () => {
@@ -292,18 +295,24 @@ const IndexPage: FC = () => {
               <>
                 <PowerIndicator clickCount={clickCount} />
                 <ProgressIndicator clickCount={clickCount} />
-                <Timer
-                  startTime={startTime}
-                  gameStarted={gameStarted}
-                  endTime={endTime}
-                />
+                <Timer startTime={startTime} gameStarted={gameStarted} endTime={endTime} />
               </>
             )}
           </div>
         </>
       )}
       {calculateElapsedTime()}
-      <div id="telegram-login-container"></div>
+      
+      {/* Display user information or loading indicator */}
+      {isLoadingUser ? (
+        <div>Loading user information...</div>
+      ) : telegramUser ? (
+        <div>
+          Telegram User ID: {telegramUser.id}
+        </div>
+      ) : (
+        <div>Telegram User: Not logged in</div>
+      )}
     </div>
   );
 };
