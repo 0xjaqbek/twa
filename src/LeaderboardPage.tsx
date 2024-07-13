@@ -23,6 +23,7 @@ const LeaderboardContainer = styled.div`
 `;
 
 const LeaderboardContent = styled.div`
+  color: black;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -49,12 +50,14 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
 
   return (
     <LeaderboardContainer>
+        <br></br>
       <LeaderboardContent>
         <StyledButton onClick={onClose} style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
           Close Leaderboard
         </StyledButton>
-        <h2 style={{ textAlign: 'center' }}>Leaderboard</h2>
-        <p style={{ textAlign: 'center' }}>Elapsed Time: {elapsedTime.toFixed(2)} seconds</p>
+        <br></br>
+        <p style={{ textAlign: 'center' }}>Your Time: {elapsedTime.toFixed(2)} seconds</p>
+        <br></br>
         <FlexBoxRow>
           <TonConnectButton />
           <Button>
