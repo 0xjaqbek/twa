@@ -21,7 +21,7 @@ const CountdownText = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 3;
-  text-shadow: 22px 22px 44px white;
+  text-shadow: 22px 22px 43px white;
   background-color: rgba(0, 0, 0, 0.5); // Black background with 50% opacity
   padding: 40px;
 `;
