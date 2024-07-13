@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { StyledButton } from './StyledButton';
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { Button, FlexBoxRow } from "./components/styled/styled";
 import { useTonAddress } from "@tonconnect/ui-react";
 import "@twa-dev/sdk";
+import { getLeaderboard, updateLeaderboard } from './gistService';
 
 interface LeaderboardPageProps {
   elapsedTime: number;
@@ -32,7 +33,11 @@ const LeaderboardContent = styled.div`
   width: 80%;
   max-width: 600px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  align-items: center;
+`;
+
+const Header = styled.h2`
+  text-align: center;
+  margin-bottom: 20px;
 `;
 
 const ElapsedTime = styled.p`
@@ -48,11 +53,37 @@ const ActionsContainer = styled.div`
   margin-top: 20px;
 `;
 
+const LeaderboardList = styled.ul`
+  list-style-type: none;
+  padding: 0;
+`;
+
+const LeaderboardItem = styled.li`
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+`;
+
 const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose }) => {
   const rawAddress = useTonAddress(false); // false for raw address
+  const [leaderboard, setLeaderboard] = useState<{ address: string; time: number }[]>([]);
 
-  const handleSaveScore = () => {
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      const scores = await getLeaderboard();
+      setLeaderboard(scores);
+    };
+    fetchLeaderboard();
+  }, []);
+
+  const handleSaveScore = async () => {
     if (rawAddress) {
+      const newScore = { address: rawAddress, time: elapsedTime };
+      const updatedLeaderboard = [...leaderboard, newScore];
+      setLeaderboard(updatedLeaderboard);
+      await updateLeaderboard(updatedLeaderboard);
       console.log(`Wallet Address: ${rawAddress}`);
       console.log(`Elapsed Time: ${elapsedTime.toFixed(2)} seconds`);
     } else {
@@ -63,17 +94,25 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
   return (
     <LeaderboardContainer>
       <LeaderboardContent>
-      <FlexBoxRow>
+        <Header>Leaderboard</Header>
+        <ElapsedTime>Your Time: {elapsedTime.toFixed(2)} seconds</ElapsedTime>
+        <FlexBoxRow>
           <TonConnectButton />
           <Button>
             {/* You can add any additional content or leave it empty if not needed */}
           </Button>
         </FlexBoxRow>
-        <ElapsedTime>Your Time: {elapsedTime.toFixed(2)} seconds</ElapsedTime>
         <ActionsContainer>
           <StyledButton onClick={handleSaveScore} style={{ marginBottom: '10px' }}>Save Score</StyledButton>
-          <StyledButton onClick={onClose}>Close</StyledButton>
+          <StyledButton onClick={onClose}>Close Leaderboard</StyledButton>
         </ActionsContainer>
+        <LeaderboardList>
+          {leaderboard.map((entry, index) => (
+            <LeaderboardItem key={index}>
+              Address: {entry.address}, Time: {entry.time.toFixed(2)} seconds
+            </LeaderboardItem>
+          ))}
+        </LeaderboardList>
       </LeaderboardContent>
     </LeaderboardContainer>
   );
