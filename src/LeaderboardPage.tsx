@@ -32,6 +32,7 @@ const LeaderboardContent = styled.div`
   width: 80%;
   max-width: 600px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  align-items: center;
 `;
 
 const ElapsedTime = styled.p`
@@ -62,13 +63,13 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
   return (
     <LeaderboardContainer>
       <LeaderboardContent>
-        <ElapsedTime>Your Time: {elapsedTime.toFixed(2)} seconds</ElapsedTime>
-        <FlexBoxRow>
+      <FlexBoxRow>
           <TonConnectButton />
           <Button>
             {/* You can add any additional content or leave it empty if not needed */}
           </Button>
         </FlexBoxRow>
+        <ElapsedTime>Your Time: {elapsedTime.toFixed(2)} seconds</ElapsedTime>
         <ActionsContainer>
           <StyledButton onClick={handleSaveScore} style={{ marginBottom: '10px' }}>Save Score</StyledButton>
           <StyledButton onClick={onClose}>Close</StyledButton>
