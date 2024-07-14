@@ -7,18 +7,19 @@ dotenv.config();
 
 // Replace with your Firebase config
 const firebaseConfig = {
-  apiKey: "AIzaSyDdGHaeIrFIy-Xw_WR_Hl7I7E9Z55tUW_w",
-  authDomain: "tapracesprint.firebaseapp.com",
-  projectId: "tapracesprint",
-  storageBucket: "tapracesprint.appspot.com",
-  messagingSenderId: "447540828275",
-  appId: "1:447540828275:web:77340961502f57723df206",
-  measurementId: "G-6SBRL43LZM"
+    apiKey: "AIzaSyDdGHaeIrFIy-Xw_WR_Hl7I7E9Z55tUW_w",
+    authDomain: "tapracesprint.firebaseapp.com",
+    projectId: "tapracesprint",
+    storageBucket: "tapracesprint.appspot.com",
+    messagingSenderId: "447540828275",
+    appId: "1:447540828275:web:77340961502f57723df206",
+    measurementId: "G-6SBRL43LZM"
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+const db = getDatabase();
 const leaderboardRef = ref(db, 'leaderboard');
+const usersRef = ref(db, 'users'); 
 
 const isAxiosError = (error: unknown): error is AxiosError => {
   return axios.isAxiosError(error);
@@ -27,10 +28,14 @@ const isAxiosError = (error: unknown): error is AxiosError => {
 export const getLeaderboard = async () => {
   try {
     console.log('Fetching leaderboard...');
-    const snapshot = await onValue(leaderboardRef);
-    const leaderboard = snapshot.val();
-    console.log('Leaderboard:', leaderboard);
-    return leaderboard || []; // Return an empty array if no data exists
+    // Use onValue correctly with a callback
+    onValue(leaderboardRef, (snapshot) => {
+      const leaderboard = snapshot.val();
+      console.log('Leaderboard:', leaderboard);
+      // Do something with the leaderboard data here
+    });
+    // Return an empty array or a promise that resolves with the leaderboard data
+    return []; 
   } catch (error: unknown) {
     if (isAxiosError(error)) {
       console.error('Error fetching leaderboard:', error.response ? error.response.data : error.message);
@@ -56,3 +61,10 @@ export const updateLeaderboard = async (leaderboard: { address: string; time: nu
     return false;
   }
 };
+
+// Added this part
+onValue(usersRef, (snapshot) => {
+  const data = snapshot.val();
+  console.log('Data:', data);
+  // Do something with the users data here
+});
