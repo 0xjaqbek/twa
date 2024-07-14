@@ -2936,4 +2936,4 @@ FIREBASE: `))}restoreState_(){this.tryAuth(),this.tryAppCheck();for(const e of t
   font-family: 'PublicPixel', sans-serif;
   max-width: 900px;
   margin: 0 auto;
-`,AG=()=>He(EG,{children:He(MG,{children:He(CG,{})})});const kG="https://raw.githubusercontent.com/ton-community/tutorials/main/03-client/test/public/tonconnect-manifest.json",RG=new IA({defaultOptions:{queries:{refetchOnWindowFocus:!1}}});wg.createRoot(document.getElementById("root")).render(He(EU,{manifestUrl:kG,children:He(FR,{client:RG,children:He(AG,{})})}));
+`,AG=()=>He(EG,{children:He(MG,{children:He(CG,{})})});const kG="https://github.com/0xjaqbek/twa/blob/main/manifest.json",RG=new IA({defaultOptions:{queries:{refetchOnWindowFocus:!1}}});wg.createRoot(document.getElementById("root")).render(He(EU,{manifestUrl:kG,children:He(FR,{client:RG,children:He(AG,{})})}));
