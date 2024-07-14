@@ -47,8 +47,17 @@ const IndexPage: FC = () => {
   const [roadOpacity, setRoadOpacity] = useState(0); // Initially 0 for fade-in effect
   const [instructionsOpacity, setInstructionsOpacity] = useState(1); // New state for instructions opacity
   const [powerLevel, setPowerLevel] = useState(0); // State to track power level
-
   const [showLeaderboard, setShowLeaderboard] = useState(false); // State to show leaderboard
+  const [telegramUsername, setTelegramUsername] = useState<string | null>(null); // State to hold the Telegram username
+
+  useEffect(() => {
+    const tg = (window as any).Telegram.WebApp;
+    if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+      setTelegramUsername(tg.initDataUnsafe.user.username);
+    } else {
+      alert("Please use Telegram app");
+    }
+  }, []);
 
   useEffect(() => {
     if (gameStarted) {
@@ -206,6 +215,11 @@ const IndexPage: FC = () => {
       {showInstructions && (
         <div style={{ opacity: instructionsOpacity, transition: 'opacity 1s' }}>
           <Instructions onStartGame={handleStartGame} />
+          {telegramUsername && (
+            <div style={{ marginBottom: '10px', fontSize: '20px', color: 'black' }}>
+              Hello, {telegramUsername}
+            </div>
+          )}
         </div>
       )}
 
