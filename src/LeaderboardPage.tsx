@@ -50,6 +50,8 @@ const ActionsContainer = styled.div`
 const LeaderboardList = styled.ul`
   list-style-type: none;
   padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
 `;
 
 const LeaderboardItem = styled.li`
@@ -102,16 +104,17 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
   const [leaderboard, setLeaderboard] = useState<{ address: string; time: number }[]>([]);
   const [topScores, setTopScores] = useState<{ address: string; time: number }[]>([]);
   const [showSaveScoreWindow, setShowSaveScoreWindow] = useState(false);
+  const [visibleRange, setVisibleRange] = useState(10);
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
       const scores = await getLeaderboard();
       setLeaderboard(scores);
-      const topScores = getTopScores(scores, 10); // Get top 10 scores
+      const topScores = getTopScores(scores, visibleRange); // Get top scores based on visibleRange
       setTopScores(topScores);
     };
     fetchLeaderboard();
-  }, []);
+  }, [visibleRange]);
 
   const handleSaveScore = async () => {
     setShowSaveScoreWindow(true);
@@ -184,6 +187,10 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
     }
   };
 
+  const handleScrollDown = () => {
+    setVisibleRange(prevRange => prevRange + 10);
+  };
+
   return (
     <LeaderboardContainer>
       <LeaderboardContent>
@@ -205,6 +212,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
             </LeaderboardItem>
           ))}
         </LeaderboardList>
+        <StyledButtonSecondary onClick={handleScrollDown}>Load More</StyledButtonSecondary>
       </LeaderboardContent>
       {showSaveScoreWindow && (
         <SaveScoreWindowContainer>
