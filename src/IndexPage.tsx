@@ -188,13 +188,13 @@ const IndexPage: FC = () => {
         animationDelay: '1s',
         fontSize: '1rem', // Example of larger font size
       }}>
-        <StyledButton onClick={() => window.location.reload()} style={{ margin: '15px', cursor: 'pointer' }}>
+        <StyledButton onClick={() => window.location.reload()} style={{ margin: '10px', cursor: 'pointer' }}>
           Restart
         </StyledButton><br></br><br></br>
-        Elapsed Time:<br></br> 
-        <span style={{ fontSize: '1.8rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br></br>
+        Your Time:<br></br> 
+        <span style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br></br>
         <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
-        <StyledButton onClick={() => setShowLeaderboard(true)} style={{ margin: '15px', cursor: 'pointer' }}>
+        <StyledButton onClick={() => setShowLeaderboard(true)} style={{ margin: '10px', cursor: 'pointer' }}>
           Leaderboard
         </StyledButton>
       </div>
