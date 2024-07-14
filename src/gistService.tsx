@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import dotenv from 'dotenv';
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, set, onValue } from 'firebase/database';
+import { getDatabase, ref, set, onValue, get } from 'firebase/database';
 
 dotenv.config();
 
@@ -52,6 +52,16 @@ export const updateLeaderboard = async (leaderboard: { address: string; time: nu
     console.log('Updating leaderboard...');
     await set(leaderboardRef, leaderboard);
     console.log('Leaderboard updated successfully.');
+
+    // Update user scores
+    for (const entry of leaderboard) {
+      const userRef = ref(db, `users/${entry.address}`);
+      const userSnapshot = await get(userRef);
+      const existingScores = userSnapshot.exists() ? userSnapshot.val().scores : [];
+      const newScores = [...existingScores, { time: entry.time, timestamp: new Date().toISOString() }];
+      await set(userRef, { scores: newScores });
+    }
+
     return true;
   } catch (error: unknown) {
     if (isAxiosError(error)) {
