@@ -19,7 +19,7 @@ const StyledApp = styled.div`
     color: white;
   }
   min-height: 100vh;
-  padding: 5px 5px;
+  padding: 1px 1px;
 `;
 
 const AppContainer = styled.div`
