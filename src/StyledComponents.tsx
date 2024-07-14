@@ -27,7 +27,7 @@ export const StyledApp = styled.div`
     color: white;
   }
   min-height: 100vh;
-  padding: 20px 20px;
+  padding: 10px 10px;
 `;
 
 export const AppContainer = styled.div`
