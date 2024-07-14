@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import dotenv from 'dotenv';
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, set, onValue } from 'firebase/database';
+import { getDatabase, ref, set, onValue, update } from 'firebase/database';
 
 dotenv.config();
 
@@ -50,7 +50,8 @@ export const getLeaderboard = async () => {
 export const updateLeaderboard = async (leaderboard: { address: string; time: number; }[]) => {
   try {
     console.log('Updating leaderboard...');
-    await set(leaderboardRef, leaderboard);
+    // Use update() to merge new entries into the existing leaderboard
+    await update(leaderboardRef, leaderboard);
     console.log('Leaderboard updated successfully.');
     return true;
   } catch (error: unknown) {
