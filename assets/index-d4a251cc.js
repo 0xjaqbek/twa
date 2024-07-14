@@ -2892,7 +2892,7 @@ FIREBASE: `))}restoreState_(){this.tryAuth(),this.tryAppCheck();for(const e of t
     color: white;
   }
   min-height: 100vh;
-  padding: 5px 5px;
+  padding: 1px 1px;
 `,CG=nn.div`
   font-family: 'PublicPixel', sans-serif;
   max-width: 900px;
