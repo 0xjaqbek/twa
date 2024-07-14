@@ -2852,14 +2852,14 @@ FIREBASE: `))}restoreState_(){this.tryAuth(),this.tryAppCheck();for(const e of t
   font-family: 'PublicPixel'; // Replace with your actual font
   color: black;
   position: absolute;
-  top: 50%;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 3;
-  text-shadow: 22px 22px 43px white;
+  text-shadow: 22px 22px 10px white;
   background-color: rgba(0, 0, 0, 0.5); // Black background with 50% opacity
-  padding: 40px;
-`,xG=()=>{const[t,e]=lt.useState(0),[r,n]=lt.useState(qM),[o,i]=lt.useState(0),[s,a]=lt.useState(wG),[l,u]=lt.useState(!1),[c,h]=lt.useState(""),[d,g]=lt.useState(!1),[m,b]=lt.useState(0),[E,S]=lt.useState(0),[A,I]=lt.useState(0),[B,O]=lt.useState(!0),[$,W]=lt.useState(!1),[V,Y]=lt.useState(""),[ne,D]=lt.useState(!1),[w,y]=lt.useState(0),[f,p]=lt.useState(1),[_,C]=lt.useState(0),[k,T]=lt.useState(!1);lt.useEffect(()=>{$&&setTimeout(()=>{h("3"),setTimeout(()=>{h("2"),setTimeout(()=>{h("1"),setTimeout(()=>{h(""),g(!0),b(performance.now())},1e3)},1e3)},1e3)},1e3)},[$]);const x=()=>{p(0),setTimeout(()=>{O(!1),W(!0),y(1)},750)},M=()=>{if(!d)return;i(te=>te+1);const X=bG(o+1);a(X),(o+1)%10===0&&(u(!0),g(!1),I(te=>{const j=te+1;return j<=6?j:te})),o+1===69&&(S(performance.now()),g(!1),Y("car-move-up")),C(te=>(te+1)%7)},v=()=>{u(!1),g(!0),i(X=>X+1),D(!0),setTimeout(()=>{D(!1)},300)};lt.useEffect(()=>{const X=setInterval(()=>{e(te=>q_(te,s,window.innerHeight)),n(te=>q_(te,s,window.innerHeight))},11);return()=>clearInterval(X)},[s]),lt.useEffect(()=>{const X=document.createElement("style");return X.textContent=`
+  padding: 150px 60px;
+`,xG=()=>{const[t,e]=lt.useState(0),[r,n]=lt.useState(qM),[o,i]=lt.useState(0),[s,a]=lt.useState(wG),[l,u]=lt.useState(!1),[c,h]=lt.useState(""),[d,g]=lt.useState(!1),[m,b]=lt.useState(0),[E,S]=lt.useState(0),[A,I]=lt.useState(0),[B,O]=lt.useState(!0),[$,W]=lt.useState(!1),[V,Y]=lt.useState(""),[ne,D]=lt.useState(!1),[w,y]=lt.useState(0),[f,p]=lt.useState(1),[_,C]=lt.useState(0),[k,T]=lt.useState(!1);lt.useEffect(()=>{$&&setTimeout(()=>{h("3"),setTimeout(()=>{h("2"),setTimeout(()=>{h("1"),setTimeout(()=>{h(""),g(!0),b(performance.now())},1e3)},1e3)},1e3)},100)},[$]);const x=()=>{p(0),setTimeout(()=>{O(!1),W(!0),y(1)},750)},M=()=>{if(!d)return;i(te=>te+1);const X=bG(o+1);a(X),(o+1)%10===0&&(u(!0),g(!1),I(te=>{const j=te+1;return j<=6?j:te})),o+1===69&&(S(performance.now()),g(!1),Y("car-move-up")),C(te=>(te+1)%7)},v=()=>{u(!1),g(!0),i(X=>X+1),D(!0),setTimeout(()=>{D(!1)},300)};lt.useEffect(()=>{const X=setInterval(()=>{e(te=>q_(te,s,window.innerHeight)),n(te=>q_(te,s,window.innerHeight))},11);return()=>clearInterval(X)},[s]),lt.useEffect(()=>{const X=document.createElement("style");return X.textContent=`
     @keyframes moveUp {
       0% {
         transform: translateX(-50%) translateY(0);
