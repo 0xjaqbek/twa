@@ -20,13 +20,13 @@ const CountdownText = styled.div`
   font-family: 'PublicPixel'; // Replace with your actual font
   color: black;
   position: absolute;
-  top: 50%;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 3;
-  text-shadow: 22px 22px 43px white;
+  text-shadow: 22px 22px 10px white;
   background-color: rgba(0, 0, 0, 0.5); // Black background with 50% opacity
-  padding: 40px;
+  padding: 150px 60px;
 `;
 
 const IndexPage: FC = () => {
@@ -65,7 +65,7 @@ const IndexPage: FC = () => {
             }, 1000);
           }, 1000);
         }, 1000);
-      }, 1000);
+      }, 100);
     }
   }, [gameStarted]);
 
