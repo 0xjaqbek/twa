@@ -31,7 +31,7 @@ import { StyledButton } from "./StyledButton";
 
 interface TelegramUser {
   id: number;
-  firstName: string;
+  first_name: string;
   // Add other properties as needed
 }
 
@@ -74,15 +74,15 @@ const IndexPage: FC = () => {
   const [telegramUser, setTelegramUser] = useState<TelegramUser | null>(null); // State to track Telegram user
 
   useEffect(() => {
-    const fetchTelegramUserData = async () => {
+    const fetchTelegramUserData = () => {
       const tg = window?.Telegram?.WebApp;
       if (tg && tg.initDataUnsafe.user) {
         setOnTelegram(true);
-        setTelegramUser(tg.initDataUnsafe.user as unknown as TelegramUser);
+        setTelegramUser(tg.initDataUnsafe.user);
       } else {
         setOnTelegram(false);
         setTelegramUser(null);
-        alert("Please use Telegram app");
+        alert("Please use the Telegram app");
       }
     };
 
@@ -229,10 +229,10 @@ const IndexPage: FC = () => {
       }}>
         <StyledButton onClick={() => window.location.reload()} style={{ margin: '15px', cursor: 'pointer' }}>
           Restart
-        </StyledButton><br></br><br></br>
-        Elapsed Time:<br></br> 
-        <span style={{ fontSize: '1.8rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br></br>
-        <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+        </StyledButton><br /><br />
+        Elapsed Time:<br />
+        <span style={{ fontSize: '1.8rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br />
+        <br /><br /><br /><br /><br /><br /><br />
         <StyledButton onClick={() => setShowLeaderboard(true)} style={{ margin: '15px', cursor: 'pointer' }}>
           Leaderboard
         </StyledButton>
@@ -244,7 +244,7 @@ const IndexPage: FC = () => {
     <div style={{ textAlign: 'center', position: 'relative', overflow: 'hidden', height: '100vh' }}>
       {onTelegram && telegramUser && (
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-          Welcome, {telegramUser.firstName}!
+          Welcome, {telegramUser.first_name}!
         </div>
       )}
 
