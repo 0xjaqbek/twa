@@ -14,7 +14,7 @@ const firebaseConfig = {
     messagingSenderId: "447540828275",
     appId: "1:447540828275:web:77340961502f57723df206",
     measurementId: "G-6SBRL43LZM",
-    databaseURL: "https://tapracesprint-default-rtdb.firebaseio.com/"
+    databaseURL: "https://tapracesprint-default-rtdb.europe-west1.firebasedatabase.app/"
 };
 
 const app = initializeApp(firebaseConfig);
