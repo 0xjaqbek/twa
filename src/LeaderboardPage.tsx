@@ -202,11 +202,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
     <LeaderboardContainer>
       <LeaderboardContent>
         <ElapsedTime>Your Time: {elapsedTime.toFixed(2)} seconds</ElapsedTime>
-        <FlexBoxRow>
-          <Button>
-            {/* Additional content if needed */}
-          </Button>
-        </FlexBoxRow>
+
         <ActionsContainer>
           <StyledButton onClick={handleSaveScore} style={{ marginBottom: '10px' }}>Save Score</StyledButton>
           <StyledButton onClick={onClose}>Close</StyledButton>
