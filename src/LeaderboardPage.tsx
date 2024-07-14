@@ -194,6 +194,10 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
     setVisibleRange(prevRange => prevRange + 10);
   };
 
+  const handleCloseSaveScoreWindow = () => {
+    setShowSaveScoreWindow(false);
+  };
+
   return (
     <LeaderboardContainer>
       <LeaderboardContent>
@@ -223,6 +227,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
             <p>Connect your wallet to set user Id and save your score:</p>
             <TonConnectButton />
             <StyledButton onClick={handleSaveScoreConfirm} style={{ marginTop: '10px' }}>Save Score</StyledButton>
+            <StyledButton onClick={handleCloseSaveScoreWindow} style={{ marginTop: '10px' }}>Close</StyledButton>
           </SaveScoreWindowContent>
         </SaveScoreWindowContainer>
       )}
