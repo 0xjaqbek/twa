@@ -220,7 +220,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
       {showSaveScoreWindow && (
         <SaveScoreWindowContainer>
           <SaveScoreWindowContent>
-            <p>Connect your wallet to get user Id and save your score:</p>
+            <p>Connect your wallet to set user Id and save your score:</p>
             <TonConnectButton />
             <StyledButton onClick={handleSaveScoreConfirm} style={{ marginTop: '10px' }}>Save Score</StyledButton>
           </SaveScoreWindowContent>
