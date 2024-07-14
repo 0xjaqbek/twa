@@ -1,22 +1,24 @@
 import axios, { AxiosError } from 'axios';
 import dotenv from 'dotenv';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, set, onValue } from 'firebase/database';
 
 dotenv.config();
 
-const GIST_ID = 'c21b8e37060a00aadcae5f277543ef0c';
-const GITHUB_TOKEN = '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';
+// Replace with your Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyDdGHaeIrFIy-Xw_WR_Hl7I7E9Z55tUW_w",
+  authDomain: "tapracesprint.firebaseapp.com",
+  projectId: "tapracesprint",
+  storageBucket: "tapracesprint.appspot.com",
+  messagingSenderId: "447540828275",
+  appId: "1:447540828275:web:77340961502f57723df206",
+  measurementId: "G-6SBRL43LZM"
+};
 
-if (!GITHUB_TOKEN) {
-  throw new Error('GitHub token not found. Please set the GITHUB_TOKEN environment variable.');
-}
-
-const apiClient = axios.create({
-  baseURL: 'https://api.github.com',
-  headers: {
-    Authorization: `token ${GITHUB_TOKEN}`,  // Use "token" instead of "Bearer"
-    'Content-Type': 'application/json',
-  },
-});
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const leaderboardRef = ref(db, 'leaderboard');
 
 const isAxiosError = (error: unknown): error is AxiosError => {
   return axios.isAxiosError(error);
@@ -25,11 +27,10 @@ const isAxiosError = (error: unknown): error is AxiosError => {
 export const getLeaderboard = async () => {
   try {
     console.log('Fetching leaderboard...');
-    const response = await apiClient.get(`/gists/${GIST_ID}`);
-    console.log('Response from GitHub API:', response.data);
-    const leaderboard = JSON.parse(response.data.files['leaderboard.json'].content);
+    const snapshot = await onValue(leaderboardRef);
+    const leaderboard = snapshot.val();
     console.log('Leaderboard:', leaderboard);
-    return leaderboard;
+    return leaderboard || []; // Return an empty array if no data exists
   } catch (error: unknown) {
     if (isAxiosError(error)) {
       console.error('Error fetching leaderboard:', error.response ? error.response.data : error.message);
@@ -43,23 +44,15 @@ export const getLeaderboard = async () => {
 export const updateLeaderboard = async (leaderboard: { address: string; time: number; }[]) => {
   try {
     console.log('Updating leaderboard...');
-    const content = JSON.stringify(leaderboard, null, 2);
-    console.log('New leaderboard content:', content);
-    const response = await apiClient.patch(`/gists/${GIST_ID}`, {
-      files: {
-        'leaderboard.json': {
-          content,
-        },
-      },
-    });
-    console.log('Response from GitHub API:', response.data);
-    return response.data;
+    await set(leaderboardRef, leaderboard);
+    console.log('Leaderboard updated successfully.');
+    return true;
   } catch (error: unknown) {
     if (isAxiosError(error)) {
       console.error('Error updating leaderboard:', error.response ? error.response.data : error.message);
     } else {
       console.error('Unexpected error updating leaderboard:', error);
     }
-    return null;
+    return false;
   }
 };
