@@ -1,5 +1,21 @@
 // IndexPage.tsx
 
+declare global {
+  interface Window {
+    Telegram?: {
+      WebApp?: {
+        initDataUnsafe: {
+          user?: {
+            id: number;
+            first_name: string;
+            // Add other potential properties from Telegram API
+          };
+        };
+      };
+    };
+  }
+}
+
 import React, { useState, useEffect, FC } from "react";
 import styled from "styled-components";
 import PowerIndicator from "./PowerIndicator";
@@ -12,6 +28,12 @@ import Gear from "./Gear";
 import LeaderboardPage from "./LeaderboardPage"; // Import the LeaderboardPage component
 import { calculateMoveDistance, animateRoad, RESET_POSITION } from "./speed";
 import { StyledButton } from "./StyledButton";
+
+interface TelegramUser {
+  id: number;
+  firstName: string;
+  // Add other properties as needed
+}
 
 const INITIAL_MOVE_DISTANCE = 0.01; // Initial distance to move road on each click
 
@@ -47,8 +69,25 @@ const IndexPage: FC = () => {
   const [roadOpacity, setRoadOpacity] = useState(0); // Initially 0 for fade-in effect
   const [instructionsOpacity, setInstructionsOpacity] = useState(1); // New state for instructions opacity
   const [powerLevel, setPowerLevel] = useState(0); // State to track power level
-
   const [showLeaderboard, setShowLeaderboard] = useState(false); // State to show leaderboard
+  const [onTelegram, setOnTelegram] = useState(false); // State to track if the user is on Telegram
+  const [telegramUser, setTelegramUser] = useState<TelegramUser | null>(null); // State to track Telegram user
+
+  useEffect(() => {
+    const fetchTelegramUserData = async () => {
+      const tg = window?.Telegram?.WebApp;
+      if (tg && tg.initDataUnsafe.user) {
+        setOnTelegram(true);
+        setTelegramUser(tg.initDataUnsafe.user as unknown as TelegramUser);
+      } else {
+        setOnTelegram(false);
+        setTelegramUser(null);
+        alert("Please use Telegram app");
+      }
+    };
+
+    fetchTelegramUserData();
+  }, []);
 
   useEffect(() => {
     if (gameStarted) {
@@ -203,6 +242,12 @@ const IndexPage: FC = () => {
 
   return (
     <div style={{ textAlign: 'center', position: 'relative', overflow: 'hidden', height: '100vh' }}>
+      {onTelegram && telegramUser && (
+        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+          Welcome, {telegramUser.firstName}!
+        </div>
+      )}
+
       {showInstructions && (
         <div style={{ opacity: instructionsOpacity, transition: 'opacity 1s' }}>
           <Instructions onStartGame={handleStartGame} />
