@@ -1,21 +1,3 @@
-// IndexPage.tsx
-
-declare global {
-  interface Window {
-    Telegram?: {
-      WebApp?: {
-        initDataUnsafe: {
-          user?: {
-            id: number;
-            first_name: string;
-            // Add other potential properties from Telegram API
-          };
-        };
-      };
-    };
-  }
-}
-
 import React, { useState, useEffect, FC } from "react";
 import styled from "styled-components";
 import PowerIndicator from "./PowerIndicator";
@@ -25,7 +7,7 @@ import Instructions from "./Instructions";
 import Car from "./Car";
 import Road from "./Road";
 import Gear from "./Gear";
-import LeaderboardPage from "./LeaderboardPage"; // Import the LeaderboardPage component
+import LeaderboardPage from "./LeaderboardPage"; // Correct import without importing specific props
 import { calculateMoveDistance, animateRoad, RESET_POSITION } from "./speed";
 import { StyledButton } from "./StyledButton";
 
@@ -52,41 +34,51 @@ const CountdownText = styled.div`
 `;
 
 const IndexPage: FC = () => {
-  const [position1, setPosition1] = useState(0);
-  const [position2, setPosition2] = useState(RESET_POSITION);
-  const [clickCount, setClickCount] = useState(0);
-  const [moveDistance, setMoveDistance] = useState(INITIAL_MOVE_DISTANCE);
-  const [showGear, setShowGear] = useState(false);
-  const [showingText, setShowingText] = useState('');
-  const [clickEnabled, setClickEnabled] = useState(false);
-  const [startTime, setStartTime] = useState(0);
-  const [endTime, setEndTime] = useState(0);
-  const [verticalBlurLevel, setVerticalBlurLevel] = useState(0);
-  const [showInstructions, setShowInstructions] = useState(true);
-  const [gameStarted, setGameStarted] = useState(false);
-  const [carAnimation, setCarAnimation] = useState('');
-  const [showBrykaO, setShowBrykaO] = useState(false);
-  const [roadOpacity, setRoadOpacity] = useState(0); // Initially 0 for fade-in effect
-  const [instructionsOpacity, setInstructionsOpacity] = useState(1); // New state for instructions opacity
-  const [powerLevel, setPowerLevel] = useState(0); // State to track power level
-  const [showLeaderboard, setShowLeaderboard] = useState(false); // State to show leaderboard
-  const [onTelegram, setOnTelegram] = useState(false); // State to track if the user is on Telegram
+  const [position1, setPosition1] = useState<number>(0);
+  const [position2, setPosition2] = useState<number>(RESET_POSITION);
+  const [clickCount, setClickCount] = useState<number>(0);
+  const [moveDistance, setMoveDistance] = useState<number>(INITIAL_MOVE_DISTANCE);
+  const [showGear, setShowGear] = useState<boolean>(false);
+  const [showingText, setShowingText] = useState<string>('');
+  const [clickEnabled, setClickEnabled] = useState<boolean>(false);
+  const [startTime, setStartTime] = useState<number>(0);
+  const [endTime, setEndTime] = useState<number>(0);
+  const [verticalBlurLevel, setVerticalBlurLevel] = useState<number>(0);
+  const [showInstructions, setShowInstructions] = useState<boolean>(true);
+  const [gameStarted, setGameStarted] = useState<boolean>(false);
+  const [carAnimation, setCarAnimation] = useState<string>('');
+  const [showBrykaO, setShowBrykaO] = useState<boolean>(false);
+  const [roadOpacity, setRoadOpacity] = useState<number>(0); // Initially 0 for fade-in effect
+  const [instructionsOpacity, setInstructionsOpacity] = useState<number>(1); // New state for instructions opacity
+  const [powerLevel, setPowerLevel] = useState<number>(0); // State to track power level
+  const [showLeaderboard, setShowLeaderboard] = useState<boolean>(false); // State to show leaderboard
+  const [onTelegram, setOnTelegram] = useState<boolean>(false); // State to track if the user is on Telegram
   const [telegramUser, setTelegramUser] = useState<TelegramUser | null>(null); // State to track Telegram user
 
   useEffect(() => {
-    const fetchTelegramUserData = () => {
-      const tg = window?.Telegram?.WebApp;
-      if (tg && tg.initDataUnsafe.user) {
-        setOnTelegram(true);
-        setTelegramUser(tg.initDataUnsafe.user);
-      } else {
-        setOnTelegram(false);
-        setTelegramUser(null);
-        alert("Please use the Telegram app");
+    const initTelegramUser = async () => {
+      try {
+        // Check if Telegram WebApp is available
+        const tg = (window as any)?.Telegram?.WebApp; // Use type assertion here
+        if (tg && tg.initDataUnsafe.user) {
+          setOnTelegram(true);
+          setTelegramUser({
+            id: tg.initDataUnsafe.user.id,
+            first_name: tg.initDataUnsafe.user.first_name
+            // Add other properties as needed
+          });
+        } else {
+          setOnTelegram(false);
+          setTelegramUser(null);
+          alert("Please use the Telegram app");
+        }
+      } catch (error) {
+        console.error('Error fetching Telegram user data:', error);
+        alert("Error fetching Telegram user data. Please try again later.");
       }
     };
 
-    fetchTelegramUserData();
+    initTelegramUser();
   }, []);
 
   useEffect(() => {
@@ -227,22 +219,16 @@ const IndexPage: FC = () => {
         animationDelay: '1s',
         fontSize: '1rem', // Example of larger font size
       }}>
-        <StyledButton onClick={() => window.location.reload()} style={{ margin: '15px', cursor: 'pointer' }}>
-          Restart
-        </StyledButton><br /><br />
-        Elapsed Time:<br />
-        <span style={{ fontSize: '1.8rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br />
-        <br /><br /><br /><br /><br /><br /><br />
-        <StyledButton onClick={() => setShowLeaderboard(true)} style={{ margin: '15px', cursor: 'pointer' }}>
-          Leaderboard
-        </StyledButton>
+        <StyledButton onClick={() => window.location.reload()} style={{ margin: '20px' }}>Play Again</StyledButton>
+        Your elapsed time: {elapsedTime.toFixed(2)} seconds
+        <StyledButton onClick={() => setShowLeaderboard(true)} style={{ margin: '20px' }}>Show Leaderboard</StyledButton>
       </div>
     );
   };
 
   return (
-    <div style={{ textAlign: 'center', position: 'relative', overflow: 'hidden', height: '100vh' }}>
-      {onTelegram && telegramUser && (
+    <div style={{ overflow: "hidden" }}>
+      {telegramUser && (
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
           Welcome, {telegramUser.first_name}!
         </div>
@@ -282,14 +268,12 @@ const IndexPage: FC = () => {
         </>
       )}
 
-      {showLeaderboard && (
-        <LeaderboardPage
-          elapsedTime={(endTime - startTime) / 1000}
-          onClose={() => setShowLeaderboard(false)} // Close the leaderboard page
-        />
-      )}
-
       {calculateElapsedTime()}
+
+      <LeaderboardPage
+        elapsedTime={(endTime - startTime) / 1000}
+        onClose={() => setShowLeaderboard(false)}
+      />
     </div>
   );
 };
