@@ -12,6 +12,7 @@ interface LeaderboardPageProps {
 }
 
 const LeaderboardContainer = styled.div`
+  font-size: 10px;
   position: absolute;
   top: 0;
   left: 0;
@@ -35,9 +36,10 @@ const LeaderboardContent = styled.div`
 `;
 
 const ElapsedTime = styled.p`
+  font-size: 10px;
   text-align: center;
   margin-bottom: 20px;
-  font-size: 1.2em;
+  font-size: 1em;
 `;
 
 const ActionsContainer = styled.div`
@@ -55,6 +57,7 @@ const LeaderboardList = styled.ul`
 `;
 
 const LeaderboardItem = styled.li`
+  font-size: 10px;
   margin: 10px 0;
   padding: 10px;
   background-color: #f9f9f9;
@@ -70,7 +73,7 @@ const StyledButtonSecondary = styled(StyledButton)`
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
+  font-size: 10px;
   margin-top: 10px;
   cursor: pointer;
 `;
@@ -217,7 +220,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
       {showSaveScoreWindow && (
         <SaveScoreWindowContainer>
           <SaveScoreWindowContent>
-            <p>Connect your wallet to save your score:</p>
+            <p>Connect your wallet to get user Id and save your score:</p>
             <TonConnectButton />
             <StyledButton onClick={handleSaveScoreConfirm} style={{ marginTop: '10px' }}>Save Score</StyledButton>
           </SaveScoreWindowContent>
