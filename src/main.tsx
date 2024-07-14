@@ -5,7 +5,7 @@ import App from "./App";
 import "./index.css";
 // this manifest is used temporarily for development purposes
 const manifestUrl =
-  "https://github.com/0xjaqbek/twa/blob/main/manifest.json";
+  "https://raw.githubusercontent.com/0xjaqbek/twa/main/manifest.json";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnWindowFocus: false } },
