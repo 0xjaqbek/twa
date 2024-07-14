@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Card = styled.div`
-  padding: 18px 20px;
+  padding: 10px 10px;
   border-radius: 8px;
   background-color: white;
 
@@ -29,7 +29,7 @@ export const Button = styled.button`
     props.disabled ? "#6e6e6e" : "var(--tg-theme-button-color)"};
   border: 0;
   border-radius: 8px;
-  padding: 10px 20px;
+  padding: 10px 10px;
   color: var(--tg-theme-button-text-color);
   font-weight: 700;
   cursor: pointer;
