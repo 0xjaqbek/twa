@@ -1,7 +1,7 @@
 // IndexPage.tsx
 
 import React, { useState, useEffect, FC } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from 'styled-components';
 import PowerIndicator from "./PowerIndicator";
 import ProgressIndicator from "./ProgressIndicator";
 import Timer from "./Timer";
@@ -15,6 +15,13 @@ import { StyledButton } from "./StyledButton";
 
 const INITIAL_MOVE_DISTANCE = 0.01; // Initial distance to move road on each click
 
+// Define the keyframes for the blinking animation
+const blink = keyframes`
+  0% { background-color: rgba(255, 255, 255, 0.0); }
+  50% { background-color: rgba(255, 255, 255, 0.3); }
+  100% { background-color: rgba(255, 255, 255, 1); }
+`;
+
 const CountdownText = styled.div`
   font-size: 150px;
   font-family: 'PublicPixel'; // Replace with your actual font
@@ -25,8 +32,9 @@ const CountdownText = styled.div`
   transform: translate(-50%, -50%);
   z-index: 3;
   text-shadow: 22px 22px 10px white;
-  background-color: rgba(0, 0, 0, 0.5); // Black background with 50% opacity
+  background-color: rgba(255, 255, 255, 0.5); // Black background with 50% opacity
   padding: 150px 60px;
+  animation: ${blink} 1s infinite; // Add the animation
 `;
 
 const IndexPage: FC = () => {
