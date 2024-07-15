@@ -60,7 +60,7 @@ const LeaderboardList = styled.ul`
 const LeaderboardItem = styled.li`
   font-size: 13px;
   color: white;
-  margin: 10px 0;
+  margin: 5px 0;
   padding: 10px;
   background-color: black;
   border: 1px solid #ddd;
