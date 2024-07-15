@@ -26,7 +26,7 @@ const LeaderboardContainer = styled.div`
 
 const LeaderboardContent = styled.div`
   color: black;
-  background-color: white;
+  background-color: rgba(255, 255, 255);
   padding: 30px;
   border-radius: 10px;
   width: 80%;
@@ -45,7 +45,7 @@ const ActionsContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 
 const LeaderboardList = styled.ul`
@@ -134,7 +134,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
           console.log(`Elapsed Time: ${elapsedTime.toFixed(2)} seconds`);
         } else {
           const timeDifference = (elapsedTime - existingScore.time).toFixed(2);
-          alert(`Sorry, you were slower by ${timeDifference} seconds.`);
+          alert(`Eee, slower by ${timeDifference} seconds than before.`);
         }
       } else {
         const newScore = { address: rawAddress, time: elapsedTime };
@@ -196,9 +196,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
             </ActionsContainer>
           </>
         )}
-        <ActionsContainer>
-          <StyledButton onClick={onClose}>Close</StyledButton>
-        </ActionsContainer>
+
         <ActionsContainer>
           {pageIndex > 0 && (
             <StyledButtonSecondary onClick={handlePrevPage}>Previous</StyledButtonSecondary>
@@ -215,6 +213,9 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
           {(pageIndex + 1) * itemsPerPage < topScores.length && (
             <StyledButtonSecondary onClick={handleNextPage}>Next</StyledButtonSecondary>
           )}
+        </ActionsContainer>
+        <ActionsContainer>
+          <StyledButton onClick={onClose}>Close</StyledButton>
         </ActionsContainer>
       </LeaderboardContent>
       {showSaveScoreWindow && (
