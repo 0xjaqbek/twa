@@ -2803,7 +2803,7 @@ FIREBASE: `))}restoreState_(){this.tryAuth(),this.tryAppCheck();for(const e of t
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 5px;
     background-color: black;
 `,uG=on.ul`
   list-style-type: none;
