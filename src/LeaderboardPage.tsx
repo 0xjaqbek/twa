@@ -25,6 +25,7 @@ const LeaderboardContainer = styled.div`
 `;
 
 const LeaderboardContent = styled.div`
+  border: 1px solid #ddd;
   color: white;
   background-color: black;
   padding: 30px;
@@ -35,10 +36,9 @@ const LeaderboardContent = styled.div`
 `;
 
 const ElapsedTime = styled.p`
-  font-size: 10px;
   text-align: center;
   margin-bottom: 20px;
-  font-size: 1em;
+  font-size: 1.5em;
 `;
 
 const ActionsContainer = styled.div`
@@ -194,7 +194,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
       <LeaderboardContent>
         {elapsedTime > 0 && (
           <>
-            <ElapsedTime>Your current time:<br></br>{elapsedTime.toFixed(2)} seconds</ElapsedTime>
+            <ElapsedTime style={{ marginBottom: '20px' }}>Your current time:<br></br>{elapsedTime.toFixed(2)} seconds</ElapsedTime>
             <ActionsContainer>
               <StyledButton onClick={handleSaveScore} style={{ marginBottom: '10px' }}>Save Score</StyledButton>
             </ActionsContainer>

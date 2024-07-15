@@ -10,7 +10,10 @@ import IndexPage from "./IndexPage";
 
 
 const StyledApp = styled.div`
-  background-color: #e8e8e8;
+  background: 
+      linear-gradient(90deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000),
+      linear-gradient(#000 25%, transparent 25%, transparent 75%, #000 75%, #000);
+    background-size: 50px 50px;
   color: black;
   font-family: 'PublicPixel', sans-serif;
 
