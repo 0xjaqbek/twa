@@ -2790,7 +2790,7 @@ FIREBASE: `))}restoreState_(){this.tryAuth(),this.tryAppCheck();for(const e of t
   border: 1px solid #ddd;
   color: white;
   background-color: black;
-  padding: 30px;
+  padding: 10px;
   border-radius: 10px;
   width: 80%;
   max-width: 600px;
