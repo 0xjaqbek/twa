@@ -47,8 +47,7 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => {
         textAlign: 'center',
         fontSize: '0.7rem',
       }}>
-        <StyledButton>UNDER DEVELOPMENT<br />may not work</StyledButton>
-        <h1 style={{ fontSize: '1.2rem' }}>TapRaceSprint</h1>
+        <h1 style={{textShadow: '5px 5px  rgba(255, 255, 255, 0.5)', fontSize: '1.2rem', padding: '5px' }}>TapRaceSprint</h1>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
           <StyledButton onClick={handleShowInstructions}>Instructions</StyledButton>
           <StyledButton onClick={handleShowLeaderboard}>Leaderboard</StyledButton>
