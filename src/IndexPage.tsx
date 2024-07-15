@@ -171,7 +171,7 @@ const IndexPage: FC = () => {
     if (endTime !== 0) {
       const timeout = setTimeout(() => {
         setRoadOpacity(0);
-      }, 4000);
+      }, 1500);
       return () => clearTimeout(timeout);
     }
   }, [endTime]);
