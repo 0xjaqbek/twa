@@ -18,7 +18,6 @@ const INITIAL_MOVE_DISTANCE = 0.01; // Initial distance to move road on each cli
 // Define the keyframes for the blinking animation
 const blink = keyframes`
   0% { background-color: rgba(255, 255, 255, 0.0); }
-  50% { background-color: rgba(255, 255, 255, 0.1); }
   100% { background-color: rgba(255, 255, 255, 1); }
 `;
 
@@ -82,7 +81,11 @@ const IndexPage: FC = () => {
     setTimeout(() => {
       setShowInstructions(false); // Hide instructions after transition
       setGameStarted(true);
-      setRoadOpacity(1); // Start fading in the road and other elements
+
+      // Fade in road and other elements after a delay
+      setTimeout(() => {
+        setRoadOpacity(1); // Start fading in the road and other elements
+      }, 2000); // Adjust delay as needed
     }, 750); // Delay to match the opacity transition
   };
 
@@ -168,7 +171,7 @@ const IndexPage: FC = () => {
     if (endTime !== 0) {
       const timeout = setTimeout(() => {
         setRoadOpacity(0);
-      }, 1000);
+      }, 4000);
       return () => clearTimeout(timeout);
     }
   }, [endTime]);
