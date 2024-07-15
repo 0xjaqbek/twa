@@ -37,7 +37,7 @@ const LeaderboardContent = styled.div`
 
 const ElapsedTime = styled.p`
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 1.5em;
 `;
 
