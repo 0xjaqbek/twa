@@ -10,10 +10,7 @@ import IndexPage from "./IndexPage";
 
 
 const StyledApp = styled.div`
-  background: 
-      linear-gradient(90deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000),
-      linear-gradient(#000 25%, transparent 25%, transparent 75%, #000 75%, #000);
-    background-size: 50px 50px;
+  background: white;
   color: black;
   font-family: 'PublicPixel', sans-serif;
 
@@ -22,7 +19,6 @@ const StyledApp = styled.div`
     color: white;
   }
   min-height: 100vh;
-  padding: 1px 1px;
 `;
 
 const AppContainer = styled.div`
