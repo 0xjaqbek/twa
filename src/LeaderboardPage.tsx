@@ -30,7 +30,7 @@ const LeaderboardContent = styled.div`
   background-color: black;
   padding: 10px;
   border-radius: 10px;
-  width: 80%;
+  width: 95%;
   max-width: 600px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
