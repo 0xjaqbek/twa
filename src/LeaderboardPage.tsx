@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { StyledButton } from './StyledButton';
 import { TonConnectButton } from "@tonconnect/ui-react";
-import { Button, FlexBoxRow } from "./components/styled/styled";
 import { useTonAddress } from "@tonconnect/ui-react";
 import { getLeaderboard, updateLeaderboard } from './gistService';
 
@@ -105,19 +104,17 @@ const SaveScoreWindowContent = styled.div`
 const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose }) => {
   const rawAddress = useTonAddress(true); // false for raw address
   const [leaderboard, setLeaderboard] = useState<{ address: string; time: number }[]>([]);
-  const [topScores, setTopScores] = useState<{ address: string; time: number }[]>([]);
+  const [pageIndex, setPageIndex] = useState(0);
   const [showSaveScoreWindow, setShowSaveScoreWindow] = useState(false);
-  const [visibleRange, setVisibleRange] = useState(3);
+  const itemsPerPage = 3;
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
       const scores = await getLeaderboard();
       setLeaderboard(scores);
-      const topScores = getTopScores(scores, visibleRange); // Get top scores based on visibleRange
-      setTopScores(topScores);
     };
     fetchLeaderboard();
-  }, [visibleRange]);
+  }, []);
 
   const handleSaveScore = async () => {
     setShowSaveScoreWindow(true);
@@ -153,7 +150,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
     }
   };
 
-  const getTopScores = (scores: { address: string; time: number }[], count: number) => {
+  const getTopScores = (scores: { address: string; time: number }[]) => {
     // Filter to keep only the highest score per address
     const highestScores = scores.reduce((acc, score) => {
       if (!acc[score.address] || acc[score.address].time > score.time) {
@@ -163,8 +160,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
     }, {} as Record<string, { address: string; time: number }>);
 
     const sortedScores = Object.values(highestScores)
-      .sort((a, b) => a.time - b.time) // Sort ascending by time
-      .slice(0, count); // Take top 'count' scores
+      .sort((a, b) => a.time - b.time); // Sort ascending by time
 
     return sortedScores;
   };
@@ -174,29 +170,20 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
     return `${address.slice(0, 5)}...${address.slice(-4)}`;
   };
 
-  const handleShowTopScores = async () => {
-    try {
-      // Fetch leaderboard data from the GitHub Gist
-      const leaderboardData = await getLeaderboard();
-      
-      // Calculate top scores from the fetched data (assuming getTopScores is defined elsewhere)
-      const topScores = getTopScores(leaderboardData, visibleRange); // Adjust getTopScores based on your implementation
-      
-      // Set the topScores state with the calculated top scores
-      setTopScores(topScores);
-    } catch (error) {
-      console.error('Error fetching or processing leaderboard:', error);
-      // Handle error appropriately
-    }
+  const handleNextPage = () => {
+    setPageIndex(prevPageIndex => prevPageIndex + 1);
   };
 
-  const handleScrollDown = () => {
-    setVisibleRange(prevRange => prevRange + 3);
+  const handlePrevPage = () => {
+    setPageIndex(prevPageIndex => Math.max(prevPageIndex - 1, 0));
   };
 
   const handleCloseSaveScoreWindow = () => {
     setShowSaveScoreWindow(false);
   };
+
+  const topScores = getTopScores(leaderboard);
+  const paginatedScores = topScores.slice(pageIndex * itemsPerPage, (pageIndex + 1) * itemsPerPage);
 
   return (
     <LeaderboardContainer>
@@ -206,18 +193,22 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
         <ActionsContainer>
           <StyledButton onClick={handleSaveScore} style={{ marginBottom: '10px' }}>Save Score</StyledButton>
           <StyledButton onClick={onClose}>Close</StyledButton>
-          <StyledButtonSecondary onClick={handleShowTopScores}>Top Scores</StyledButtonSecondary>
         </ActionsContainer>
         <LeaderboardList>
-          {topScores.map((entry, index) => (
+          {paginatedScores.map((entry, index) => (
             <LeaderboardItem key={index}>
-              {index + 1}<br></br> {formatAddress(entry.address)}<br></br> {entry.time.toFixed(2)} seconds
+              {pageIndex * itemsPerPage + index + 1}. {formatAddress(entry.address)} - {entry.time.toFixed(2)} seconds
             </LeaderboardItem>
           ))}
         </LeaderboardList>
-        {topScores.length < leaderboard.length && (
-          <StyledButtonSecondary onClick={handleScrollDown}>Load More</StyledButtonSecondary>
-        )}
+        <ActionsContainer>
+          {pageIndex > 0 && (
+            <StyledButtonSecondary onClick={handlePrevPage}>Previous</StyledButtonSecondary>
+          )}
+          {(pageIndex + 1) * itemsPerPage < topScores.length && (
+            <StyledButtonSecondary onClick={handleNextPage}>Load More</StyledButtonSecondary>
+          )}
+        </ActionsContainer>
       </LeaderboardContent>
       {showSaveScoreWindow && (
         <SaveScoreWindowContainer>
