@@ -28,7 +28,7 @@ const LeaderboardContent = styled.div`
   border: 1px solid #ddd;
   color: white;
   background-color: black;
-  padding: 30px;
+  padding: 10px;
   border-radius: 10px;
   width: 80%;
   max-width: 600px;
