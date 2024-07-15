@@ -2797,7 +2797,7 @@ FIREBASE: `))}restoreState_(){this.tryAuth(),this.tryAppCheck();for(const e of t
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `,lG=on.p`
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 1.5em;
 `,wf=on.div`
   display: flex;
