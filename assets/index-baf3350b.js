@@ -2892,10 +2892,7 @@ FIREBASE: `))}restoreState_(){this.tryAuth(),this.tryAppCheck();for(const e of t
       }
     }
   `,document.head.append(X),()=>{document.head.removeChild(X)}},[]),lt.useEffect(()=>{if(E!==0){const X=setTimeout(()=>{y(0)},1e3);return()=>clearTimeout(X)}},[E]);const R=()=>{if(E===0||m===0)return null;const X=(E-m)/1e3;return qr("div",{style:{border:"2px solid white",backgroundColor:"black",color:"white",padding:"20px",borderRadius:"10px",zIndex:4,position:"absolute",top:"5%",left:"50%",transform:"translateX(-50%)",opacity:0,animation:"slideDown 2s forwards",animationDelay:"1s",fontSize:"1rem"},children:[Be(bi,{onClick:()=>window.location.reload(),style:{margin:"10px",cursor:"pointer"},children:"Restart"}),Be("br",{}),Be("br",{}),"Your Time:",Be("br",{}),Be("span",{style:{fontSize:"1.3rem",fontWeight:"bold"},children:X.toFixed(2)})," seconds",Be("br",{}),Be("br",{}),Be("br",{}),Be("br",{}),Be("br",{}),Be("br",{}),Be("br",{}),Be("br",{}),Be(bi,{onClick:()=>T(!0),style:{margin:"10px",cursor:"pointer"},children:"Leaderboard"})]})};return qr("div",{style:{textAlign:"center",position:"relative",overflow:"hidden",height:"100vh"},children:[B&&Be("div",{style:{opacity:f,transition:"opacity 1s"},children:Be(hG,{onStartGame:x})}),!B&&qr(jf,{children:[Be("div",{style:{opacity:w,transition:"opacity 1s"},children:Be(mG,{position1:t,position2:r,verticalBlurLevel:A})}),c&&Be(SG,{children:c}),qr("div",{style:{opacity:w,transition:"opacity 1s"},children:[Be(gG,{clickEnabled:d,onClick:M,carAnimation:V,showBrykaO:ne,powerLevel:_}),Be(bG,{showGear:l,onClick:v}),$&&E===0&&qr(jf,{children:[Be(H$,{clickCount:o}),Be(K$,{clickCount:o}),Be(Y$,{startTime:m,gameStarted:$,endTime:E})]})]})]}),k&&Be(zM,{elapsedTime:(E-m)/1e3,onClose:()=>T(!1)}),R()]})},EG=on.div`
-  background: 
-      linear-gradient(90deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000),
-      linear-gradient(#000 25%, transparent 25%, transparent 75%, #000 75%, #000);
-    background-size: 50px 50px;
+  background: white;
   color: black;
   font-family: 'PublicPixel', sans-serif;
 
@@ -2904,7 +2901,6 @@ FIREBASE: `))}restoreState_(){this.tryAuth(),this.tryAppCheck();for(const e of t
     color: white;
   }
   min-height: 100vh;
-  padding: 1px 1px;
 `,MG=on.div`
   font-family: 'PublicPixel', sans-serif;
   max-width: 900px;
