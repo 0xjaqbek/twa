@@ -26,7 +26,7 @@ const LeaderboardContainer = styled.div`
 
 const LeaderboardContent = styled.div`
   color: black;
-  background-color: rgba(255, 255, 255);
+  background-color: black;
   padding: 30px;
   border-radius: 10px;
   width: 80%;
@@ -46,6 +46,7 @@ const ActionsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 10px;
+    background-color: black;
 `;
 
 const LeaderboardList = styled.ul`
@@ -53,13 +54,15 @@ const LeaderboardList = styled.ul`
   padding: 0;
   max-height: 300px;
   overflow-y: auto;
+  background-color: black;
 `;
 
 const LeaderboardItem = styled.li`
-  font-size: 10px;
+  font-size: 13px;
+  color: white;
   margin: 10px 0;
   padding: 10px;
-  background-color: #f9f9f9;
+  background-color: black;
   border: 1px solid #ddd;
   border-radius: 5px;
 `;
@@ -91,8 +94,8 @@ const SaveScoreWindowContainer = styled.div`
 `;
 
 const SaveScoreWindowContent = styled.div`
-  color: black;
-  background-color: white;
+  color: white;
+  background-color: black;
   padding: 30px;
   border-radius: 10px;
   width: 80%;
@@ -196,7 +199,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
             </ActionsContainer>
           </>
         )}
-
+        <h1 style={{ color: 'white' }}>Top</h1>
         <ActionsContainer>
           {pageIndex > 0 && (
             <StyledButtonSecondary onClick={handlePrevPage}>Previous</StyledButtonSecondary>
@@ -222,9 +225,9 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
         <SaveScoreWindowContainer>
           <SaveScoreWindowContent>
             <p>Connect your wallet to set user Id and save your score:</p>
-            <TonConnectButton />
-            <StyledButton onClick={handleSaveScoreConfirm} style={{ marginTop: '10px' }}>Save Score</StyledButton>
-            <StyledButton onClick={handleCloseSaveScoreWindow} style={{ marginTop: '10px' }}>Close</StyledButton>
+            <TonConnectButton /><br></br>
+            <StyledButton onClick={handleSaveScoreConfirm} style={{ marginTop: '10px' }}>Save Score</StyledButton><br></br><br></br><br></br>
+            <StyledButton onClick={handleCloseSaveScoreWindow} style={{ marginTop: '10px' }}>Close</StyledButton><br></br>
           </SaveScoreWindowContent>
         </SaveScoreWindowContainer>
       )}
