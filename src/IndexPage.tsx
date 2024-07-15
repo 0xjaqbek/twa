@@ -33,7 +33,7 @@ const CountdownText = styled.div`
   z-index: 3;
   text-shadow: 22px 22px 10px white;
   background-color: rgba(255, 255, 255, 0.5); // Black background with 50% opacity
-  padding: 1500px 600px;
+  padding: 1500px 1600px;
   animation: ${blink} 1s infinite; // Add the animation
 `;
 
