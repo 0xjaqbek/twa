@@ -194,6 +194,11 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
           <StyledButton onClick={handleSaveScore} style={{ marginBottom: '10px' }}>Save Score</StyledButton>
           <StyledButton onClick={onClose}>Close</StyledButton>
         </ActionsContainer>
+        <ActionsContainer>
+          {pageIndex > 0 && (
+            <StyledButtonSecondary onClick={handlePrevPage}>Previous</StyledButtonSecondary>
+          )}
+        </ActionsContainer>
         <LeaderboardList>
           {paginatedScores.map((entry, index) => (
             <LeaderboardItem key={index}>
@@ -202,11 +207,8 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
           ))}
         </LeaderboardList>
         <ActionsContainer>
-          {pageIndex > 0 && (
-            <StyledButtonSecondary onClick={handlePrevPage}>Previous</StyledButtonSecondary>
-          )}
           {(pageIndex + 1) * itemsPerPage < topScores.length && (
-            <StyledButtonSecondary onClick={handleNextPage}>Load More</StyledButtonSecondary>
+            <StyledButtonSecondary onClick={handleNextPage}>Next</StyledButtonSecondary>
           )}
         </ActionsContainer>
       </LeaderboardContent>
