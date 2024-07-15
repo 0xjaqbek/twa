@@ -11,7 +11,7 @@ export const StyledButton = styled.button`
   font-size: 12px;
   cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 4px 4px 2px rgba(255, 255, 255, 0.3);
+  box-shadow: 6px 6px 9px rgba(255, 255, 255, 0.6);
 
   &:hover {
     background-color: var(--button-hover-color);

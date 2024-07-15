@@ -47,11 +47,11 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => {
         textAlign: 'center',
         fontSize: '0.7rem',
       }}>
-        <h1 style={{textShadow: '5px 5px  rgba(255, 255, 255, 0.5)', fontSize: '1.2rem', padding: '5px' }}>TapRaceSprint</h1>
+        <h1 style={{textShadow: '5px 5px  rgba(255, 255, 255, 0.5)', fontSize: '1.2rem', padding: '15px' }}>TapRaceSprint</h1><br></br>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
-          <StyledButton onClick={handleShowInstructions}>Instructions</StyledButton>
-          <StyledButton onClick={handleShowLeaderboard}>Leaderboard</StyledButton>
-          <StyledButton onClick={onStartGame}>Start Game</StyledButton>
+          <StyledButton onClick={handleShowInstructions}>Instructions</StyledButton><br></br>
+          <StyledButton onClick={handleShowLeaderboard}>Leaderboard</StyledButton><br></br>
+          <StyledButton onClick={onStartGame}>Start Game</StyledButton><br></br>
         </div>
         {showInstructions && (
           <div style={{
