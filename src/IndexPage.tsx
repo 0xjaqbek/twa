@@ -18,7 +18,7 @@ const INITIAL_MOVE_DISTANCE = 0.01; // Initial distance to move road on each cli
 // Define the keyframes for the blinking animation
 const blink = keyframes`
   0% { background-color: rgba(255, 255, 255, 0.0); }
-  50% { background-color: rgba(255, 255, 255, 0.3); }
+  50% { background-color: rgba(255, 255, 255, 0.1); }
   100% { background-color: rgba(255, 255, 255, 1); }
 `;
 
@@ -33,7 +33,7 @@ const CountdownText = styled.div`
   z-index: 3;
   text-shadow: 22px 22px 10px white;
   background-color: rgba(255, 255, 255, 0.5); // Black background with 50% opacity
-  padding: 150px 60px;
+  padding: 1500px 600px;
   animation: ${blink} 1s infinite; // Add the animation
 `;
 
