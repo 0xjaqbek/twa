@@ -66,7 +66,7 @@ const LeaderboardItem = styled.li`
 `;
 
 const StyledButtonSecondary = styled(StyledButton)`
-  background-color: #4CAF50; /* Green */
+  background-color: gray; /* Green */
   border: none;
   color: white;
   padding: 10px 20px;
@@ -103,11 +103,11 @@ const SaveScoreWindowContent = styled.div`
 `;
 
 const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose }) => {
-  const rawAddress = useTonAddress(false); // false for raw address
+  const rawAddress = useTonAddress(true); // false for raw address
   const [leaderboard, setLeaderboard] = useState<{ address: string; time: number }[]>([]);
   const [topScores, setTopScores] = useState<{ address: string; time: number }[]>([]);
   const [showSaveScoreWindow, setShowSaveScoreWindow] = useState(false);
-  const [visibleRange, setVisibleRange] = useState(10);
+  const [visibleRange, setVisibleRange] = useState(3);
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -161,11 +161,11 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
       }
       return acc;
     }, {} as Record<string, { address: string; time: number }>);
-    
+
     const sortedScores = Object.values(highestScores)
       .sort((a, b) => a.time - b.time) // Sort ascending by time
       .slice(0, count); // Take top 'count' scores
-    
+
     return sortedScores;
   };
 
@@ -179,8 +179,8 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
       // Fetch leaderboard data from the GitHub Gist
       const leaderboardData = await getLeaderboard();
       
-      // Calculate top 10 scores from the fetched data (assuming getTopScores is defined elsewhere)
-      const topScores = getTopScores(leaderboardData, 10); // Adjust getTopScores based on your implementation
+      // Calculate top scores from the fetched data (assuming getTopScores is defined elsewhere)
+      const topScores = getTopScores(leaderboardData, visibleRange); // Adjust getTopScores based on your implementation
       
       // Set the topScores state with the calculated top scores
       setTopScores(topScores);
@@ -191,7 +191,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
   };
 
   const handleScrollDown = () => {
-    setVisibleRange(prevRange => prevRange + 10);
+    setVisibleRange(prevRange => prevRange + 3);
   };
 
   const handleCloseSaveScoreWindow = () => {
@@ -211,11 +211,13 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
         <LeaderboardList>
           {topScores.map((entry, index) => (
             <LeaderboardItem key={index}>
-              Address: {formatAddress(entry.address)}, Time: {entry.time.toFixed(2)} seconds
+              {index + 1}<br></br> {formatAddress(entry.address)}<br></br> {entry.time.toFixed(2)} seconds
             </LeaderboardItem>
           ))}
         </LeaderboardList>
-        <StyledButtonSecondary onClick={handleScrollDown}>Load More</StyledButtonSecondary>
+        {topScores.length < leaderboard.length && (
+          <StyledButtonSecondary onClick={handleScrollDown}>Load More</StyledButtonSecondary>
+        )}
       </LeaderboardContent>
       {showSaveScoreWindow && (
         <SaveScoreWindowContainer>
