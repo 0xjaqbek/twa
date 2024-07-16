@@ -63,14 +63,13 @@ const IndexPage: FC = () => {
 
     if (tg) {
       tg.ready(); // Ensure that Telegram Web App is fully loaded
-      const search = tg.initData;
-      const converted = JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g, '":"') + '"}', function(key, value) {
-        return key === "" ? value : decodeURIComponent(value);
-      });
+      const searchParams = new URLSearchParams(tg.initData);
 
-      if (converted.user) {
+      const user = searchParams.get('user');
+      if (user) {
+        const userObj = JSON.parse(user);
         setOnTelegram(true);
-        setUserId(converted.user.id);
+        setUserId(userObj.id);
       } else {
         setOnTelegram(false);
         setUserId(undefined);
@@ -86,7 +85,7 @@ const IndexPage: FC = () => {
       alert(`User ID: ${userId}`);
       // You can fetch and print the user's name here if needed
     } else {
-      alert('Telegram not loaded or user data unavailable!');
+      alert('Error user data unavailable!');
     }
   }, [onTelegram, userId]);
 
@@ -242,7 +241,7 @@ const IndexPage: FC = () => {
         </StyledButton><br></br><br></br>
         Your Time:<br></br> 
         <span style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br></br>
-        <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+        <br></br><br></br><br></br><br></br><br></br><br></br>
         <StyledButton onClick={() => setShowLeaderboard(true)} style={{ margin: '10px', cursor: 'pointer' }}>
           Leaderboard
         </StyledButton>
