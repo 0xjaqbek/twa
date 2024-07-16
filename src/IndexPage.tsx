@@ -82,10 +82,10 @@ const IndexPage: FC = () => {
 
   useEffect(() => {
     if (onTelegram && userId) {
-      alert(`User ID: ${userId}`);
+      console.log(`User ID: ${userId}`);
       // You can fetch and print the user's name here if needed
     } else {
-      alert('Error user data unavailable!');
+      console.log('Error: user data unavailable!');
     }
   }, [onTelegram, userId]);
 
@@ -293,7 +293,7 @@ const IndexPage: FC = () => {
         />
       )}
 
-      {calculateElapsedTime()}
+      {calculateElapsedTime() || (userId ? userId : "...")}
     </div>
   );
 };
