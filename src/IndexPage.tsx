@@ -63,15 +63,18 @@ const IndexPage: FC = () => {
 
     if (tg) {
       tg.ready(); // Ensure that Telegram Web App is fully loaded
-      tg.onEvent('initData', () => {
-        if (tg.initDataUnsafe.user) {
-          setOnTelegram(true);
-          setUserId(tg.initDataUnsafe.user.id);
-        } else {
-          setOnTelegram(false);
-          setUserId(undefined);
-        }
+      const search = tg.initData;
+      const converted = JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g, '":"') + '"}', function(key, value) {
+        return key === "" ? value : decodeURIComponent(value);
       });
+
+      if (converted.user) {
+        setOnTelegram(true);
+        setUserId(converted.user.id);
+      } else {
+        setOnTelegram(false);
+        setUserId(undefined);
+      }
     } else {
       setOnTelegram(false);
       setUserId(undefined);
