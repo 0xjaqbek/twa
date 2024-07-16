@@ -85,12 +85,12 @@ const IndexPage: FC = () => {
       // Fade in the car first
       setTimeout(() => {
         setCarOpacity(1);  // Set car opacity to 1
-      }, 750); // Fade in the car after 1 second
+      }, 100); // Fade in the car after 1 second
 
       // Fade in road and other elements after an additional delay
       setTimeout(() => {
         setRoadOpacity(1); // Start fading in the road and other elements
-      }, 1750); // Adjust delay as needed
+      }, 100); // Adjust delay as needed
     }, 750); // Delay to match the opacity transition
   };
 
