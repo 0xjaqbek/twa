@@ -1128,7 +1128,7 @@ PERFORMANCE OF THIS SOFTWARE.
   position: absolute;
   top: 70px;
   left: 10px;
-  z-index: 4; /* Ensure it's above other elements */
+  z-index: 3; /* Ensure it's above other elements */
 `,Bw=on.img`
   position: absolute;
   top: 0;
@@ -2867,7 +2867,7 @@ FIREBASE: `))}restoreState_(){this.tryAuth(),this.tryAppCheck();for(const e of t
   background-color: rgba(255, 255, 255, 0.5); // Black background with 50% opacity
   padding: 1500px 1600px;
   animation: ${xG} 1s infinite; // Add the animation
-`,CG=()=>{const[t,e]=at.useState(0),[r,n]=at.useState(VM),[o,i]=at.useState(0),[s,a]=at.useState(_G),[l,u]=at.useState(!1),[c,h]=at.useState(""),[d,g]=at.useState(!1),[m,b]=at.useState(0),[M,S]=at.useState(0),[A,T]=at.useState(0),[B,O]=at.useState(!0),[j,W]=at.useState(!1),[V,Y]=at.useState(""),[ne,D]=at.useState(!1),[w,y]=at.useState(0),[f,p]=at.useState(0),[_,C]=at.useState(1),[k,I]=at.useState(0),[x,E]=at.useState(!1);at.useEffect(()=>{j&&setTimeout(()=>{h("3"),setTimeout(()=>{h("2"),setTimeout(()=>{h("1"),setTimeout(()=>{h(""),g(!0),b(performance.now())},1e3)},1e3)},1e3)},100)},[j]);const v=()=>{C(0),setTimeout(()=>{O(!1),W(!0),setTimeout(()=>{p(1)},50),setTimeout(()=>{y(1)},100)},750)},R=()=>{if(!d)return;i(te=>te+1);const U=wG(o+1);a(U),(o+1)%10===0&&(u(!0),g(!1),T(te=>{const G=te+1;return G<=6?G:te})),o+1===69&&(S(performance.now()),g(!1),Y("car-move-up")),I(te=>(te+1)%7)},X=()=>{u(!1),g(!0),i(U=>U+1),D(!0),setTimeout(()=>{D(!1)},300)};at.useEffect(()=>{const U=setInterval(()=>{e(te=>q_(te,s,window.innerHeight)),n(te=>q_(te,s,window.innerHeight))},11);return()=>clearInterval(U)},[s]),at.useEffect(()=>{const U=document.createElement("style");return U.textContent=`
+`,CG=()=>{const[t,e]=at.useState(0),[r,n]=at.useState(VM),[o,i]=at.useState(0),[s,a]=at.useState(_G),[l,u]=at.useState(!1),[c,h]=at.useState(""),[d,g]=at.useState(!1),[m,b]=at.useState(0),[M,S]=at.useState(0),[A,T]=at.useState(0),[B,O]=at.useState(!0),[j,W]=at.useState(!1),[V,Y]=at.useState(""),[ne,D]=at.useState(!1),[w,y]=at.useState(0),[f,p]=at.useState(0),[_,C]=at.useState(1),[k,I]=at.useState(0),[x,E]=at.useState(!1);at.useEffect(()=>{j&&setTimeout(()=>{h("3"),setTimeout(()=>{h("2"),setTimeout(()=>{h("1"),setTimeout(()=>{h(""),g(!0),b(performance.now())},1e3)},1e3)},1e3)},100)},[j]);const v=()=>{C(0),setTimeout(()=>{O(!1),W(!0),setTimeout(()=>{p(1)},1e3),setTimeout(()=>{y(1)},50)},750)},R=()=>{if(!d)return;i(te=>te+1);const U=wG(o+1);a(U),(o+1)%10===0&&(u(!0),g(!1),T(te=>{const G=te+1;return G<=6?G:te})),o+1===69&&(S(performance.now()),g(!1),Y("car-move-up")),I(te=>(te+1)%7)},X=()=>{u(!1),g(!0),i(U=>U+1),D(!0),setTimeout(()=>{D(!1)},300)};at.useEffect(()=>{const U=setInterval(()=>{e(te=>q_(te,s,window.innerHeight)),n(te=>q_(te,s,window.innerHeight))},11);return()=>clearInterval(U)},[s]),at.useEffect(()=>{const U=document.createElement("style");return U.textContent=`
     @keyframes moveUp {
       0% {
         transform: translateX(-50%) translateY(0);
