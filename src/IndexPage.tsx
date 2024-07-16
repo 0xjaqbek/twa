@@ -14,30 +14,6 @@ import { StyledButton } from "./StyledButton";
 
 const INITIAL_MOVE_DISTANCE = 0.01; // Initial distance to move road on each click
 
-// Define the keyframes for the loading animation
-const loadingAnimation = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-const LoadingIcon = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100px;
-  height: 100px;
-  border: 16px solid #f3f3f3;
-  border-radius: 50%;
-  border-top-color: #3498db;
-  animation: ${loadingAnimation} 1s linear infinite;
-`;
-
-
 // Define the keyframes for the blinking animation
 const blink = keyframes`
   0% { background-color: rgba(255, 255, 255, 0.0); }
@@ -60,7 +36,6 @@ const CountdownText = styled.div`
 `;
 
 const IndexPage: FC = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const [position1, setPosition1] = useState(0);
   const [position2, setPosition2] = useState(RESET_POSITION);
   const [clickCount, setClickCount] = useState(0);
@@ -81,12 +56,6 @@ const IndexPage: FC = () => {
   const [powerLevel, setPowerLevel] = useState(0); // State to track power level
 
   const [showLeaderboard, setShowLeaderboard] = useState(false); // State to show leaderboard
-
-  // Simulate loading for a few seconds
-  useEffect(() => {
-    const timeout = setTimeout(() => setIsLoading(false), 2000);
-    return () => clearTimeout(timeout);
-  }, []);
 
   useEffect(() => {
     if (gameStarted) {
