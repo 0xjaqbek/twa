@@ -1,3 +1,4 @@
+// IndexPage.tsx
 import React, { useState, useEffect, FC } from "react";
 import styled, { keyframes } from 'styled-components';
 import PowerIndicator from "./PowerIndicator";
@@ -36,6 +37,7 @@ const LoadingIcon = styled.div`
   animation: ${loadingAnimation} 1s linear infinite;
 `;
 
+
 // Define the keyframes for the blinking animation
 const blink = keyframes`
   0% { background-color: rgba(255, 255, 255, 0.0); }
@@ -53,7 +55,7 @@ const CountdownText = styled.div`
   z-index: 3;
   text-shadow: 22px 22px 10px white;
   background-color: rgba(255, 255, 255, 0.5); // Black background with 50% opacity
-  padding: 2000px;
+  padding: 1500px 1600px;
   animation: ${blink} 1s infinite; // Add the animation
 `;
 
@@ -114,7 +116,7 @@ const IndexPage: FC = () => {
       // Fade in the car first
       setTimeout(() => {
         setCarOpacity(1);  // Set car opacity to 1
-      }, 50); // Fade in the car after 50ms
+      }, 50); // Fade in the car after 1 second
 
       // Fade in road and other elements after an additional delay
       setTimeout(() => {
@@ -235,9 +237,10 @@ const IndexPage: FC = () => {
       }}>
         <StyledButton onClick={() => window.location.reload()} style={{ margin: '10px', cursor: 'pointer' }}>
           Restart
-        </StyledButton><br /><br />
-        Your Time:<br />
-        <span style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br /><br />
+        </StyledButton><br></br><br></br>
+        Your Time:<br></br> 
+        <span style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br></br>
+        <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
         <StyledButton onClick={() => setShowLeaderboard(true)} style={{ margin: '10px', cursor: 'pointer' }}>
           Leaderboard
         </StyledButton>
@@ -247,57 +250,49 @@ const IndexPage: FC = () => {
 
   return (
     <div style={{ textAlign: 'center', position: 'relative', overflow: 'hidden', height: '100vh' }}>
-      {isLoading && (
-        <LoadingIcon />
+      {showInstructions && (
+        <div style={{ opacity: instructionsOpacity, transition: 'opacity 1s' }}>
+          <Instructions onStartGame={handleStartGame} />
+        </div>
       )}
 
-      {!isLoading && (
+      {!showInstructions && (
         <>
-          {showInstructions && (
-            <div style={{ opacity: instructionsOpacity, transition: 'opacity 1s' }}>
-              <Instructions onStartGame={handleStartGame} />
-            </div>
+          <div style={{ opacity: roadOpacity, transition: 'opacity 1s' }}>
+            <Road position1={position1} position2={position2} verticalBlurLevel={verticalBlurLevel} />
+          </div>
+          {showingText && (
+            <CountdownText>{showingText}</CountdownText>
           )}
-
-          {!showInstructions && (
-            <>
-              <div style={{ opacity: roadOpacity, transition: 'opacity 1s' }}>
-                <Road position1={position1} position2={position2} verticalBlurLevel={verticalBlurLevel} />
-              </div>
-              {showingText && (
-                <CountdownText>{showingText}</CountdownText>
-              )}
-              <div style={{ opacity: carOpacity, transition: 'opacity 1s' }}>
-                <Car
-                  clickEnabled={clickEnabled}
-                  onClick={handleClick}
-                  carAnimation={carAnimation}
-                  showBrykaO={showBrykaO}
-                  powerLevel={powerLevel} // Pass powerLevel to Car component
-                  opacity={carOpacity} // Pass carOpacity to Car component
-                />
-                <Gear showGear={showGear} onClick={handleGearClick} />
-                {gameStarted && endTime === 0 && (
-                  <>
-                    <PowerIndicator clickCount={clickCount} />
-                    <ProgressIndicator clickCount={clickCount} />
-                    <Timer startTime={startTime} gameStarted={gameStarted} endTime={endTime} />
-                  </>
-                )}
-              </div>
-            </>
-          )}
-
-          {showLeaderboard && (
-            <LeaderboardPage
-              elapsedTime={(endTime - startTime) / 1000}
-              onClose={() => setShowLeaderboard(false)} // Close the leaderboard page
+          <div style={{ opacity: carOpacity, transition: 'opacity 1s' }}>
+            <Car
+              clickEnabled={clickEnabled}
+              onClick={handleClick}
+              carAnimation={carAnimation}
+              showBrykaO={showBrykaO}
+              powerLevel={powerLevel} // Pass powerLevel to Car component
+              opacity={carOpacity} // Pass carOpacity to Car component
             />
-          )}
-
-          {calculateElapsedTime()}
+            <Gear showGear={showGear} onClick={handleGearClick} />
+            {gameStarted && endTime === 0 && (
+              <>
+                <PowerIndicator clickCount={clickCount} />
+                <ProgressIndicator clickCount={clickCount} />
+                <Timer startTime={startTime} gameStarted={gameStarted} endTime={endTime} />
+              </>
+            )}
+          </div>
         </>
       )}
+
+      {showLeaderboard && (
+        <LeaderboardPage
+          elapsedTime={(endTime - startTime) / 1000}
+          onClose={() => setShowLeaderboard(false)} // Close the leaderboard page
+        />
+      )}
+
+      {calculateElapsedTime()}
     </div>
   );
 };
