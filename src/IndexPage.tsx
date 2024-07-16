@@ -53,8 +53,37 @@ const IndexPage: FC = () => {
   const [carOpacity, setCarOpacity] = useState(0); // Initially 0 for fade-in effect
   const [instructionsOpacity, setInstructionsOpacity] = useState(1); // New state for instructions opacity
   const [powerLevel, setPowerLevel] = useState(0); // State to track power level
-
   const [showLeaderboard, setShowLeaderboard] = useState(false); // State to show leaderboard
+
+  const [onTelegram, setOnTelegram] = useState(false); // State to track if Telegram is loaded
+  const [userId, setUserId] = useState<string | undefined>(undefined); // State to store user id
+
+  useEffect(() => {
+    const tg = (window as any).Telegram?.WebApp;
+
+    if (tg && tg.initDataUnsafe.user === undefined) {
+      // Telegram loaded but user data undefined
+      setOnTelegram(true);
+      setUserId(undefined);
+    } else if (tg && tg.initDataUnsafe.user) {
+      // Telegram loaded and user data available
+      setOnTelegram(true);
+      setUserId(tg.initDataUnsafe.user.id);
+    } else {
+      // Telegram not loaded
+      setOnTelegram(false);
+      setUserId(undefined);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (onTelegram && userId) {
+      alert(`User ID: ${userId}`);
+      // You can fetch and print the user's name here if needed
+    } else {
+      alert('Telegram not loaded or user data unavailable');
+    }
+  }, [onTelegram, userId]);
 
   useEffect(() => {
     if (gameStarted) {
