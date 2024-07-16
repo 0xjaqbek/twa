@@ -83,7 +83,7 @@ const IndexPage: FC = () => {
       alert(`User ID: ${userId}`);
       // You can fetch and print the user's name here if needed
     } else {
-      alert('Telegram error user data unavailable');
+      alert('Telegram user data issue');
     }
   }, [onTelegram, userId]);
 
