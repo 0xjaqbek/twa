@@ -1,5 +1,4 @@
 // IndexPage.tsx
-
 import React, { useState, useEffect, FC } from "react";
 import styled, { keyframes } from 'styled-components';
 import PowerIndicator from "./PowerIndicator";
@@ -52,6 +51,7 @@ const IndexPage: FC = () => {
   const [carAnimation, setCarAnimation] = useState('');
   const [showBrykaO, setShowBrykaO] = useState(false);
   const [roadOpacity, setRoadOpacity] = useState(0); // Initially 0 for fade-in effect
+  const [carOpacity, setCarOpacity] = useState(0); // Initially 0 for fade-in effect
   const [instructionsOpacity, setInstructionsOpacity] = useState(1); // New state for instructions opacity
   const [powerLevel, setPowerLevel] = useState(0); // State to track power level
 
@@ -82,10 +82,15 @@ const IndexPage: FC = () => {
       setShowInstructions(false); // Hide instructions after transition
       setGameStarted(true);
 
-      // Fade in road and other elements after a delay
+      // Fade in the car first
+      setTimeout(() => {
+        setCarOpacity(1);  // Set car opacity to 1
+      }, 750); // Fade in the car after 1 second
+
+      // Fade in road and other elements after an additional delay
       setTimeout(() => {
         setRoadOpacity(1); // Start fading in the road and other elements
-      }, 2000); // Adjust delay as needed
+      }, 1750); // Adjust delay as needed
     }, 750); // Delay to match the opacity transition
   };
 
@@ -228,13 +233,14 @@ const IndexPage: FC = () => {
           {showingText && (
             <CountdownText>{showingText}</CountdownText>
           )}
-          <div style={{ opacity: roadOpacity, transition: 'opacity 1s' }}>
+          <div style={{ opacity: carOpacity, transition: 'opacity 1s' }}>
             <Car
               clickEnabled={clickEnabled}
               onClick={handleClick}
               carAnimation={carAnimation}
               showBrykaO={showBrykaO}
               powerLevel={powerLevel} // Pass powerLevel to Car component
+              opacity={carOpacity} // Pass carOpacity to Car component
             />
             <Gear showGear={showGear} onClick={handleGearClick} />
             {gameStarted && endTime === 0 && (

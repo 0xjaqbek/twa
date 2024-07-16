@@ -9,9 +9,10 @@ interface CarProps {
   carAnimation: string;
   showBrykaO: boolean;
   powerLevel: number;
+  opacity: number; // Add opacity prop
 }
 
-const Car: React.FC<CarProps> = ({ clickEnabled, onClick, carAnimation, showBrykaO, powerLevel }) => {
+const Car: React.FC<CarProps> = ({ clickEnabled, onClick, carAnimation, showBrykaO, powerLevel, opacity }) => {
   const [verticalOffset, setVerticalOffset] = useState(0);
   const [horizontalOffset, setHorizontalOffset] = useState(0);
 
@@ -54,7 +55,6 @@ const Car: React.FC<CarProps> = ({ clickEnabled, onClick, carAnimation, showBryk
     }
   }, [showBrykaO]);
 
-  
   return (
     <div
       className={carAnimation}
@@ -65,8 +65,9 @@ const Car: React.FC<CarProps> = ({ clickEnabled, onClick, carAnimation, showBryk
         transform: `translateX(calc(-50% + ${horizontalOffset}px)) translateY(${verticalOffset}px)`,
         zIndex: 1,
         cursor: clickEnabled ? 'pointer' : 'default',
-        transition: 'transform 0.1s ease-out',  // More frequent transition for transform property
+        transition: 'transform 0.1s ease-out, opacity 1s', // Add opacity transition
         animation: carAnimation === 'car-move-up' ? 'moveUp 2s forwards' : 'none',
+        opacity: opacity, // Apply opacity from prop
       }}
       onClick={onClick}
     >
