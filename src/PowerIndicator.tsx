@@ -20,7 +20,7 @@ const PowerContainer = styled.div`
   position: absolute;
   top: 70px;
   left: 10px;
-  z-index: 4; /* Ensure it's above other elements */
+  z-index: 3; /* Ensure it's above other elements */
 `;
 
 const PowerImage = styled.img`
