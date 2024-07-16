@@ -61,16 +61,18 @@ const IndexPage: FC = () => {
   useEffect(() => {
     const tg = (window as any).Telegram?.WebApp;
 
-    if (tg && tg.initDataUnsafe.user === undefined) {
-      // Telegram loaded but user data undefined
-      setOnTelegram(true);
-      setUserId(undefined);
-    } else if (tg && tg.initDataUnsafe.user) {
-      // Telegram loaded and user data available
-      setOnTelegram(true);
-      setUserId(tg.initDataUnsafe.user.id);
+    if (tg) {
+      tg.ready(); // Ensure that Telegram Web App is fully loaded
+      tg.onEvent('initData', () => {
+        if (tg.initDataUnsafe.user) {
+          setOnTelegram(true);
+          setUserId(tg.initDataUnsafe.user.id);
+        } else {
+          setOnTelegram(false);
+          setUserId(undefined);
+        }
+      });
     } else {
-      // Telegram not loaded
       setOnTelegram(false);
       setUserId(undefined);
     }
@@ -81,7 +83,7 @@ const IndexPage: FC = () => {
       alert(`User ID: ${userId}`);
       // You can fetch and print the user's name here if needed
     } else {
-      alert('Telegram not loaded or user data unavailable');
+      alert('Telegram error user data unavailable');
     }
   }, [onTelegram, userId]);
 
