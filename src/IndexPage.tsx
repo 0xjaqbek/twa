@@ -54,10 +54,10 @@ const IndexPage: FC = () => {
   const [carOpacity, setCarOpacity] = useState(0); // Initially 0 for fade-in effect
   const [instructionsOpacity, setInstructionsOpacity] = useState(1); // New state for instructions opacity
   const [powerLevel, setPowerLevel] = useState(0); // State to track power level
-  const [showLeaderboard, setShowLeaderboard] = useState(false); // State to show leaderboard
 
   const [onTelegram, setOnTelegram] = useState(false); // State to track if Telegram is loaded
   const [userId, setUserId] = useState<string | null>(null);
+  const [showLeaderboard, setShowLeaderboard] = useState(false); // State to show leaderboard
 
   useEffect(() => {
     const tg = (window as any).Telegram?.WebApp;
@@ -226,11 +226,11 @@ const IndexPage: FC = () => {
 
     const elapsedTime = (endTime - startTime) / 1000;
 
-  // Log the elapsed time
-  console.log(`Elapsed Time: ${elapsedTime.toFixed(2)} seconds`);
+    // Log the elapsed time
+    console.log(`Elapsed Time: ${elapsedTime.toFixed(2)} seconds`);
 
-  // Log if userId is obtained and its value
-  console.log(`User ID: ${userId}`);
+    // Log if userId is obtained and its value
+    console.log(`User ID: ${userId}`);
 
     return (
       <div style={{
@@ -299,14 +299,16 @@ const IndexPage: FC = () => {
         </>
       )}
 
-      <LeaderboardPage
-        elapsedTime={(endTime - startTime) / 1000}
-        onClose={() => setShowLeaderboard(false)} // Close the leaderboard page
-        userId={userId}
-        showLeaderboard={showLeaderboard} // Pass the showLeaderboard state
-        rawAddress={""}      />
+      {calculateElapsedTime()}
 
-      {calculateElapsedTime() || (userId ? userId : "...")}
+      {/* Conditionally render LeaderboardPage based on showLeaderboard state */}
+      {showLeaderboard && (
+        <LeaderboardPage
+          elapsedTime={(endTime - startTime) / 1000}
+          onClose={() => setShowLeaderboard(false)} // Close the leaderboard page
+          userId={userId}
+        />
+      )}
     </div>
   );
 };
