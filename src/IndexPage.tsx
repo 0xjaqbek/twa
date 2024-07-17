@@ -73,7 +73,7 @@ const IndexPage: FC = () => {
         setOnTelegram(true);
         setUserId(userObj.id);
         setFirstName(userObj.first_name || null);
-        setUserName(userObj.first_name || null);
+        setUserName(userObj.username || null);
       } else {
         setOnTelegram(false);
         setUserId(null); // Set userId to null if user is undefined
