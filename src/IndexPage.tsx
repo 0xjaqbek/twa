@@ -58,6 +58,8 @@ const IndexPage: FC = () => {
   const [onTelegram, setOnTelegram] = useState(false); // State to track if Telegram is loaded
   const [userId, setUserId] = useState<string | null>(null);
   const [showLeaderboard, setShowLeaderboard] = useState(false); // State to show leaderboard
+  const [userName, setUserName] = useState<string | null>(null); // Add this line
+  const [displayName, setDisplayName] = useState<string | null>(null); // Add this line
 
   useEffect(() => {
     const tg = (window as any).Telegram?.WebApp;
@@ -71,24 +73,32 @@ const IndexPage: FC = () => {
         const userObj = JSON.parse(user);
         setOnTelegram(true);
         setUserId(userObj.id);
+        setUserName(userObj.username); // Assuming 'username' is a field in userObj
+        setDisplayName(userObj.name); // Assuming 'name' is a field in userObj
       } else {
         setOnTelegram(false);
         setUserId(null); // Set userId to null if user is undefined
+        setUserName(null);
+        setDisplayName(null);
       }
     } else {
       setOnTelegram(false);
       setUserId(null); // Set userId to null if Telegram WebApp is not loaded
+      setUserName(null);
+      setDisplayName(null);
     }
   }, []);
 
   useEffect(() => {
-    if (onTelegram && userId) {
+    if (onTelegram && userId && userName && displayName) {
       console.log(`User ID: ${userId}`);
-      // You can fetch and print the user's name here if needed
+      console.log(`Username: ${userName}`);
+      console.log(`Display Name: ${displayName}`);
+      // Additional actions can be performed here with the username and display name
     } else {
       console.log('Error: user data unavailable!');
     }
-  }, [onTelegram, userId]);
+  }, [onTelegram, userId, userName, displayName]);
 
   useEffect(() => {
     if (gameStarted) {
@@ -314,3 +324,11 @@ const IndexPage: FC = () => {
 };
 
 export default IndexPage;
+function setUserName(username: any) {
+  throw new Error("Function not implemented.");
+}
+
+function setDisplayName(name: any) {
+  throw new Error("Function not implemented.");
+}
+
