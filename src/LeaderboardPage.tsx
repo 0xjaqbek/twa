@@ -137,51 +137,55 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
   };
 
   const handleSaveScoreConfirm = async () => {
-    if (!rawAddress && !telegramId) {
-      alert("Please connect your wallet or provide a Telegram ID.");
-      return;
-    }
-    if (!nick) {
-      alert("Please enter a nickname.");
-      return;
-    }
+    try {
+      if (!telegramId) {
+        alert("Please provide a Telegram ID.");
+        return;
+      }
+      if (!nick) {
+        alert("Please enter a nickname.");
+        return;
+      }
 
-    // Check if the nickname is already used by another user
-    const nicknameExists = leaderboard.some(entry => entry.nick === nick && (entry.playerId !== telegramId || entry.address !== rawAddress));
-    if (nicknameExists) {
-      alert("This nickname is already taken by another user.");
-      return;
-    }
+      const newScore: LeaderboardEntry = {
+        address: rawAddress || '',
+        time: elapsedTime,
+        playerId: telegramId || '',
+        nick: nick,
+      };
 
-    const newScore: LeaderboardEntry = {
-      address: rawAddress || '',
-      time: elapsedTime,
-      playerId: telegramId || '',
-      nick: nick,
-    };
+      const nicknameExists = leaderboard.some(entry => entry.nick === nick && entry.playerId !== telegramId);
+      if (nicknameExists) {
+        alert("This nickname is already taken by another user.");
+        return;
+      }
 
-    const existingScore = leaderboard.find(score => score.address === rawAddress || score.playerId === telegramId);
-    if (existingScore) {
-      if (elapsedTime < existingScore.time) {
-        const updatedLeaderboard = leaderboard.map(score => 
-          (score.address === rawAddress || score.playerId === telegramId) ? newScore : score
-        );
+      const existingScore = leaderboard.find(score => score.address === rawAddress || score.playerId === telegramId);
+      if (existingScore) {
+        if (elapsedTime < existingScore.time) {
+          const updatedLeaderboard = leaderboard.map(score =>
+            (score.address === rawAddress || score.playerId === telegramId) ? newScore : score
+          );
+          setLeaderboard(updatedLeaderboard);
+          await updateLeaderboard(updatedLeaderboard);
+          console.log(`Wallet Address: ${rawAddress}`);
+          console.log(`Elapsed Time: ${elapsedTime.toFixed(2)} seconds`);
+        } else {
+          const timeDifference = (elapsedTime - existingScore.time).toFixed(2);
+          alert(`You were slower by ${timeDifference} seconds than your best.`);
+        }
+      } else {
+        const updatedLeaderboard = [...leaderboard, newScore];
         setLeaderboard(updatedLeaderboard);
         await updateLeaderboard(updatedLeaderboard);
         console.log(`Wallet Address: ${rawAddress}`);
         console.log(`Elapsed Time: ${elapsedTime.toFixed(2)} seconds`);
-      } else {
-        const timeDifference = (elapsedTime - existingScore.time).toFixed(2);
-        alert(`Eee, slower by ${timeDifference} seconds than before.`);
       }
-    } else {
-      const updatedLeaderboard = [...leaderboard, newScore];
-      setLeaderboard(updatedLeaderboard);
-      await updateLeaderboard(updatedLeaderboard);
-      console.log(`Wallet Address: ${rawAddress}`);
-      console.log(`Elapsed Time: ${elapsedTime.toFixed(2)} seconds`);
+      setShowSaveScoreWindow(false);
+    } catch (error) {
+      console.error("Error saving score:", error);
+      // Handle error saving score
     }
-    setShowSaveScoreWindow(false);
   };
 
   const getTopScores = (scores: LeaderboardEntry[]) => {
