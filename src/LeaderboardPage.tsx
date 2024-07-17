@@ -139,7 +139,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
   const handleSaveScoreConfirm = async () => {
     try {
       if (!telegramId) {
-        alert("Please provide a Telegram ID.");
+        alert("Please open in Telegram App.");
         return;
       }
       if (!nick) {
