@@ -54,7 +54,7 @@ const IndexPage: FC = () => {
   const [carOpacity, setCarOpacity] = useState(0); // Initially 0 for fade-in effect
   const [instructionsOpacity, setInstructionsOpacity] = useState(1); // New state for instructions opacity
   const [powerLevel, setPowerLevel] = useState(0); // State to track power level
-
+  const [firstName, setFirstName] = useState<string | null>(null);
   const [onTelegram, setOnTelegram] = useState(false); // State to track if Telegram is loaded
   const [userId, setUserId] = useState<string | null>(null);
   const [showLeaderboard, setShowLeaderboard] = useState(false); // State to show leaderboard
@@ -71,13 +71,16 @@ const IndexPage: FC = () => {
         const userObj = JSON.parse(user);
         setOnTelegram(true);
         setUserId(userObj.id);
+        setFirstName(userObj.first_name || null);
       } else {
         setOnTelegram(false);
         setUserId(null); // Set userId to null if user is undefined
+        setFirstName(null);
       }
     } else {
       setOnTelegram(false);
       setUserId(null); // Set userId to null if Telegram WebApp is not loaded
+      setFirstName(null);
     }
   }, []);
 
