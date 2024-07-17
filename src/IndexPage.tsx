@@ -10,6 +10,7 @@ import Gear from "./Gear";
 import LeaderboardPage from "./LeaderboardPage"; // Import the LeaderboardPage component
 import { calculateMoveDistance, animateRoad, RESET_POSITION } from "./speed";
 import { StyledButton } from "./StyledButton";
+import { LeaderboardPageProps } from './LeaderboardPageProps';
 
 const INITIAL_MOVE_DISTANCE = 0.01; // Initial distance to move road on each click
 
@@ -286,12 +287,12 @@ const IndexPage: FC = () => {
         </>
       )}
 
-      {showLeaderboard && (
-        <LeaderboardPage
-          elapsedTime={(endTime - startTime) / 1000}
-          onClose={() => setShowLeaderboard(false)} // Close the leaderboard page
-          userId={userId}        />
-      )}
+      <LeaderboardPage
+        elapsedTime={(endTime - startTime) / 1000}
+        onClose={() => setShowLeaderboard(false)} // Close the leaderboard page
+        userId={userId}
+        showLeaderboard={showLeaderboard} // Pass the showLeaderboard state
+      />
 
       {calculateElapsedTime() || (userId ? userId : "...")}
     </div>

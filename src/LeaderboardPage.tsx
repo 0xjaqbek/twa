@@ -10,14 +10,13 @@ import { SaveScoreWindow } from './SaveScoreWindow';
 import { LeaderboardList, LeaderboardItem } from './LeaderboardList';
 import { LeaderboardContainer, LeaderboardContent, ActionsContainer, ElapsedTime, StyledButtonSecondary } from './styles'; // Styled components from styles.ts
 import { formatAddress } from './FormatAddress';
+import { LeaderboardPageProps } from './LeaderboardPageProps';
 
-interface LeaderboardPageProps {
-  elapsedTime: number;
-  onClose: () => void;
-  userId: string | null;
+interface LeaderboardPagePropsExtended extends LeaderboardPageProps {
+  showLeaderboard: boolean;
 }
 
-const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose, userId }) => {
+const LeaderboardPage: React.FC<LeaderboardPagePropsExtended> = ({ elapsedTime, onClose, userId, showLeaderboard }) => {
   const rawAddress = useTonAddress(true); // Assume useTonAddress returns a string or empty string ('') if not available
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [pageIndex, setPageIndex] = useState(0);
@@ -118,7 +117,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
   const paginatedScores: LeaderboardEntry[] = topScores.slice(pageIndex * itemsPerPage, (pageIndex + 1) * itemsPerPage);
 
   return (
-    <LeaderboardContainer>
+    <LeaderboardContainer style={{ display: showLeaderboard ? 'block' : 'none' }}>
       <LeaderboardContent>
         {elapsedTime > 0 && (
           <>
