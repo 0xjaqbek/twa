@@ -1,4 +1,4 @@
-// styles.ts
+// styles.tsx
 import styled from 'styled-components';
 import { StyledButton } from './StyledButton';
 
