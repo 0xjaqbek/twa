@@ -56,15 +56,15 @@ const IndexPage: FC = () => {
   const [showLeaderboard, setShowLeaderboard] = useState(false); // State to show leaderboard
 
   const [onTelegram, setOnTelegram] = useState(false); // State to track if Telegram is loaded
-  const [userId, setUserId] = useState<string | undefined>(undefined); // State to store user id
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
     const tg = (window as any).Telegram?.WebApp;
-
+  
     if (tg) {
       tg.ready(); // Ensure that Telegram Web App is fully loaded
       const searchParams = new URLSearchParams(tg.initData);
-
+  
       const user = searchParams.get('user');
       if (user) {
         const userObj = JSON.parse(user);
@@ -72,11 +72,11 @@ const IndexPage: FC = () => {
         setUserId(userObj.id);
       } else {
         setOnTelegram(false);
-        setUserId(undefined);
+        setUserId(null); // Set userId to null if user is undefined
       }
     } else {
       setOnTelegram(false);
-      setUserId(undefined);
+      setUserId(null); // Set userId to null if Telegram WebApp is not loaded
     }
   }, []);
 
@@ -290,7 +290,7 @@ const IndexPage: FC = () => {
         <LeaderboardPage
           elapsedTime={(endTime - startTime) / 1000}
           onClose={() => setShowLeaderboard(false)} // Close the leaderboard page
-          telegramId={null}        />
+          telegramId={userId}        />
       )}
 
       {calculateElapsedTime() || (userId ? userId : "...")}
