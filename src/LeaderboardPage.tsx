@@ -1,13 +1,16 @@
+// LeaderboardPage.tsx
+
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { StyledButton } from './StyledButton';
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { useTonAddress } from "@tonconnect/ui-react";
-import { getLeaderboard, updateLeaderboard } from './gistService';
+import { getLeaderboard, updateLeaderboard, LeaderboardEntry } from './gistService'; // Ensure LeaderboardEntry is imported
 
 interface LeaderboardPageProps {
   elapsedTime: number;
   onClose: () => void;
+  telegramId: string | null;  // Assuming you pass telegramId as a prop
 }
 
 const LeaderboardContainer = styled.div`
@@ -46,7 +49,7 @@ const ActionsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 5px;
-    background-color: black;
+  background-color: black;
 `;
 
 const LeaderboardList = styled.ul`
@@ -68,7 +71,7 @@ const LeaderboardItem = styled.li`
 `;
 
 const StyledButtonSecondary = styled(StyledButton)`
-  background-color: gray; /* Green */
+  background-color: gray;
   border: 2px solid;
   border-color: #CCCCCC;
   color: white;
@@ -105,11 +108,20 @@ const SaveScoreWindowContent = styled.div`
   text-align: center;
 `;
 
-const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose }) => {
+const NickInput = styled.input`
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 80%;
+`;
+
+const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose, telegramId }) => {
   const rawAddress = useTonAddress(true); // false for raw address
-  const [leaderboard, setLeaderboard] = useState<{ address: string; time: number }[]>([]);
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [pageIndex, setPageIndex] = useState(0);
   const [showSaveScoreWindow, setShowSaveScoreWindow] = useState(false);
+  const [nick, setNick] = useState('');
   const itemsPerPage = 3;
 
   useEffect(() => {
@@ -125,47 +137,62 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
   };
 
   const handleSaveScoreConfirm = async () => {
-    if (rawAddress) {
-      const existingScore = leaderboard.find(score => score.address === rawAddress);
-      if (existingScore) {
-        if (elapsedTime < existingScore.time) {
-          const updatedLeaderboard = leaderboard.map(score => 
-            score.address === rawAddress ? { address: rawAddress, time: elapsedTime } : score
-          );
-          setLeaderboard(updatedLeaderboard);
-          await updateLeaderboard(updatedLeaderboard);
-          console.log(`Wallet Address: ${rawAddress}`);
-          console.log(`Elapsed Time: ${elapsedTime.toFixed(2)} seconds`);
-        } else {
-          const timeDifference = (elapsedTime - existingScore.time).toFixed(2);
-          alert(`Eee, slower by ${timeDifference} seconds than before.`);
-        }
-      } else {
-        const newScore = { address: rawAddress, time: elapsedTime };
-        const updatedLeaderboard = [...leaderboard, newScore];
+    if (!rawAddress && !telegramId) {
+      alert("Please connect your wallet or provide a Telegram ID.");
+      return;
+    }
+    if (!nick) {
+      alert("Please enter a nickname.");
+      return;
+    }
+
+    // Check if the nickname is already used by another user
+    const nicknameExists = leaderboard.some(entry => entry.nick === nick && (entry.playerId !== telegramId || entry.address !== rawAddress));
+    if (nicknameExists) {
+      alert("This nickname is already taken by another user.");
+      return;
+    }
+
+    const newScore: LeaderboardEntry = {
+      address: rawAddress || '',
+      time: elapsedTime,
+      playerId: telegramId || '',
+      nick: nick,
+    };
+
+    const existingScore = leaderboard.find(score => score.address === rawAddress || score.playerId === telegramId);
+    if (existingScore) {
+      if (elapsedTime < existingScore.time) {
+        const updatedLeaderboard = leaderboard.map(score => 
+          (score.address === rawAddress || score.playerId === telegramId) ? newScore : score
+        );
         setLeaderboard(updatedLeaderboard);
         await updateLeaderboard(updatedLeaderboard);
         console.log(`Wallet Address: ${rawAddress}`);
         console.log(`Elapsed Time: ${elapsedTime.toFixed(2)} seconds`);
+      } else {
+        const timeDifference = (elapsedTime - existingScore.time).toFixed(2);
+        alert(`Eee, slower by ${timeDifference} seconds than before.`);
       }
-      setShowSaveScoreWindow(false);
     } else {
-      alert("Please connect your wallet first.");
+      const updatedLeaderboard = [...leaderboard, newScore];
+      setLeaderboard(updatedLeaderboard);
+      await updateLeaderboard(updatedLeaderboard);
+      console.log(`Wallet Address: ${rawAddress}`);
+      console.log(`Elapsed Time: ${elapsedTime.toFixed(2)} seconds`);
     }
+    setShowSaveScoreWindow(false);
   };
 
-  const getTopScores = (scores: { address: string; time: number }[]) => {
-    // Filter to keep only the highest score per address
+  const getTopScores = (scores: LeaderboardEntry[]) => {
     const highestScores = scores.reduce((acc, score) => {
-      if (!acc[score.address] || acc[score.address].time > score.time) {
-        acc[score.address] = score;
+      if (!acc[score.address || score.playerId] || acc[score.address || score.playerId].time > score.time) {
+        acc[score.address || score.playerId] = score;
       }
       return acc;
-    }, {} as Record<string, { address: string; time: number }>);
+    }, {} as Record<string, LeaderboardEntry>);
 
-    const sortedScores = Object.values(highestScores)
-      .sort((a, b) => a.time - b.time); // Sort ascending by time
-
+    const sortedScores = Object.values(highestScores).sort((a, b) => a.time - b.time);
     return sortedScores;
   };
 
@@ -209,7 +236,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
         <LeaderboardList>
           {paginatedScores.map((entry, index) => (
             <LeaderboardItem key={index}>
-              {pageIndex * itemsPerPage + index + 1}. {formatAddress(entry.address)} - {entry.time.toFixed(2)} seconds
+              {pageIndex * itemsPerPage + index + 1}. {entry.nick || formatAddress(entry.address)} - {entry.time.toFixed(2)} seconds
             </LeaderboardItem>
           ))}
         </LeaderboardList>
@@ -226,9 +253,15 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose 
         <SaveScoreWindowContainer>
           <SaveScoreWindowContent>
             <p>Connect your wallet to set user Id and save your score:</p>
-            <TonConnectButton /><br></br>
-            <StyledButton onClick={handleSaveScoreConfirm} style={{ marginTop: '10px' }}>Save Score</StyledButton><br></br><br></br><br></br>
-            <StyledButton onClick={handleCloseSaveScoreWindow} style={{ marginTop: '10px' }}>Close</StyledButton><br></br>
+            <TonConnectButton />
+            <NickInput 
+              type="text"
+              placeholder="Enter your nickname"
+              value={nick}
+              onChange={(e) => setNick(e.target.value)}
+            />
+            <StyledButton onClick={handleSaveScoreConfirm} style={{ marginTop: '10px' }}>Save Score</StyledButton>
+            <StyledButton onClick={handleCloseSaveScoreWindow} style={{ marginTop: '10px' }}>Close</StyledButton>
           </SaveScoreWindowContent>
         </SaveScoreWindowContainer>
       )}
