@@ -31,6 +31,7 @@ export interface LeaderboardEntry {
   address: string;
   time: number;
   playerId: string;
+  userName: string;
 }
 
 // Fetch leaderboard function

@@ -1,16 +1,14 @@
-// LeaderboardPage.tsx
-
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { StyledButton } from './StyledButton';
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { useTonAddress } from "@tonconnect/ui-react";
-import { getLeaderboard, updateLeaderboard, LeaderboardEntry } from './gistService'; // Ensure LeaderboardEntry is imported
+import { getLeaderboard, updateLeaderboard, LeaderboardEntry } from './gistService';
 
 interface LeaderboardPageProps {
   elapsedTime: number;
   onClose: () => void;
-  userId: string | null;  // Assuming you pass userId as a prop
+  userId: string | null;
 }
 
 const LeaderboardContainer = styled.div`
@@ -113,6 +111,11 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [pageIndex, setPageIndex] = useState(0);
   const [showSaveScoreWindow, setShowSaveScoreWindow] = useState(false);
+  const [firstName, setFirstName] = useState<string>('');
+  const [onTelegram, setOnTelegram] = useState(false);
+  const [userName, setUserName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
+
   const itemsPerPage = 3;
 
   useEffect(() => {
@@ -138,8 +141,9 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
         address: rawAddress || '',
         time: elapsedTime,
         playerId: userId || '',
+        userName: userName || firstName, // Use userName or firstName if userName is not available
       };
-
+  
       const existingScore = leaderboard.find(score => score.address === rawAddress || score.playerId === userId);
       if (existingScore) {
         if (elapsedTime < existingScore.time) {
