@@ -54,12 +54,10 @@ const IndexPage: FC = () => {
   const [carOpacity, setCarOpacity] = useState(0); // Initially 0 for fade-in effect
   const [instructionsOpacity, setInstructionsOpacity] = useState(1); // New state for instructions opacity
   const [powerLevel, setPowerLevel] = useState(0); // State to track power level
+  const [showLeaderboard, setShowLeaderboard] = useState(false); // State to show leaderboard
 
   const [onTelegram, setOnTelegram] = useState(false); // State to track if Telegram is loaded
   const [userId, setUserId] = useState<string | null>(null);
-  const [showLeaderboard, setShowLeaderboard] = useState(false); // State to show leaderboard
-  const [userName, setUserName] = useState<string | null>(null); // Add this line
-  const [displayName, setDisplayName] = useState<string | null>(null); // Add this line
 
   useEffect(() => {
     const tg = (window as any).Telegram?.WebApp;
@@ -73,32 +71,24 @@ const IndexPage: FC = () => {
         const userObj = JSON.parse(user);
         setOnTelegram(true);
         setUserId(userObj.id);
-        setUserName(userObj.username); // Assuming 'username' is a field in userObj
-        setDisplayName(userObj.name); // Assuming 'name' is a field in userObj
       } else {
         setOnTelegram(false);
         setUserId(null); // Set userId to null if user is undefined
-        setUserName(null);
-        setDisplayName(null);
       }
     } else {
       setOnTelegram(false);
       setUserId(null); // Set userId to null if Telegram WebApp is not loaded
-      setUserName(null);
-      setDisplayName(null);
     }
   }, []);
 
   useEffect(() => {
-    if (onTelegram && userId && userName && displayName) {
+    if (onTelegram && userId) {
       console.log(`User ID: ${userId}`);
-      console.log(`Username: ${userName}`);
-      console.log(`Display Name: ${displayName}`);
-      // Additional actions can be performed here with the username and display name
+      // You can fetch and print the user's name here if needed
     } else {
       console.log('Error: user data unavailable!');
     }
-  }, [onTelegram, userId, userName, displayName]);
+  }, [onTelegram, userId]);
 
   useEffect(() => {
     if (gameStarted) {
@@ -236,11 +226,11 @@ const IndexPage: FC = () => {
 
     const elapsedTime = (endTime - startTime) / 1000;
 
-    // Log the elapsed time
-    console.log(`Elapsed Time: ${elapsedTime.toFixed(2)} seconds`);
+  // Log the elapsed time
+  console.log(`Elapsed Time: ${elapsedTime.toFixed(2)} seconds`);
 
-    // Log if userId is obtained and its value
-    console.log(`User ID: ${userId}`);
+  // Log if userId is obtained and its value
+  console.log(`User ID: ${userId}`);
 
     return (
       <div style={{
@@ -309,26 +299,15 @@ const IndexPage: FC = () => {
         </>
       )}
 
-      {calculateElapsedTime()}
+      <LeaderboardPage
+        elapsedTime={(endTime - startTime) / 1000}
+        onClose={() => setShowLeaderboard(false)} // Close the leaderboard page
+        userId={userId}
+     />
 
-      {/* Conditionally render LeaderboardPage based on showLeaderboard state */}
-      {showLeaderboard && (
-        <LeaderboardPage
-          elapsedTime={(endTime - startTime) / 1000}
-          onClose={() => setShowLeaderboard(false)} // Close the leaderboard page
-          userId={userId}
-        />
-      )}
+      {calculateElapsedTime() || (userId ? userId : "...")}
     </div>
   );
 };
 
 export default IndexPage;
-function setUserName(username: any) {
-  throw new Error("Function not implemented.");
-}
-
-function setDisplayName(name: any) {
-  throw new Error("Function not implemented.");
-}
-
