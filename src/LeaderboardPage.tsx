@@ -1,4 +1,4 @@
-// LeaderboardPage.tsx
+// Leaderboard.tsx
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -6,118 +6,19 @@ import { StyledButton } from './StyledButton';
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { useTonAddress } from "@tonconnect/ui-react";
 import { getLeaderboard, updateLeaderboard, LeaderboardEntry } from './gistService'; // Ensure LeaderboardEntry is imported
+import { SaveScoreWindow } from './SaveScoreWindow';
+import { LeaderboardList, LeaderboardItem } from './LeaderboardList';
+import { LeaderboardContainer, LeaderboardContent, ActionsContainer, ElapsedTime, StyledButtonSecondary } from './styles'; // Styled components from styles.ts
+import { formatAddress } from './FormatAddress';
 
 interface LeaderboardPageProps {
   elapsedTime: number;
   onClose: () => void;
-  telegramId: string | null;  // Assuming you pass telegramId as a prop
+  telegramId: string | null;
 }
 
-const LeaderboardContainer = styled.div`
-  font-size: 10px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const LeaderboardContent = styled.div`
-  border: 1px solid #ddd;
-  color: white;
-  background-color: black;
-  padding: 10px;
-  border-radius: 10px;
-  width: 95%;
-  max-width: 600px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-`;
-
-const ElapsedTime = styled.p`
-  text-align: center;
-  margin-bottom: 10px;
-  font-size: 1.5em;
-`;
-
-const ActionsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 5px;
-  background-color: black;
-`;
-
-const LeaderboardList = styled.ul`
-  list-style-type: none;
-  padding: 0;
-  max-height: 300px;
-  overflow-y: auto;
-  background-color: black;
-`;
-
-const LeaderboardItem = styled.li`
-  font-size: 13px;
-  color: white;
-  margin: 5px 0;
-  padding: 10px;
-  background-color: black;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-`;
-
-const StyledButtonSecondary = styled(StyledButton)`
-  background-color: gray;
-  border: 2px solid;
-  border-color: #CCCCCC;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 10px;
-  margin-top: 10px;
-  cursor: pointer;
-`;
-
-const SaveScoreWindowContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 10;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const SaveScoreWindowContent = styled.div`
-  color: white;
-  background-color: black;
-  padding: 30px;
-  border-radius: 10px;
-  width: 80%;
-  max-width: 400px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-`;
-
-const NickInput = styled.input`
-  padding: 10px;
-  margin-top: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  width: 80%;
-`;
-
 const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose, telegramId }) => {
-  const rawAddress = useTonAddress(true); // false for raw address
+  const rawAddress = useTonAddress(true); // Assume useTonAddress returns a string or empty string ('') if not available
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [pageIndex, setPageIndex] = useState(0);
   const [showSaveScoreWindow, setShowSaveScoreWindow] = useState(false);
@@ -132,8 +33,20 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
     fetchLeaderboard();
   }, []);
 
-  const handleSaveScore = async () => {
+  const handleSaveScore = () => {
     setShowSaveScoreWindow(true);
+  };
+
+  const handleCloseSaveScoreWindow = () => {
+    setShowSaveScoreWindow(false);
+  };
+
+  const handleNextPage = () => {
+    setPageIndex(prevPageIndex => prevPageIndex + 1);
+  };
+
+  const handlePrevPage = () => {
+    setPageIndex(prevPageIndex => Math.max(prevPageIndex - 1, 0));
   };
 
   const handleSaveScoreConfirm = async () => {
@@ -188,10 +101,11 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
     }
   };
 
-  const getTopScores = (scores: LeaderboardEntry[]) => {
+  const getTopScores = (scores: LeaderboardEntry[]): LeaderboardEntry[] => {
     const highestScores = scores.reduce((acc, score) => {
-      if (!acc[score.address || score.playerId] || acc[score.address || score.playerId].time > score.time) {
-        acc[score.address || score.playerId] = score;
+      const key = score.address || score.playerId;
+      if (!acc[key] || acc[key].time > score.time) {
+        acc[key] = score;
       }
       return acc;
     }, {} as Record<string, LeaderboardEntry>);
@@ -200,45 +114,28 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
     return sortedScores;
   };
 
-  const formatAddress = (address: string) => {
-    if (address.length <= 9) return address;
-    return `${address.slice(0, 5)}...${address.slice(-4)}`;
-  };
-
-  const handleNextPage = () => {
-    setPageIndex(prevPageIndex => prevPageIndex + 1);
-  };
-
-  const handlePrevPage = () => {
-    setPageIndex(prevPageIndex => Math.max(prevPageIndex - 1, 0));
-  };
-
-  const handleCloseSaveScoreWindow = () => {
-    setShowSaveScoreWindow(false);
-  };
-
-  const topScores = getTopScores(leaderboard);
-  const paginatedScores = topScores.slice(pageIndex * itemsPerPage, (pageIndex + 1) * itemsPerPage);
+  const topScores: LeaderboardEntry[] = getTopScores(leaderboard);
+  const paginatedScores: LeaderboardEntry[] = topScores.slice(pageIndex * itemsPerPage, (pageIndex + 1) * itemsPerPage);
 
   return (
     <LeaderboardContainer>
       <LeaderboardContent>
         {elapsedTime > 0 && (
           <>
-            <ElapsedTime style={{ marginBottom: '20px' }}>Your current time:<br></br>{elapsedTime.toFixed(2)} seconds</ElapsedTime>
+            <ElapsedTime>Your current time:<br />{elapsedTime.toFixed(2)} seconds</ElapsedTime>
             <ActionsContainer>
-              <StyledButton onClick={handleSaveScore} style={{ marginBottom: '10px' }}>Save Score</StyledButton>
+              <StyledButton onClick={handleSaveScore}>Save Score</StyledButton>
             </ActionsContainer>
           </>
         )}
-        <h1 style={{ color: 'white' }}>Top</h1>
+        <h1>Top</h1>
         <ActionsContainer>
           {pageIndex > 0 && (
             <StyledButtonSecondary onClick={handlePrevPage}>Previous</StyledButtonSecondary>
           )}
         </ActionsContainer>
         <LeaderboardList>
-          {paginatedScores.map((entry, index) => (
+          {paginatedScores.map((entry: LeaderboardEntry, index: number) => (
             <LeaderboardItem key={index}>
               {pageIndex * itemsPerPage + index + 1}. {entry.nick || formatAddress(entry.address)} - {entry.time.toFixed(2)} seconds
             </LeaderboardItem>
@@ -254,20 +151,12 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
         </ActionsContainer>
       </LeaderboardContent>
       {showSaveScoreWindow && (
-        <SaveScoreWindowContainer>
-          <SaveScoreWindowContent>
-            <p>Connect your wallet to set user Id and save your score:</p>
-            <TonConnectButton />
-            <NickInput 
-              type="text"
-              placeholder="Enter your nickname"
-              value={nick}
-              onChange={(e) => setNick(e.target.value)}
-            />
-            <StyledButton onClick={handleSaveScoreConfirm} style={{ marginTop: '10px' }}>Save Score</StyledButton>
-            <StyledButton onClick={handleCloseSaveScoreWindow} style={{ marginTop: '10px' }}>Close</StyledButton>
-          </SaveScoreWindowContent>
-        </SaveScoreWindowContainer>
+        <SaveScoreWindow
+          onClose={handleCloseSaveScoreWindow}
+          onSave={handleSaveScoreConfirm}
+          nick={nick}
+          setNick={setNick}
+        />
       )}
     </LeaderboardContainer>
   );
