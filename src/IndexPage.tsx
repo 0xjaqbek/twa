@@ -54,7 +54,7 @@ const IndexPage: FC = () => {
   const [carOpacity, setCarOpacity] = useState(0); // Initially 0 for fade-in effect
   const [instructionsOpacity, setInstructionsOpacity] = useState(1); // New state for instructions opacity
   const [powerLevel, setPowerLevel] = useState(0); // State to track power level
-  const [firstName, setFirstName] = useState<string | null>(null);
+  const [firstName, setFirstName] = useState<string>(''); // Add this line
   const [onTelegram, setOnTelegram] = useState(false); // State to track if Telegram is loaded
   const [userId, setUserId] = useState<string | null>(null);
   const [showLeaderboard, setShowLeaderboard] = useState(false); // State to show leaderboard
@@ -75,18 +75,19 @@ const IndexPage: FC = () => {
       } else {
         setOnTelegram(false);
         setUserId(null); // Set userId to null if user is undefined
-        setFirstName(null);
+        setUserName('');
       }
     } else {
       setOnTelegram(false);
       setUserId(null); // Set userId to null if Telegram WebApp is not loaded
-      setFirstName(null);
+      setUserName('');
     }
   }, []);
 
   useEffect(() => {
     if (onTelegram && userId) {
       console.log(`User ID: ${userId}`);
+      console.log(`First Name: ${firstName}`);
       // You can fetch and print the user's name here if needed
     } else {
       console.log('Error: user data unavailable!');
@@ -317,3 +318,7 @@ const IndexPage: FC = () => {
 };
 
 export default IndexPage;
+
+function setUserName(arg0: string) {
+  throw new Error("Function not implemented.");
+}
