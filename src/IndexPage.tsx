@@ -210,9 +210,14 @@ const IndexPage: FC = () => {
       const timeout = setTimeout(() => {
         setRoadOpacity(0);
       }, 1500);
+  
+      // Log userId and elapsedTime
+      console.log(`User ID: ${userId}`);
+      console.log(`Elapsed Time: ${((endTime - startTime) / 1000).toFixed(2)} seconds`);
+  
       return () => clearTimeout(timeout);
     }
-  }, [endTime]);
+  }, [endTime, startTime, userId]);
 
   const calculateElapsedTime = () => {
     if (endTime === 0 || startTime === 0) {
