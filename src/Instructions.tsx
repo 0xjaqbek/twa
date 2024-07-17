@@ -79,7 +79,7 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => {
                 <li>Click on the car image to move forward.</li><br></br>
                 <li>Every 10 clicks will reveal the gear that disables clicking on the car.</li><br></br>
                 <li>Click on the gear image to activate further car clicks.</li><br></br>
-                <li>Your goal is to reach 69 clicks as fast as possible.</li><br></br>
+                <li>Your goal is to reach 69 clicks as fast as possible!</li><br></br>
               </ol>
               <StyledButton onClick={handleCloseModal}>Close</StyledButton>
             </div>
