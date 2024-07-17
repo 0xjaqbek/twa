@@ -59,6 +59,7 @@ const IndexPage: FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const [showLeaderboard, setShowLeaderboard] = useState(false); // State to show leaderboard
   const [userName, setUserName] = useState<string>(''); // Add this line
+  const [lastName, setLastName] = useState<string>(''); // Add this line
 
   useEffect(() => {
     const tg = (window as any).Telegram?.WebApp;
@@ -73,18 +74,21 @@ const IndexPage: FC = () => {
         setOnTelegram(true);
         setUserId(userObj.id);
         setFirstName(userObj.first_name || null);
+        setLastName(userObj.last_name || null);
         setUserName(userObj.username || null);
       } else {
         setOnTelegram(false);
         setUserId(null); // Set userId to null if user is undefined
         setFirstName('');
         setUserName('');
+        setLastName('');
       }
     } else {
       setOnTelegram(false);
       setUserId(null); // Set userId to null if Telegram WebApp is not loaded
       setFirstName('');
       setUserName('');
+      setLastName('');
     }
   }, []);
 
@@ -93,6 +97,8 @@ const IndexPage: FC = () => {
       console.log(`User ID: ${userId}`);
       console.log(`First Name: ${firstName}`);
       console.log(`User Name: ${userName}`);
+      console.log(`Last Name: ${lastName}`);
+
       // You can fetch and print the user's name here if needed
     } else {
       console.log('Error: user data unavailable!');
@@ -323,7 +329,3 @@ const IndexPage: FC = () => {
 };
 
 export default IndexPage;
-
-function setUserName(arg0: string) {
-  throw new Error("Function not implemented.");
-}
