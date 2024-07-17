@@ -58,6 +58,7 @@ const IndexPage: FC = () => {
   const [onTelegram, setOnTelegram] = useState(false); // State to track if Telegram is loaded
   const [userId, setUserId] = useState<string | null>(null);
   const [showLeaderboard, setShowLeaderboard] = useState(false); // State to show leaderboard
+  const [userName, setUserName] = useState<string>(''); // Add this line
 
   useEffect(() => {
     const tg = (window as any).Telegram?.WebApp;
@@ -72,14 +73,17 @@ const IndexPage: FC = () => {
         setOnTelegram(true);
         setUserId(userObj.id);
         setFirstName(userObj.first_name || null);
+        setUserName(userObj.first_name || null);
       } else {
         setOnTelegram(false);
         setUserId(null); // Set userId to null if user is undefined
+        setFirstName('');
         setUserName('');
       }
     } else {
       setOnTelegram(false);
       setUserId(null); // Set userId to null if Telegram WebApp is not loaded
+      setFirstName('');
       setUserName('');
     }
   }, []);
@@ -88,6 +92,7 @@ const IndexPage: FC = () => {
     if (onTelegram && userId) {
       console.log(`User ID: ${userId}`);
       console.log(`First Name: ${firstName}`);
+      console.log(`User Name: ${userName}`);
       // You can fetch and print the user's name here if needed
     } else {
       console.log('Error: user data unavailable!');
