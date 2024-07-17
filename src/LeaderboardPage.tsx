@@ -108,20 +108,11 @@ const SaveScoreWindowContent = styled.div`
   text-align: center;
 `;
 
-const NickInput = styled.input`
-  padding: 10px;
-  margin-top: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  width: 80%;
-`;
-
 const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose, userId }) => {
   const rawAddress = useTonAddress(true); // false for raw address
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [pageIndex, setPageIndex] = useState(0);
   const [showSaveScoreWindow, setShowSaveScoreWindow] = useState(false);
-  const [nick, setNick] = useState('');
   const itemsPerPage = 3;
 
   useEffect(() => {
@@ -142,24 +133,13 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
         alert("Please open in Telegram App.");
         return;
       }
-      if (!nick) {
-        alert("Please enter a nickname.");
-        return;
-      }
   
       const newScore: LeaderboardEntry = {
         address: rawAddress || '',
         time: elapsedTime,
         playerId: userId || '',
-        nick: nick,
       };
-  
-      const nicknameExists = leaderboard.some(entry => entry.nick === nick && entry.playerId !== userId);
-      if (nicknameExists) {
-        alert("This nickname is already taken by another user.");
-        return;
-      }
-  
+
       const existingScore = leaderboard.find(score => score.address === rawAddress || score.playerId === userId);
       if (existingScore) {
         if (elapsedTime < existingScore.time) {
@@ -240,7 +220,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
         <LeaderboardList>
           {paginatedScores.map((entry, index) => (
             <LeaderboardItem key={index}>
-              {pageIndex * itemsPerPage + index + 1}. {entry.nick || formatAddress(entry.address)} - {entry.time.toFixed(2)} seconds
+              {pageIndex * itemsPerPage + index + 1}. {formatAddress(entry.address)} - {entry.time.toFixed(2)} seconds
             </LeaderboardItem>
           ))}
         </LeaderboardList>
@@ -258,12 +238,6 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
           <SaveScoreWindowContent>
             <p>Connect your wallet to set user Id and save your score:</p>
             <TonConnectButton />
-            <NickInput 
-              type="text"
-              placeholder="Enter your nickname"
-              value={nick}
-              onChange={(e) => setNick(e.target.value)}
-            />
             <StyledButton onClick={handleSaveScoreConfirm} style={{ marginTop: '10px' }}>Save Score</StyledButton>
             <StyledButton onClick={handleCloseSaveScoreWindow} style={{ marginTop: '10px' }}>Close</StyledButton>
           </SaveScoreWindowContent>

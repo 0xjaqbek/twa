@@ -28,33 +28,18 @@ const SaveScoreWindowContent = styled.div`
   text-align: center;
 `;
 
-const NickInput = styled.input`
-  padding: 10px;
-  margin-top: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  width: 80%;
-`;
 
 interface SaveScoreWindowProps {
   onClose: () => void;
   onSave: () => void;
-  nick: string;
-  setNick: (value: string) => void;
 }
 
-export const SaveScoreWindow: React.FC<SaveScoreWindowProps> = ({ onClose, onSave, nick, setNick }) => {
+export const SaveScoreWindow: React.FC<SaveScoreWindowProps> = ({ onClose, onSave }) => {
   return (
     <SaveScoreWindowContainer>
       <SaveScoreWindowContent>
         <p>Connect your wallet to set user Id and save your score:</p>
         <TonConnectButton />
-        <NickInput 
-          type="text"
-          placeholder="Enter your nickname"
-          value={nick}
-          onChange={(e) => setNick(e.target.value)}
-        />
         <StyledButton onClick={onSave} style={{ marginTop: '10px' }}>Save Score</StyledButton>
         <StyledButton onClick={onClose} style={{ marginTop: '10px' }}>Close</StyledButton>
       </SaveScoreWindowContent>
