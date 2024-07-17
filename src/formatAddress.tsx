@@ -1,4 +1,4 @@
-// formatAddress.ts
+// formatAddress.tsx
 
 export const formatAddress = (address: string): string => {
     // Validate address format if necessary, assuming TON addresses are hexadecimal strings
