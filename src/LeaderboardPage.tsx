@@ -51,28 +51,28 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
 
   const handleSaveScoreConfirm = async () => {
     try {
-      if (!telegramId) {
-        alert("Please open in Telegram App.");
+      if (!telegramId && !rawAddress) {
+        alert("Please open in Telegram App or connect your wallet.");
         return;
       }
       if (!nick) {
         alert("Please enter a nickname.");
         return;
       }
-
+  
       const newScore: LeaderboardEntry = {
         address: rawAddress || '',
         time: elapsedTime,
         playerId: telegramId || '',
         nick: nick,
       };
-
+  
       const nicknameExists = leaderboard.some(entry => entry.nick === nick && entry.playerId !== telegramId);
       if (nicknameExists) {
         alert("This nickname is already taken by another user.");
         return;
       }
-
+  
       const existingScore = leaderboard.find(score => score.address === rawAddress || score.playerId === telegramId);
       if (existingScore) {
         if (elapsedTime < existingScore.time) {
