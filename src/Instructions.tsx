@@ -85,7 +85,7 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => {
             </div>
           </div>
         )}
-        {showLeaderboard && <LeaderboardPage elapsedTime={0} onClose={handleCloseModal} telegramId={null} />}
+        {showLeaderboard && <LeaderboardPage elapsedTime={0} onClose={handleCloseModal} userId={null} />}
       </div>
     </div>
   );

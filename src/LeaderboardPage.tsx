@@ -14,10 +14,10 @@ import { formatAddress } from './FormatAddress';
 interface LeaderboardPageProps {
   elapsedTime: number;
   onClose: () => void;
-  telegramId: string | null;
+  userId: string | null;
 }
 
-const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose, telegramId }) => {
+const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose, userId }) => {
   const rawAddress = useTonAddress(true); // Assume useTonAddress returns a string or empty string ('') if not available
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [pageIndex, setPageIndex] = useState(0);
@@ -51,7 +51,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
 
   const handleSaveScoreConfirm = async () => {
     try {
-      if (!telegramId && !rawAddress) {
+      if (!userId && !rawAddress) {
         alert("Please open in Telegram App or connect your wallet.");
         return;
       }
@@ -63,21 +63,21 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
       const newScore: LeaderboardEntry = {
         address: rawAddress || '',
         time: elapsedTime,
-        playerId: telegramId || '',
+        playerId: userId || '',
         nick: nick,
       };
   
-      const nicknameExists = leaderboard.some(entry => entry.nick === nick && entry.playerId !== telegramId);
+      const nicknameExists = leaderboard.some(entry => entry.nick === nick && entry.playerId !== userId);
       if (nicknameExists) {
         alert("This nickname is already taken by another user.");
         return;
       }
   
-      const existingScore = leaderboard.find(score => score.address === rawAddress || score.playerId === telegramId);
+      const existingScore = leaderboard.find(score => score.address === rawAddress || score.playerId === userId);
       if (existingScore) {
         if (elapsedTime < existingScore.time) {
           const updatedLeaderboard = leaderboard.map(score =>
-            (score.address === rawAddress || score.playerId === telegramId) ? newScore : score
+            (score.address === rawAddress || score.playerId === userId) ? newScore : score
           );
           setLeaderboard(updatedLeaderboard);
           await updateLeaderboard(updatedLeaderboard);

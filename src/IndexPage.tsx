@@ -290,7 +290,7 @@ const IndexPage: FC = () => {
         <LeaderboardPage
           elapsedTime={(endTime - startTime) / 1000}
           onClose={() => setShowLeaderboard(false)} // Close the leaderboard page
-          telegramId={userId}        />
+          userId={userId}        />
       )}
 
       {calculateElapsedTime() || (userId ? userId : "...")}
