@@ -304,7 +304,7 @@ const IndexPage: FC = () => {
         onClose={() => setShowLeaderboard(false)} // Close the leaderboard page
         userId={userId}
         showLeaderboard={showLeaderboard} // Pass the showLeaderboard state
-      />
+        rawAddress={""}      />
 
       {calculateElapsedTime() || (userId ? userId : "...")}
     </div>

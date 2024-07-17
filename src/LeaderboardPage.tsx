@@ -1,4 +1,4 @@
-// Leaderboard.tsx
+// LeaderboardPage.tsx
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -14,14 +14,15 @@ import { LeaderboardPageProps } from './LeaderboardPageProps';
 
 interface LeaderboardPagePropsExtended extends LeaderboardPageProps {
   showLeaderboard: boolean;
+  userId: string | null; // Include userId prop
+  rawAddress: string; // Include rawAddress prop
+  elapsedTime: number; // Include elapsedTime prop
 }
 
-const LeaderboardPage: React.FC<LeaderboardPagePropsExtended> = ({ elapsedTime, onClose, userId, showLeaderboard }) => {
-  const rawAddress = useTonAddress(true); // Assume useTonAddress returns a string or empty string ('') if not available
+const LeaderboardPage: React.FC<LeaderboardPagePropsExtended> = ({ elapsedTime, onClose, userId, rawAddress, showLeaderboard }) => {
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [pageIndex, setPageIndex] = useState(0);
   const [showSaveScoreWindow, setShowSaveScoreWindow] = useState(false);
-  const [nick, setNick] = useState('');
   const itemsPerPage = 3;
 
   useEffect(() => {
@@ -54,23 +55,13 @@ const LeaderboardPage: React.FC<LeaderboardPagePropsExtended> = ({ elapsedTime, 
         alert("Please open in Telegram App or connect your wallet.");
         return;
       }
-      if (!nick) {
-        alert("Please enter a nickname.");
-        return;
-      }
   
       const newScore: LeaderboardEntry = {
         address: rawAddress || '',
         time: elapsedTime,
         playerId: userId || '',
-        nick: nick,
+        nick: '', // No nickname required
       };
-  
-      const nicknameExists = leaderboard.some(entry => entry.nick === nick && entry.playerId !== userId);
-      if (nicknameExists) {
-        alert("This nickname is already taken by another user.");
-        return;
-      }
   
       const existingScore = leaderboard.find(score => score.address === rawAddress || score.playerId === userId);
       if (existingScore) {
@@ -136,7 +127,7 @@ const LeaderboardPage: React.FC<LeaderboardPagePropsExtended> = ({ elapsedTime, 
         <LeaderboardList>
           {paginatedScores.map((entry: LeaderboardEntry, index: number) => (
             <LeaderboardItem key={index}>
-              {pageIndex * itemsPerPage + index + 1}. {entry.nick || formatAddress(entry.address)} - {entry.time.toFixed(2)} seconds
+              {pageIndex * itemsPerPage + index + 1}. {formatAddress(entry.address || entry.playerId)} - {entry.time.toFixed(2)} seconds
             </LeaderboardItem>
           ))}
         </LeaderboardList>
@@ -152,10 +143,9 @@ const LeaderboardPage: React.FC<LeaderboardPagePropsExtended> = ({ elapsedTime, 
       {showSaveScoreWindow && (
         <SaveScoreWindow
           onClose={handleCloseSaveScoreWindow}
-          onSave={handleSaveScoreConfirm}
-          nick={nick}
-          setNick={setNick}
-        />
+          onSave={handleSaveScoreConfirm} nick={''} setNick={function (value: string): void {
+            throw new Error('Function not implemented.');
+          } }        />
       )}
     </LeaderboardContainer>
   );
