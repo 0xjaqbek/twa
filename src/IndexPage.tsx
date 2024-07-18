@@ -11,6 +11,7 @@ import LeaderboardPage from "./LeaderboardPage"; // Import the LeaderboardPage c
 import { calculateMoveDistance, animateRoad, RESET_POSITION } from "./speed";
 import { StyledButton } from "./StyledButton";
 import { LeaderboardPageProps } from './LeaderboardPageProps';
+import { createOrUpdateLeaderboardEntry } from './gistService'; 
 
 const INITIAL_MOVE_DISTANCE = 0.01; // Initial distance to move road on each click
 
@@ -63,11 +64,11 @@ const IndexPage: FC = () => {
 
   useEffect(() => {
     const tg = (window as any).Telegram?.WebApp;
-  
+
     if (tg) {
       tg.ready(); // Ensure that Telegram Web App is fully loaded
       const searchParams = new URLSearchParams(tg.initData);
-  
+
       const user = searchParams.get('user');
       if (user) {
         const userObj = JSON.parse(user);
@@ -228,8 +229,10 @@ const IndexPage: FC = () => {
   
       // Log userId and elapsedTime
       console.log(`User ID: ${userId}`);
+      console.log(`User Name: ${userName}`);
+      console.log(`User First Name: ${firstName}`);
       console.log(`Elapsed Time: ${((endTime - startTime) / 1000).toFixed(2)} seconds`);
-  
+      
       return () => clearTimeout(timeout);
     }
   }, [endTime, startTime, userId]);
@@ -321,7 +324,11 @@ const IndexPage: FC = () => {
         <LeaderboardPage
           elapsedTime={(endTime - startTime) / 1000}
           onClose={() => setShowLeaderboard(false)} // Close the leaderboard page
-          userId={userId} firstName={""} userName={""} lastName={""}        />
+          userId={userId}
+          firstName={firstName}
+          userName={userName}
+          lastName={lastName}
+        />
       )}
     </div>
   );
