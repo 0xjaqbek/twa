@@ -136,14 +136,14 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
         alert("Please connect your wallet.");
         return;
       }
-  
+
       const newScore: LeaderboardEntry = {
         address: rawAddress || '',
         time: elapsedTime,
         playerId: userId || rawAddress || '',
-        userName: userName || firstName || 'Unknown', // Use userName, firstName, or 'Unknown' if both are empty
+        userName: userName || '', // Use userName, or empty string if not available
       };
-  
+
       const existingScore = leaderboard.find(score => score.address === rawAddress || score.playerId === (userId || rawAddress));
       if (existingScore) {
         if (elapsedTime < existingScore.time) {
@@ -184,14 +184,14 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
     return sortedScores;
   };
 
-  const formatAddress = (address: string, userName: string, firstName: string) => {
-    if (!address) {
-      return userName || firstName || 'Unknown'; // Display userName, firstName, or 'Unknown' if both are empty
+  const formatAddress = (address: string, userName?: string) => {
+    if (userName) {
+      return userName;
     }
+
     if (address.length <= 9) return address;
     return `${address.slice(0, 5)}...${address.slice(-4)}`;
   };
- 
 
   const handleNextPage = () => {
     setPageIndex(prevPageIndex => prevPageIndex + 1);
@@ -226,12 +226,12 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
           )}
         </ActionsContainer>
         <LeaderboardList>
-  {paginatedScores.map((entry, index) => (
-    <LeaderboardItem key={index}>
-  {pageIndex * itemsPerPage + index + 1}. {formatAddress(entry.address, entry.userName, firstName)} - {entry.time.toFixed(2)} seconds
-</LeaderboardItem>
-  ))}
-</LeaderboardList>
+          {paginatedScores.map((entry, index) => (
+            <LeaderboardItem key={index}>
+              {pageIndex * itemsPerPage + index + 1}. {formatAddress(entry.address, entry.userName)} - {entry.time.toFixed(2)} seconds
+            </LeaderboardItem>
+          ))}
+        </LeaderboardList>
         <ActionsContainer>
           {(pageIndex + 1) * itemsPerPage < topScores.length && (
             <StyledButtonSecondary onClick={handleNextPage}>Next</StyledButtonSecondary>
