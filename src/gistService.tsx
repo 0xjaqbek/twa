@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, get, set, update } from 'firebase/database';
+import { getDatabase, ref, get, set } from 'firebase/database';
 
 // Replace with your Firebase config
 const firebaseConfig = {
@@ -48,4 +48,36 @@ export const updateLeaderboard = async (leaderboard: LeaderboardEntry[]): Promis
     updates[`entry_${index}`] = entry;
   });
   await set(leaderboardRef, updates);
+};
+
+// Function to create or update leaderboard entry
+export const createOrUpdateLeaderboardEntry = async (
+  address: string,
+  time: number,
+  playerId: string,
+  userName: string,
+  firstName: string
+): Promise<void> => {
+  const effectiveUserName = userName || firstName;
+  const newEntry: LeaderboardEntry = {
+    address,
+    time,
+    playerId,
+    userName: effectiveUserName
+  };
+
+  const currentLeaderboard = await getLeaderboard();
+  const existingEntryIndex = currentLeaderboard.findIndex(entry => entry.playerId === playerId || entry.address === address);
+
+  if (existingEntryIndex >= 0) {
+    // Update existing entry if new time is better
+    if (time < currentLeaderboard[existingEntryIndex].time) {
+      currentLeaderboard[existingEntryIndex] = newEntry;
+    }
+  } else {
+    // Add new entry if not found
+    currentLeaderboard.push(newEntry);
+  }
+
+  await updateLeaderboard(currentLeaderboard);
 };

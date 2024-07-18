@@ -9,6 +9,9 @@ interface LeaderboardPageProps {
   elapsedTime: number;
   onClose: () => void;
   userId: string | null;
+  firstName: string;
+  userName: string;
+  lastName: string;
 }
 
 const LeaderboardContainer = styled.div`
@@ -106,15 +109,12 @@ const SaveScoreWindowContent = styled.div`
   text-align: center;
 `;
 
-const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose, userId }) => {
+const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose, userId, firstName, userName, lastName }) => {
   const rawAddress = useTonAddress(true); // false for raw address
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [pageIndex, setPageIndex] = useState(0);
   const [showSaveScoreWindow, setShowSaveScoreWindow] = useState(false);
-  const [firstName, setFirstName] = useState<string>('');
   const [onTelegram, setOnTelegram] = useState(false);
-  const [userName, setUserName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
 
   const itemsPerPage = 3;
 
@@ -185,8 +185,8 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
   };
 
   const formatAddress = (address: string, userName: string, firstName: string) => {
-    if (address.length === 0) {
-      return userName || firstName || 'Unknown'; // Display userName, firstName, or a fallback if both are empty
+    if (!address) {
+      return userName || firstName || 'Unknown'; // Display userName, firstName, or 'Unknown' if both are empty
     }
     if (address.length <= 9) return address;
     return `${address.slice(0, 5)}...${address.slice(-4)}`;

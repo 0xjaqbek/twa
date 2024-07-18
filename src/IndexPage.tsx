@@ -321,8 +321,7 @@ const IndexPage: FC = () => {
         <LeaderboardPage
           elapsedTime={(endTime - startTime) / 1000}
           onClose={() => setShowLeaderboard(false)} // Close the leaderboard page
-          userId={userId}
-        />
+          userId={userId} firstName={""} userName={""} lastName={""}        />
       )}
     </div>
   );
