@@ -1,4 +1,3 @@
-// Car.tsx
 import React, { useState, useEffect } from "react";
 import bryka from "./bryka.png";
 import brykaO from "./brykaO.png";
@@ -56,7 +55,7 @@ const Car: React.FC<CarProps> = ({ clickEnabled, onClick, carAnimation, showBryk
         transform: `translateX(calc(-50% + ${horizontalOffset}px)) translateY(${verticalOffset}px)`,
         zIndex: 1,
         cursor: clickEnabled ? 'pointer' : 'default',
-        transition: 'transform 0.1s ease-out, opacity 1s', // Add opacity transition
+        transition: 'transform 0.2s ease-out, opacity 1s', // Increase the transform transition duration
         animation: carAnimation === 'car-move-up' ? 'moveUp 2s forwards' : 'none',
         opacity: opacity, // Apply opacity from prop
       }}
