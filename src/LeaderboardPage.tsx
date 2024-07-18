@@ -191,6 +191,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
     if (address.length <= 9) return address;
     return `${address.slice(0, 5)}...${address.slice(-4)}`;
   };
+ 
 
   const handleNextPage = () => {
     setPageIndex(prevPageIndex => prevPageIndex + 1);
@@ -227,8 +228,8 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
         <LeaderboardList>
   {paginatedScores.map((entry, index) => (
     <LeaderboardItem key={index}>
-      {pageIndex * itemsPerPage + index + 1}. {formatAddress(entry.address, entry.userName, firstName)} - {entry.time.toFixed(2)} seconds
-    </LeaderboardItem>
+  {pageIndex * itemsPerPage + index + 1}. {formatAddress(entry.address, entry.userName, firstName)} - {entry.time.toFixed(2)} seconds
+</LeaderboardItem>
   ))}
 </LeaderboardList>
         <ActionsContainer>
