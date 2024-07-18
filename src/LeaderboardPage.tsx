@@ -132,23 +132,23 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
 
   const handleSaveScoreConfirm = async () => {
     try {
-      if (!userId) {
-        alert("Please open in Telegram App.");
+      if (!userId && !rawAddress) {
+        alert("Please connect your wallet.");
         return;
       }
   
       const newScore: LeaderboardEntry = {
         address: rawAddress || '',
         time: elapsedTime,
-        playerId: userId || '',
-        userName: userName || firstName, // Use userName or firstName if userName is not available
+        playerId: userId || rawAddress || '',
+        userName: userName || firstName || 'Unknown', // Use userName, firstName, or 'Unknown' if both are empty
       };
   
-      const existingScore = leaderboard.find(score => score.address === rawAddress || score.playerId === userId);
+      const existingScore = leaderboard.find(score => score.address === rawAddress || score.playerId === (userId || rawAddress));
       if (existingScore) {
         if (elapsedTime < existingScore.time) {
           const updatedLeaderboard = leaderboard.map(score =>
-            (score.address === rawAddress || score.playerId === userId) ? newScore : score
+            (score.address === rawAddress || score.playerId === (userId || rawAddress)) ? newScore : score
           );
           setLeaderboard(updatedLeaderboard);
           await updateLeaderboard(updatedLeaderboard);
