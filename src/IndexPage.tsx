@@ -281,7 +281,7 @@ const IndexPage: FC = () => {
   };
 
   return (
-    <div style={{ textAlign: 'center', position: 'relative', overflow: 'hidden', height: '100vh' }}>
+    <div style={{ textAlign: 'center', position: 'relative', overflow: 'hidden', height: '100vh', userSelect: 'none' }}>
       {showInstructions && (
         <div style={{ opacity: instructionsOpacity, transition: 'opacity 1s' }}>
           <Instructions onStartGame={handleStartGame} />
