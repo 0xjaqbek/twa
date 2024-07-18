@@ -115,7 +115,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
   const [onTelegram, setOnTelegram] = useState(false);
   const [userName, setUserName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
-  const [userIdState, setUserId] = useState<string | null>(userId);
+  const [userIdState, setUserId] = useState<string | null>(userId); // Correctly define setUserId
 
   const itemsPerPage = 3;
 
@@ -133,23 +133,23 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
 
   const handleSaveScoreConfirm = async () => {
     try {
-      if (!userId) {
+      if (!userIdState) {
         alert("Please open in Telegram App.");
         return;
       }
-  
+
       const newScore: LeaderboardEntry = {
         address: rawAddress || userName || firstName, // Use userName or firstName if address is empty
         time: elapsedTime,
-        playerId: userId || '',
+        playerId: userIdState || '',
         userName: userName || firstName, // Use userName or firstName if userName is not available
       };
-  
-      const existingScore = leaderboard.find(score => score.address === rawAddress || score.playerId === userId);
+
+      const existingScore = leaderboard.find(score => score.address === rawAddress || score.playerId === userIdState);
       if (existingScore) {
         if (elapsedTime < existingScore.time) {
           const updatedLeaderboard = leaderboard.map(score =>
-            (score.address === rawAddress || score.playerId === userId) ? newScore : score
+            (score.address === rawAddress || score.playerId === userIdState) ? newScore : score
           );
           setLeaderboard(updatedLeaderboard);
           await updateLeaderboard(updatedLeaderboard);
@@ -171,7 +171,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
       console.error("Error saving score:", error);
       // Handle error saving score
     }
-  }; 
+  };
 
   const handleSaveScoreCancel = () => {
     setShowSaveScoreWindow(false);
