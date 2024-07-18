@@ -17,40 +17,31 @@ const Car: React.FC<CarProps> = ({ clickEnabled, onClick, carAnimation, showBryk
   const [horizontalOffset, setHorizontalOffset] = useState(0);
 
   useEffect(() => {
+    // Effect to adjust offsets based on power level
     if (powerLevel >= 8) {
-      // High power level: Move car up more and slightly right
       setVerticalOffset(-5);
       setHorizontalOffset(2);
-    } else if (powerLevel >= 8) {
-      // Middle power level: Move car up moderately and slightly left
-      setVerticalOffset(3);
-      setHorizontalOffset(0);
     } else if (powerLevel >= 7) {
-      // Middle power level: Move car up moderately and slightly left
       setVerticalOffset(5);
       setHorizontalOffset(-2);
     } else if (powerLevel >= 4) {
-      // Middle power level: Move car up moderately and slightly left
       setVerticalOffset(3);
       setHorizontalOffset(2);
     } else if (powerLevel >= 2) {
-      // Low power level: Move car up slightly and back to center
       setVerticalOffset(-3);
       setHorizontalOffset(0);
     } else if (powerLevel >= 1) {
-      // Middle power level: Move car up moderately and slightly left
       setVerticalOffset(2);
       setHorizontalOffset(0);
     } else {
-      // Reset offsets
       setVerticalOffset(-1);
       setHorizontalOffset(0);
     }
   }, [powerLevel]);
 
   useEffect(() => {
+    // Effect to adjust vertical offset when brykaO is shown
     if (showBrykaO) {
-      // Adjust vertical offset when brykaO is shown
       setVerticalOffset(prevOffset => prevOffset - 11);
     }
   }, [showBrykaO]);
@@ -71,7 +62,15 @@ const Car: React.FC<CarProps> = ({ clickEnabled, onClick, carAnimation, showBryk
       }}
       onClick={onClick}
     >
-      <img src={showBrykaO ? brykaO : bryka} alt="bryka" style={{ width: '125px', height: 'auto' }} />
+      <img
+        src={showBrykaO ? brykaO : bryka}
+        alt="bryka"
+        style={{
+          width: '125px',
+          height: 'auto',
+          userSelect: 'none', // Prevent text selection on the image
+        }}
+      />
     </div>
   );
 };

@@ -296,7 +296,7 @@ const IndexPage: FC = () => {
           {showingText && (
             <CountdownText>{showingText}</CountdownText>
           )}
-          <div style={{ opacity: carOpacity, transition: 'opacity 1s' }}>
+          <div style={{ opacity: carOpacity, transition: 'opacity 1s', userSelect: 'none' }}>
             <Car
               clickEnabled={clickEnabled}
               onClick={handleClick}
