@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyledButton } from "./StyledButton";
 import LeaderboardPage from "./LeaderboardPage";
+import bryka from './bryka.png';  // Adjust the path as needed
+import gear from './gear.png';    // Adjust the path as needed
 
 interface InstructionsProps {
   onStartGame: () => void;
@@ -9,6 +11,8 @@ interface InstructionsProps {
 const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => {
   const [showInstructions, setShowInstructions] = useState(false);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [brykaPulseCount, setBrykaPulseCount] = useState(0);
+  const [gearVisible, setGearVisible] = useState(false);
 
   const handleShowInstructions = () => {
     setShowInstructions(true);
@@ -24,6 +28,41 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => {
     setShowInstructions(false);
     setShowLeaderboard(false);
   };
+
+  useEffect(() => {
+    let brykaInterval: NodeJS.Timeout;
+    let gearTimeout: NodeJS.Timeout;
+
+    const startBrykaInterval = () => {
+      brykaInterval = setInterval(() => {
+        setBrykaPulseCount((prev) => {
+          if (prev === 8) {
+            setGearVisible(true);
+            clearInterval(brykaInterval);
+
+            gearTimeout = setTimeout(() => {
+              setGearVisible(false);
+              setBrykaPulseCount(0);
+              startBrykaInterval();
+            }, 800);
+
+            return prev;
+          } else {
+            return prev + 1;
+          }
+        });
+      }, 300);
+    };
+
+    if (showInstructions) {
+      startBrykaInterval();
+    }
+
+    return () => {
+      clearInterval(brykaInterval);
+      clearTimeout(gearTimeout);
+    };
+  }, [showInstructions]);
 
   return (
     <div style={{
@@ -47,7 +86,7 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => {
         textAlign: 'center',
         fontSize: '0.7rem',
       }}>
-        <h1 style={{textShadow: '5px 5px  rgba(255, 255, 255, 0.5)', fontSize: '1.2rem', padding: '15px' }}>TapRaceSprint</h1><br></br>
+        <h1 style={{ textShadow: '5px 5px  rgba(255, 255, 255, 0.5)', fontSize: '1.2rem', padding: '15px' }}>TapRaceSprint</h1><br></br>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
           <StyledButton onClick={handleShowInstructions}>Instructions</StyledButton><br></br>
           <StyledButton onClick={handleShowLeaderboard}>Leaderboard</StyledButton><br></br>
@@ -81,12 +120,60 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => {
                 <li>Click on the gear image to activate further car clicks.</li><br></br>
                 <li>Your goal is to reach 69 clicks as fast as possible!</li><br></br>
               </ol>
+              <div className="animated-images" style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}>
+                <div style={{ height: '100px', position: 'relative' }}>
+                  {gearVisible && (
+                    <img src={gear} className="gear-animation" alt="gear" style={{
+                      height: '55px',
+                      position: 'absolute',
+                      top: 0,
+                      left: -25,
+                      right: 100,
+                      bottom: 0,
+                      margin: 'auto',
+                      animation: 'appear-disappear 0.8s',
+                    }} />
+                  )}
+                </div>
+                <img src={bryka} className="bryka-animation" alt="bryka" style={{
+                  height: '100px',
+                  animation: gearVisible ? 'none' : 'pulsate 0.3s infinite',
+                }} />
+              </div>
               <StyledButton onClick={handleCloseModal}>Close</StyledButton>
             </div>
           </div>
         )}
         {showLeaderboard && <LeaderboardPage elapsedTime={0} onClose={handleCloseModal} userId={null} firstName={""} userName={""} lastName={""} />}
       </div>
+
+      <style>{`
+        @keyframes pulsate {
+          0%, 100% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(0.95);
+          }
+        }
+
+        @keyframes appear-disappear {
+          0%, 100% {
+            opacity: 0;
+          }
+          10%, 90% {
+            opacity: 1;
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(0.95);
+          }
+        }
+      `}</style>
     </div>
   );
 };
