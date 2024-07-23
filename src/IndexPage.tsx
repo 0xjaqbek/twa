@@ -67,6 +67,7 @@ const IndexPage: FC = () => {
 
     if (tg) {
       tg.ready(); // Ensure that Telegram Web App is fully loaded
+      tg.expand();
       const searchParams = new URLSearchParams(tg.initData);
 
       const user = searchParams.get('user');
