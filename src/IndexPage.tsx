@@ -69,6 +69,9 @@ const IndexPage: FC = () => {
       tg.ready(); // Ensure that Telegram Web App is fully loaded
       tg.expand();
       tg.disableVerticalSwipes();
+      document.documentElement.addEventListener('touchmove', function(event) {
+        event.preventDefault();
+    }, { passive: false });
       const searchParams = new URLSearchParams(tg.initData);
 
       const user = searchParams.get('user');
