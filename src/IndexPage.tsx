@@ -82,6 +82,9 @@ const IndexPage: FC = () => {
         setFirstName(userObj.first_name || null);
         setLastName(userObj.last_name || null);
         setUserName(userObj.username || null);
+        const mainButton = tg.MainButton;
+        mainButton.setText("Start Game");
+        mainButton.show();
       } else {
         setOnTelegram(false);
         setUserId(null); // Set userId to null if user is undefined
@@ -135,7 +138,10 @@ const IndexPage: FC = () => {
     setTimeout(() => {
       setShowInstructions(false); // Hide instructions after transition
       setGameStarted(true);
-
+      const tg = (window as any).Telegram?.WebApp;
+      if (tg) {
+        tg.MainButton.hide();
+      }
       // Fade in the car first
       setTimeout(() => {
         setCarOpacity(1);  // Set car opacity to 1
