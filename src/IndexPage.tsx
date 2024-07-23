@@ -68,7 +68,7 @@ const IndexPage: FC = () => {
     if (tg) {
       tg.ready(); // Ensure that Telegram Web App is fully loaded
       tg.expand();
-      tg.MainButton.hide(true);
+      tg.isVerticalSwipesEnabled(false);
       document.documentElement.addEventListener('touchmove', function(event) {
         event.preventDefault();
     }, { passive: false });
