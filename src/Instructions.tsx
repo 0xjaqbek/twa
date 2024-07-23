@@ -3,7 +3,7 @@ import { StyledButton } from "./StyledButton";
 import LeaderboardPage from "./LeaderboardPage";
 import bryka from './bryka.png';  // Adjust the path as needed
 import gear from './gear.png';    // Adjust the path as needed
-import logo from './logo.png';
+import logo from './Logo2.png';
 
 
 interface InstructionsProps {
