@@ -64,6 +64,10 @@ const IndexPage: FC = () => {
 
   useEffect(() => {
     const tg = (window as any).Telegram?.WebApp;
+    
+    document.documentElement.addEventListener('touchmove', function(event) {
+      event.preventDefault();
+  }, { passive: false });
 
     if (tg) {
       tg.ready(); // Ensure that Telegram Web App is fully loaded
