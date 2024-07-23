@@ -96,7 +96,7 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => {
           <a href="https://t.me/+ANrGz3PBoA5hYzhk" target="_blank" rel="noopener noreferrer">
             <img
               src={logo}
-              alt="Game Logo (Link to Telegram)"
+              alt="Chat Link (Link to Telegram)"
               style={{ width: '75px', height: '75px', marginRight: '20px' }}
             />
           </a>
