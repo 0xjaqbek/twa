@@ -3,6 +3,8 @@ import { StyledButton } from "./StyledButton";
 import LeaderboardPage from "./LeaderboardPage";
 import bryka from './bryka.png';  // Adjust the path as needed
 import gear from './gear.png';    // Adjust the path as needed
+import logo from './logo.png';
+
 
 interface InstructionsProps {
   onStartGame: () => void;
@@ -91,6 +93,13 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => {
           <StyledButton onClick={handleShowInstructions}>Instructions</StyledButton><br></br>
           <StyledButton onClick={handleShowLeaderboard}>Leaderboard</StyledButton><br></br>
           <StyledButton onClick={onStartGame}>Start Game</StyledButton><br></br>
+          <a href="https://t.me/+ANrGz3PBoA5hYzhk" target="_blank" rel="noopener noreferrer">
+            <img
+              src={logo}
+              alt="Game Logo (Link to Telegram)"
+              style={{ width: '75px', height: '75px', marginRight: '20px' }}
+            />
+          </a>
         </div>
         {showInstructions && (
           <div style={{
@@ -157,7 +166,7 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => {
             transform: scale(1);
           }
           20% {
-            transform: scale(0.9);
+            transform: scale(0.95);
           }
           40% {
             transform: scale(1);
