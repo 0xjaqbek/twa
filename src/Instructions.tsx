@@ -141,7 +141,7 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => {
                 </div>
                 <img src={bryka} className="bryka-animation" alt="bryka" style={{
                   height: '100px',
-                  animation: gearVisible ? 'none' : 'pulsate 0.3s infinite',
+                  animation: gearVisible ? 'none' : 'clicking 0.3s infinite',
                 }} />
               </div>
               <StyledButton onClick={handleCloseModal}>Close</StyledButton>
@@ -152,12 +152,15 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => {
       </div>
 
       <style>{`
-        @keyframes pulsate {
+        @keyframes clicking {
           0%, 100% {
             transform: scale(1);
           }
-          50% {
-            transform: scale(0.95);
+          20% {
+            transform: scale(0.9);
+          }
+          40% {
+            transform: scale(1);
           }
         }
 
@@ -169,7 +172,10 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => {
             opacity: 1;
             transform: scale(1);
           }
-          50% {
+          60% {
+            transform: scale(1);
+          }
+          75% {
             transform: scale(0.95);
           }
         }
