@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { Button, FlexBoxCol, FlexBoxRow } from "./components/styled/styled";
 import { useTonConnect } from "./hooks/useTonConnect";
@@ -8,7 +7,8 @@ import "@twa-dev/sdk";
 import styled from "styled-components";
 import "./PublicPixel.ttf";
 import IndexPage from "./IndexPage";
-import OnChainPage from './onChainPage';
+
+
 
 const StyledApp = styled.div`
   background: white;
@@ -30,16 +30,11 @@ const AppContainer = styled.div`
 
 const App: FC = () => {
   return (
-    <Router>
-      <StyledApp>
-        <AppContainer>
-          <Routes>
-            <Route path="/" element={<IndexPage />} />
-            <Route path="/onChain" element={<OnChainPage />} />
-          </Routes>
-        </AppContainer>
-      </StyledApp>
-    </Router>
+    <StyledApp>
+      <AppContainer>
+        <IndexPage />
+      </AppContainer>
+    </StyledApp>
   );
 };
 
