@@ -63,7 +63,6 @@ const IndexPage: FC = () => {
   const [showLeaderboard, setShowLeaderboard] = useState(false); // State to show leaderboard
   const [userName, setUserName] = useState<string>(''); // Add this line
   const [lastName, setLastName] = useState<string>(''); // Add this line
-  const navigate = useNavigate();
 
   useEffect(() => {
     const tg = (window as any).Telegram?.WebApp;
@@ -88,7 +87,7 @@ const IndexPage: FC = () => {
         mainButton.setText("Race OnChain");
         mainButton.show();
         mainButton.onClick(() => {
-          ('/onChainPage');
+          // Your code to launch the app
       });
       } else {
         setOnTelegram(false);
