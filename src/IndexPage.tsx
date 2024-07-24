@@ -84,10 +84,10 @@ const IndexPage: FC = () => {
         setLastName(userObj.last_name || null);
         setUserName(userObj.username || null);
         const mainButton = tg.MainButton;
-        mainButton.setText("Race OnChain");
+        mainButton.setText("Official Game Chat");
         mainButton.show();
         mainButton.onClick(() => {
-          // Your code to launch the app
+          window.location.href = 'https://t.me/+ANrGz3PBoA5hYzhk'; // Replace with your specific link
       });
       } else {
         setOnTelegram(false);

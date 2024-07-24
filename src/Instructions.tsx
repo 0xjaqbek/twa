@@ -93,14 +93,6 @@ const Instructions: React.FC<InstructionsProps> = ({ onStartGame }) => {
           <StyledButton onClick={handleShowInstructions}>Instructions</StyledButton><br></br>
           <StyledButton onClick={handleShowLeaderboard}>Leaderboard</StyledButton><br></br>
           <StyledButton onClick={onStartGame}>Start Game</StyledButton><br></br>
-          <a href="https://t.me/+ANrGz3PBoA5hYzhk" target="_blank" rel="noopener noreferrer">
-    <img
-      src={logo}
-      alt="Chat Link (Link to Telegram)"
-      style={{ width: '50px', height: '50px' }}  
-    />
-  </a>
-          game chat
         </div>
         {showInstructions && (
           <div style={{
