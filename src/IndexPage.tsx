@@ -84,6 +84,8 @@ const IndexPage: FC = () => {
         const mainButton = tg.MainButton;
         mainButton.setText("TapRaceSprint");
         mainButton.show();
+        const settingsButton = tg.SettingsButton;
+        settingsButton.hide();
       } else {
         setOnTelegram(false);
         setUserId(null); // Set userId to null if user is undefined
