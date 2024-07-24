@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { Button, FlexBoxCol, FlexBoxRow } from "./components/styled/styled";
 import { useTonConnect } from "./hooks/useTonConnect";
