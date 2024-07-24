@@ -1,19 +1,22 @@
-import React, { FC, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import React, { useState, useEffect, FC } from "react";
 import styled, { keyframes } from 'styled-components';
-import PowerIndicator from './PowerIndicator';
-import ProgressIndicator from './ProgressIndicator';
-import Timer from './Timer';
-import Instructions from './Instructions';
-import Car from './Car';
-import Road from './Road';
-import Gear from './Gear';
-import LeaderboardPage from './LeaderboardPage';
-import { calculateMoveDistance, animateRoad, RESET_POSITION } from './speed';
-import { StyledButton } from './StyledButton';
+import PowerIndicator from "./PowerIndicator";
+import ProgressIndicator from "./ProgressIndicator";
+import Timer from "./Timer";
+import Instructions from "./Instructions";
+import Car from "./Car";
+import Road from "./Road";
+import Gear from "./Gear";
+import LeaderboardPage from "./LeaderboardPage"; // Import the LeaderboardPage component
+import { calculateMoveDistance, animateRoad, RESET_POSITION } from "./speed";
+import { StyledButton } from "./StyledButton";
+import { LeaderboardPageProps } from './LeaderboardPageProps';
+import { createOrUpdateLeaderboardEntry } from './gistService'; 
+import OnChainPage from './onChainPage';
 
-const INITIAL_MOVE_DISTANCE = 0.01;
+const INITIAL_MOVE_DISTANCE = 0.01; // Initial distance to move road on each click
 
+// Define the keyframes for the blinking animation
 const blink = keyframes`
   0% { background-color: rgba(255, 255, 255, 0.0); }
   100% { background-color: rgba(255, 255, 255, 1); }
@@ -21,7 +24,7 @@ const blink = keyframes`
 
 const CountdownText = styled.div`
   font-size: 150px;
-  font-family: 'PublicPixel';
+  font-family: 'PublicPixel'; // Replace with your actual font
   color: black;
   position: absolute;
   top: 45%;
@@ -29,9 +32,9 @@ const CountdownText = styled.div`
   transform: translate(-50%, -50%);
   z-index: 3;
   text-shadow: 22px 22px 10px white;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.5); // Black background with 50% opacity
   padding: 1500px 1600px;
-  animation: ${blink} 1s infinite;
+  animation: ${blink} 1s infinite; // Add the animation
 `;
 
 const IndexPage: FC = () => {
@@ -49,29 +52,28 @@ const IndexPage: FC = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [carAnimation, setCarAnimation] = useState('');
   const [showBrykaO, setShowBrykaO] = useState(false);
-  const [roadOpacity, setRoadOpacity] = useState(0);
-  const [carOpacity, setCarOpacity] = useState(0);
-  const [instructionsOpacity, setInstructionsOpacity] = useState(1);
-  const [powerLevel, setPowerLevel] = useState(0);
-  const [firstName, setFirstName] = useState<string>('');
-  const [onTelegram, setOnTelegram] = useState(false);
+  const [roadOpacity, setRoadOpacity] = useState(0); // Initially 0 for fade-in effect
+  const [carOpacity, setCarOpacity] = useState(0); // Initially 0 for fade-in effect
+  const [instructionsOpacity, setInstructionsOpacity] = useState(1); // New state for instructions opacity
+  const [powerLevel, setPowerLevel] = useState(0); // State to track power level
+  const [firstName, setFirstName] = useState<string>(''); // Add this line
+  const [onTelegram, setOnTelegram] = useState(false); // State to track if Telegram is loaded
   const [userId, setUserId] = useState<string | null>(null);
-  const [showLeaderboard, setShowLeaderboard] = useState(false);
-  const [userName, setUserName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [showLeaderboard, setShowLeaderboard] = useState(false); // State to show leaderboard
+  const [userName, setUserName] = useState<string>(''); // Add this line
+  const [lastName, setLastName] = useState<string>(''); // Add this line
 
   useEffect(() => {
     const tg = (window as any).Telegram?.WebApp;
     
     if (tg) {
-      tg.ready();
+      tg.ready(); // Ensure that Telegram Web App is fully loaded
       tg.expand();
       document.documentElement.addEventListener('touchmove', function(event) {
         event.preventDefault();
-      }, { passive: false });
-
+    }, { passive: false });
       const searchParams = new URLSearchParams(tg.initData);
+
       const user = searchParams.get('user');
       if (user) {
         const userObj = JSON.parse(user);
@@ -84,23 +86,23 @@ const IndexPage: FC = () => {
         mainButton.setText("Race OnChain");
         mainButton.show();
         mainButton.onClick(() => {
-          navigate('/onChain'); // Navigate to the OnChain page
-        });
+          // Your code to launch the app
+      });
       } else {
         setOnTelegram(false);
-        setUserId(null);
+        setUserId(null); // Set userId to null if user is undefined
         setFirstName('');
         setUserName('');
         setLastName('');
       }
     } else {
       setOnTelegram(false);
-      setUserId(null);
+      setUserId(null); // Set userId to null if Telegram WebApp is not loaded
       setFirstName('');
       setUserName('');
       setLastName('');
     }
-  }, [navigate]);
+  }, []);
 
   useEffect(() => {
     if (onTelegram && userId) {
@@ -108,6 +110,8 @@ const IndexPage: FC = () => {
       console.log(`First Name: ${firstName}`);
       console.log(`User Name: ${userName}`);
       console.log(`Last Name: ${lastName}`);
+
+      // You can fetch and print the user's name here if needed
     } else {
       console.log('Error: user data unavailable!');
     }
@@ -133,22 +137,24 @@ const IndexPage: FC = () => {
   }, [gameStarted]);
 
   const handleStartGame = () => {
-    setInstructionsOpacity(0);
+    setInstructionsOpacity(0); // Reduce instructions opacity
     setTimeout(() => {
-      setShowInstructions(false);
+      setShowInstructions(false); // Hide instructions after transition
       setGameStarted(true);
       const tg = (window as any).Telegram?.WebApp;
       if (tg) {
         tg.MainButton.hide();
       }
+      // Fade in the car first
       setTimeout(() => {
-        setCarOpacity(1);
-      }, 1500);
+        setCarOpacity(1);  // Set car opacity to 1
+      }, 1500); // Fade in the car after 50ms
 
+      // Fade in road and other elements after an additional delay
       setTimeout(() => {
-        setRoadOpacity(1);
-      }, 500);
-    }, 750);
+        setRoadOpacity(1); // Start fading in the road and other elements
+      }, 500); // Fade in road after 100ms
+    }, 750); // Delay to match the opacity transition
   };
 
   const handleClick = () => {
@@ -173,6 +179,7 @@ const IndexPage: FC = () => {
       setCarAnimation('car-move-up');
     }
 
+    // Increase power level
     setPowerLevel((prevPowerLevel) => (prevPowerLevel + 1) % 7);
   };
 
@@ -180,9 +187,9 @@ const IndexPage: FC = () => {
     setShowGear(false);
     setClickEnabled(true);
     setClickCount(prevCount => prevCount + 1);
-    setShowBrykaO(true);
+    setShowBrykaO(true); // Show brykaO
     setTimeout(() => {
-      setShowBrykaO(false);
+      setShowBrykaO(false); // Hide brykaO after 0.3 seconds
     }, 300);
   };
 
@@ -190,7 +197,7 @@ const IndexPage: FC = () => {
     const interval = setInterval(() => {
       setPosition1(prevPosition => animateRoad(prevPosition, moveDistance, window.innerHeight));
       setPosition2(prevPosition => animateRoad(prevPosition, moveDistance, window.innerHeight));
-    }, 11);
+    }, 11); // Approximately 60 frames per second
 
     return () => clearInterval(interval);
   }, [moveDistance]);
@@ -234,6 +241,7 @@ const IndexPage: FC = () => {
         setRoadOpacity(0);
       }, 1500);
   
+      // Log userId and elapsedTime
       console.log(`User ID: ${userId}`);
       console.log(`User Name: ${userName}`);
       console.log(`User First Name: ${firstName}`);
@@ -250,7 +258,10 @@ const IndexPage: FC = () => {
 
     const elapsedTime = (endTime - startTime) / 1000;
 
+    // Log the elapsed time
     console.log(`Elapsed Time: ${elapsedTime.toFixed(2)} seconds`);
+
+    // Log if userId is obtained and its value
     console.log(`User ID: ${userId}`);
 
     return (
@@ -262,20 +273,20 @@ const IndexPage: FC = () => {
         borderRadius: '10px',
         zIndex: 4,
         position: 'absolute',
-        top: '5%',
+        top: '5%', // Move 50px lower
         left: '50%',
         transform: 'translateX(-50%)',
         opacity: 0,
         animation: 'slideDown 2s forwards',
         animationDelay: '1s',
-        fontSize: '1rem',
+        fontSize: '1rem', // Example of larger font size
       }}>
         <StyledButton onClick={() => window.location.reload()} style={{ margin: '10px', cursor: 'pointer' }}>
           Back
-        </StyledButton><br /><br />
-        Your Time:<br />
-        <span style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br />
-        <br /><br /><br /><br /><br /><br />
+        </StyledButton><br></br><br></br>
+        Your Time:<br></br> 
+        <span style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br></br>
+        <br></br><br></br><br></br><br></br><br></br><br></br>
         <StyledButton onClick={() => setShowLeaderboard(true)} style={{ margin: '10px', cursor: 'pointer' }}>
           Leaderboard
         </StyledButton>
@@ -305,8 +316,8 @@ const IndexPage: FC = () => {
               onClick={handleClick}
               carAnimation={carAnimation}
               showBrykaO={showBrykaO}
-              powerLevel={powerLevel}
-              opacity={carOpacity}
+              powerLevel={powerLevel} // Pass powerLevel to Car component
+              opacity={carOpacity} // Pass carOpacity to Car component
             />
             <Gear showGear={showGear} onClick={handleGearClick} />
             {gameStarted && endTime === 0 && (
@@ -322,10 +333,11 @@ const IndexPage: FC = () => {
 
       {calculateElapsedTime()}
 
+      {/* Conditionally render LeaderboardPage based on showLeaderboard state */}
       {showLeaderboard && (
         <LeaderboardPage
           elapsedTime={(endTime - startTime) / 1000}
-          onClose={() => setShowLeaderboard(false)}
+          onClose={() => setShowLeaderboard(false)} // Close the leaderboard page
           userId={userId}
           firstName={firstName}
           userName={userName}
