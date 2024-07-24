@@ -12,6 +12,7 @@ import { calculateMoveDistance, animateRoad, RESET_POSITION } from "./speed";
 import { StyledButton } from "./StyledButton";
 import { LeaderboardPageProps } from './LeaderboardPageProps';
 import { createOrUpdateLeaderboardEntry } from './gistService'; 
+import OnChainPage from './onChainPage';
 
 const INITIAL_MOVE_DISTANCE = 0.01; // Initial distance to move road on each click
 
