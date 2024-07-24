@@ -82,7 +82,7 @@ const IndexPage: FC = () => {
         setLastName(userObj.last_name || null);
         setUserName(userObj.username || null);
         const mainButton = tg.MainButton;
-        mainButton.setText("Start Game");
+        mainButton.setText("TapRacSprint");
         mainButton.show();
       } else {
         setOnTelegram(false);
