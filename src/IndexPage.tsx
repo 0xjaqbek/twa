@@ -259,12 +259,6 @@ const IndexPage: FC = () => {
 
     const elapsedTime = (endTime - startTime) / 1000;
 
-    // Log the elapsed time
-    console.log(`Elapsed Time: ${elapsedTime.toFixed(2)} seconds`);
-
-    // Log if userId is obtained and its value
-    console.log(`User ID: ${userId}`);
-
     return (
       <div style={{
         border: '2px solid white',
