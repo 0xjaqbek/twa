@@ -88,7 +88,7 @@ const IndexPage: FC = () => {
         mainButton.setText("Race OnChain");
         mainButton.show();
         mainButton.onClick(() => {
-          navigate('/onChainPage');
+          ('/onChainPage');
       });
       } else {
         setOnTelegram(false);
