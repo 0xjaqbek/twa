@@ -113,7 +113,7 @@ const IndexPage: FC = () => {
       console.log(`First Name: ${firstName}`);
       console.log(`User Name: ${userName}`);
       console.log(`Last Name: ${lastName}`);
-
+      console.log(`Wallet Address: ${rawAddress}`);
       // You can fetch and print the user's name here if needed
     } else {
       console.log('Error: user data unavailable!');
