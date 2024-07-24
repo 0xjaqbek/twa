@@ -8,7 +8,6 @@ import "@twa-dev/sdk";
 import styled from "styled-components";
 import "./PublicPixel.ttf";
 import IndexPage from "./IndexPage";
-import OnChainPage from "./onChainPage";
 
 
 
@@ -32,16 +31,11 @@ const AppContainer = styled.div`
 
 const App: FC = () => {
   return (
-    <Router>
-      <StyledApp>
-        <AppContainer>
-          <Routes>
-            <Route path="/" element={<IndexPage />} />
-            <Route path="/onChainPage" element={<OnChainPage />} />
-          </Routes>
-        </AppContainer>
-      </StyledApp>
-    </Router>
+    <StyledApp>
+      <AppContainer>
+        <IndexPage />
+      </AppContainer>
+    </StyledApp>
   );
 };
 
