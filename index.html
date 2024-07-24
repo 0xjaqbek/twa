@@ -10,6 +10,7 @@
   <link href="https://fonts.cdnfonts.com/css/public-pixel" rel="stylesheet">
   <style>
     html, body {
+      touch-action: none !important;
       overflow: hidden; /* Prevent scrolling */
       height: 100%; /* Ensure the body takes up full height */
     }
@@ -64,7 +65,7 @@
     <h1>Please switch to portrait mode to play the game.</h1>
   </div>
   
-  <script>
+    <script>
     document.addEventListener('gesturestart', function (e) {
       e.preventDefault();
     });
