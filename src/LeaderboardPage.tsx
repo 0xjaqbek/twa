@@ -154,6 +154,9 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
           await updateLeaderboard(updatedLeaderboard);
           console.log(`Wallet Address: ${rawAddress}`);
           console.log(`Elapsed Time: ${elapsedTime.toFixed(2)} seconds`);
+          console.log(`User ID: ${userId}`);
+          console.log(`User Name: ${userName}`);
+          console.log(`User First Name: ${firstName}`);
         } else {
           const timeDifference = (elapsedTime - existingScore.time).toFixed(2);
           alert(`You were slower by ${timeDifference} seconds than your best.`);
@@ -164,6 +167,9 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
         await updateLeaderboard(updatedLeaderboard);
         console.log(`Wallet Address: ${rawAddress}`);
         console.log(`Elapsed Time: ${elapsedTime.toFixed(2)} seconds`);
+        console.log(`User ID: ${userId}`);
+        console.log(`User Name: ${userName}`);
+        console.log(`User First Name: ${firstName}`);
       }
       setShowSaveScoreWindow(false);
     } catch (error) {

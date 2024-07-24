@@ -14,6 +14,7 @@ import { LeaderboardPageProps } from './LeaderboardPageProps';
 import { createOrUpdateLeaderboardEntry } from './gistService'; 
 import OnChainPage from './onChainPage';
 import { useNavigate } from 'react-router-dom';
+import { useTonAddress } from "@tonconnect/ui-react";
 
 const INITIAL_MOVE_DISTANCE = 0.01; // Initial distance to move road on each click
 
@@ -63,6 +64,7 @@ const IndexPage: FC = () => {
   const [showLeaderboard, setShowLeaderboard] = useState(false); // State to show leaderboard
   const [userName, setUserName] = useState<string>(''); // Add this line
   const [lastName, setLastName] = useState<string>(''); // Add this line
+  const rawAddress = useTonAddress(true);
 
   useEffect(() => {
     const tg = (window as any).Telegram?.WebApp;
@@ -247,7 +249,7 @@ const IndexPage: FC = () => {
       console.log(`User Name: ${userName}`);
       console.log(`User First Name: ${firstName}`);
       console.log(`Elapsed Time: ${((endTime - startTime) / 1000).toFixed(2)} seconds`);
-      
+      console.log(`Wallet Address: ${rawAddress}`);
       return () => clearTimeout(timeout);
     }
   }, [endTime, startTime, userId]);
