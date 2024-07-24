@@ -83,7 +83,7 @@ const IndexPage: FC = () => {
         setUserName(userObj.username || null);
         const mainButton = tg.MainButton;
         mainButton.setText("TapRaceSprint");
-        mainButton.hide();
+        mainButton.show();
       } else {
         setOnTelegram(false);
         setUserId(null); // Set userId to null if user is undefined
