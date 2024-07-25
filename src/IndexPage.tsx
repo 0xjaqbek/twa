@@ -248,7 +248,7 @@ const IndexPage: FC = () => {
       console.log(`User ID: ${userId}`);
       console.log(`User Name: ${userName}`);
       console.log(`User First Name: ${firstName}`);
-      console.log(`Elapsed Time: ${((endTime - startTime) / 1000).toFixed(2)} seconds`);
+      console.log(`Elapsed Time: ${((endTime - startTime) / 1000).toFixed(3)} seconds`);
       console.log(`Wallet Address: ${rawAddress}`);
       return () => clearTimeout(timeout);
     }
@@ -282,7 +282,7 @@ const IndexPage: FC = () => {
           Back
         </StyledButton><br></br><br></br>
         Your Time:<br></br> 
-        <span style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(2)}</span> seconds<br></br>
+        <span style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>{elapsedTime.toFixed(3)}</span> seconds<br></br>
         <br></br><br></br><br></br><br></br><br></br><br></br>
         <StyledButton onClick={() => setShowLeaderboard(true)} style={{ margin: '10px', cursor: 'pointer' }}>
           Leaderboard

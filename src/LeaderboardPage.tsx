@@ -153,12 +153,12 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
           setLeaderboard(updatedLeaderboard);
           await updateLeaderboard(updatedLeaderboard);
           console.log(`Wallet Address: ${rawAddress}`);
-          console.log(`Elapsed Time: ${elapsedTime.toFixed(2)} seconds`);
+          console.log(`Elapsed Time: ${elapsedTime.toFixed(3)} seconds`);
           console.log(`User ID: ${userId}`);
           console.log(`User Name: ${userName}`);
           console.log(`User First Name: ${firstName}`);
         } else {
-          const timeDifference = (elapsedTime - existingScore.time).toFixed(2);
+          const timeDifference = (elapsedTime - existingScore.time).toFixed(3);
           alert(`You were slower by ${timeDifference} seconds than your best.`);
         }
       } else {
@@ -166,7 +166,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
         setLeaderboard(updatedLeaderboard);
         await updateLeaderboard(updatedLeaderboard);
         console.log(`Wallet Address: ${rawAddress}`);
-        console.log(`Elapsed Time: ${elapsedTime.toFixed(2)} seconds`);
+        console.log(`Elapsed Time: ${elapsedTime.toFixed(3)} seconds`);
         console.log(`User ID: ${userId}`);
         console.log(`User Name: ${userName}`);
         console.log(`User First Name: ${firstName}`);
@@ -219,7 +219,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
       <LeaderboardContent>
         {elapsedTime > 0 && (
           <>
-            <ElapsedTime style={{ marginBottom: '20px' }}>Your current time:<br></br>{elapsedTime.toFixed(2)} seconds</ElapsedTime>
+            <ElapsedTime style={{ marginBottom: '20px' }}>Your current time:<br></br>{elapsedTime.toFixed(3)} seconds</ElapsedTime>
             <ActionsContainer>
               <StyledButton onClick={handleSaveScore} style={{ marginBottom: '10px' }}>Save Score</StyledButton>
             </ActionsContainer>
@@ -234,7 +234,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
         <LeaderboardList>
           {paginatedScores.map((entry, index) => (
             <LeaderboardItem key={index}>
-              {pageIndex * itemsPerPage + index + 1}. {formatAddress(entry.address, entry.userName)} - {entry.time.toFixed(2)} seconds
+              {pageIndex * itemsPerPage + index + 1}. {formatAddress(entry.address, entry.userName)} - {entry.time.toFixed(3)} seconds
             </LeaderboardItem>
           ))}
         </LeaderboardList>
@@ -258,7 +258,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
     console.log(`Wallet Address: ${rawAddress}`);
     console.log(`User ID: ${userId}`);
     console.log(`User Name: ${userName}`);
-    console.log(`Elapsed Time: ${elapsedTime.toFixed(2)} seconds`);
+    console.log(`Elapsed Time: ${elapsedTime.toFixed(3)} seconds`);
   }}
   style={{ marginTop: '10px' }}
   disabled={!rawAddress}

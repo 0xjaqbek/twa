@@ -35,7 +35,7 @@ const Timer: FC<TimerProps> = ({ startTime, gameStarted, endTime }) => {
       const currentTime = performance.now();
       const elapsedMilliseconds = currentTime - startTime;
       const elapsedSeconds = elapsedMilliseconds / 1000;
-      setElapsedTime(elapsedSeconds.toFixed(2));
+      setElapsedTime(elapsedSeconds.toFixed(3));
     };
 
     if (gameStarted && startTime !== 0 && endTime === 0) {
