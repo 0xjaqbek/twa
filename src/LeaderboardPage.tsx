@@ -250,9 +250,11 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
       {showSaveScoreWindow && (
         <SaveScoreWindowContainer>
           <SaveScoreWindowContent>
-            <p>Connect your wallet to set user Id and save your score:</p>
+            <p>Connect your wallet to play OnChain:</p>
             <TonConnectButton />
-            <StyledButton onClick={handleSaveScoreConfirm} style={{ marginTop: '10px' }}>Save Score</StyledButton>
+            <StyledButtonSecondary onClick={() => 
+              console.log("OnChain Race clicked")} style={{ marginTop: '10px' }} disabled={!rawAddress}> OnChain Race </StyledButtonSecondary>
+            <StyledButton onClick={handleSaveScoreConfirm} style={{ marginTop: '10px' }}>Save Score</StyledButton><br></br>
             <StyledButton onClick={handleCloseSaveScoreWindow} style={{ marginTop: '10px' }}>Close</StyledButton>
           </SaveScoreWindowContent>
         </SaveScoreWindowContainer>
