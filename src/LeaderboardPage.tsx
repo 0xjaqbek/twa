@@ -5,6 +5,9 @@ import { TonConnectButton } from "@tonconnect/ui-react";
 import { useTonAddress } from "@tonconnect/ui-react";
 import { getLeaderboard, updateLeaderboard, LeaderboardEntry } from './gistService';
 import { sendTransactionToOnChainRace } from './race/scripts/onChainRaceService'; // Import the function
+import { getDataFromOnChainRace } from './race/scripts/getData';
+import { TonClient, Address } from "@ton/ton";
+import { getHttpEndpoint } from "@orbs-network/ton-access";
 
 interface LeaderboardPageProps {
   elapsedTime: number;
@@ -230,7 +233,29 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
       console.error("Error during OnChain Race:", error);
     }
   };
-
+  
+  const handleOnChainRaceDataClick = async () => {
+    try {
+      if (!rawAddress) {
+        alert("Please connect your wallet.");
+        return;
+      }
+  
+      // Initialize TON RPC client on testnet
+      const endpoint = await getHttpEndpoint({ network: "testnet" });
+      const client = new TonClient({ endpoint });
+  
+      // Define the OnChainRace contract address
+      const onChainRaceAddress = Address.parse("kQDW1VLFvS3FJW5rl2tyNfQ-mOfN5nPYGPAHh1vueJsRywwm"); // Replace with your contract address
+  
+      // Call the function to get data from OnChainRace
+      await getDataFromOnChainRace(client, onChainRaceAddress);
+  
+    } catch (error) {
+      console.error("Error during OnChain Race Data retrieval:", error);
+    }
+  };
+  
   return (
     <LeaderboardContainer>
       <LeaderboardContent>
@@ -276,6 +301,13 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
             >
               OnChain Race
             </StyledButtonSecondary>
+            <StyledButtonSecondary
+  onClick={handleOnChainRaceDataClick}
+  style={{ marginTop: '10px' }}
+  disabled={!rawAddress}
+>
+  OnChain Race Data
+</StyledButtonSecondary>
             <StyledButton onClick={handleSaveScoreConfirm} style={{ marginTop: '10px' }}>Save Score</StyledButton><br></br>
             <StyledButton onClick={handleCloseSaveScoreWindow} style={{ marginTop: '10px' }}>Close</StyledButton>
           </SaveScoreWindowContent>
