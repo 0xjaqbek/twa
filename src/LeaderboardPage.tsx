@@ -4,6 +4,7 @@ import { StyledButton } from './StyledButton';
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { useTonAddress } from "@tonconnect/ui-react";
 import { getLeaderboard, updateLeaderboard, LeaderboardEntry } from './gistService';
+import { sendTransactionToOnChainRace } from '../race/scripts/onChainRaceService'; // Import the function
 
 interface LeaderboardPageProps {
   elapsedTime: number;
@@ -214,6 +215,22 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
   const topScores = getTopScores(leaderboard);
   const paginatedScores = topScores.slice(pageIndex * itemsPerPage, (pageIndex + 1) * itemsPerPage);
 
+  const handleOnChainRaceClick = async () => {
+    try {
+      console.log("OnChain Race clicked");
+      console.log(`Wallet Address: ${rawAddress}`);
+      console.log(`User ID: ${userId}`);
+      console.log(`User Name: ${userName}`);
+      console.log(`Elapsed Time: ${elapsedTime.toFixed(3)} seconds`);
+
+      // Call the function to send transaction
+      await sendTransactionToOnChainRace(rawAddress, elapsedTime);
+
+    } catch (error) {
+      console.error("Error during OnChain Race:", error);
+    }
+  };
+
   return (
     <LeaderboardContainer>
       <LeaderboardContent>
@@ -253,18 +270,12 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
             <p>Connect your wallet to play OnChain:</p>
             <TonConnectButton />
             <StyledButtonSecondary
-  onClick={() => {
-    console.log("OnChain Race clicked");
-    console.log(`Wallet Address: ${rawAddress}`);
-    console.log(`User ID: ${userId}`);
-    console.log(`User Name: ${userName}`);
-    console.log(`Elapsed Time: ${elapsedTime.toFixed(3)} seconds`);
-  }}
-  style={{ marginTop: '10px' }}
-  disabled={!rawAddress}
->
-  OnChain Race
-</StyledButtonSecondary>
+              onClick={handleOnChainRaceClick}
+              style={{ marginTop: '10px' }}
+              disabled={!rawAddress}
+            >
+              OnChain Race
+            </StyledButtonSecondary>
             <StyledButton onClick={handleSaveScoreConfirm} style={{ marginTop: '10px' }}>Save Score</StyledButton><br></br>
             <StyledButton onClick={handleCloseSaveScoreWindow} style={{ marginTop: '10px' }}>Close</StyledButton>
           </SaveScoreWindowContent>
