@@ -4,7 +4,7 @@ import { StyledButton } from './StyledButton';
 import { TonConnectButton } from "@tonconnect/ui-react";
 import { useTonAddress } from "@tonconnect/ui-react";
 import { getLeaderboard, updateLeaderboard, LeaderboardEntry } from './gistService';
-import { sendTransactionToOnChainRace } from '../race/scripts/onChainRaceService'; // Import the function
+import { sendTransactionToOnChainRace } from './race/scripts/onChainRaceService'; // Import the function
 
 interface LeaderboardPageProps {
   elapsedTime: number;
