@@ -299,7 +299,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
               style={{ marginTop: '10px' }}
               disabled={!rawAddress}
             >
-              OnChain Race
+              Save Race OnChain
             </StyledButtonSecondary>
             <StyledButtonSecondary
   onClick={handleOnChainRaceDataClick}
