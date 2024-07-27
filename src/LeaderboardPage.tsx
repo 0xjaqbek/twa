@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { StyledButton } from './StyledButton';
-import { TonConnectButton } from "@tonconnect/ui-react";
+import { TonConnectButton, useTonConnectUI } from "@tonconnect/ui-react";
 import { useTonAddress } from "@tonconnect/ui-react";
 import { getLeaderboard, updateLeaderboard, LeaderboardEntry } from './gistService';
-import { sendTransactionToOnChainRace } from './race/scripts/onChainRaceService'; // Import the function
+import { sendTransactionToOnChainRace } from './race/scripts/onChainRaceService';
 import { getDataFromOnChainRace } from './race/scripts/getData';
 import { TonClient, Address } from "@ton/ton";
 import { getHttpEndpoint } from "@orbs-network/ton-access";
@@ -114,13 +114,13 @@ const SaveScoreWindowContent = styled.div`
 `;
 
 const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose, userId, firstName, userName, lastName }) => {
-  const rawAddress = useTonAddress(true); // false for raw address
+  const rawAddress = useTonAddress(true);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [pageIndex, setPageIndex] = useState(0);
   const [showSaveScoreWindow, setShowSaveScoreWindow] = useState(false);
-  const [onTelegram, setOnTelegram] = useState(false);
 
   const itemsPerPage = 3;
+  const [tonConnectUI, setTonConnectUI] = useTonConnectUI();
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -130,7 +130,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
     fetchLeaderboard();
   }, []);
 
-  const handleSaveScore = async () => {
+  const handleSaveScore = () => {
     setShowSaveScoreWindow(true);
   };
 
@@ -145,7 +145,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
         address: rawAddress || '',
         time: elapsedTime,
         playerId: userId || rawAddress || '',
-        userName: userName || '', // Use userName, or empty string if not available
+        userName: userName || '',
       };
 
       const existingScore = leaderboard.find(score => score.address === rawAddress || score.playerId === (userId || rawAddress));
@@ -178,7 +178,6 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
       setShowSaveScoreWindow(false);
     } catch (error) {
       console.error("Error saving score:", error);
-      // Handle error saving score
     }
   };
 
@@ -220,42 +219,43 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
 
   const handleOnChainRaceClick = async () => {
     try {
+      if (!rawAddress) {
+        alert("Please connect your wallet.");
+        return;
+      }
+
       console.log("OnChain Race clicked");
       console.log(`Wallet Address: ${rawAddress}`);
       console.log(`User ID: ${userId}`);
       console.log(`User Name: ${userName}`);
       console.log(`Elapsed Time: ${elapsedTime.toFixed(3)} seconds`);
 
-      // Call the function to send transaction
-      await sendTransactionToOnChainRace(rawAddress, elapsedTime);
+      await sendTransactionToOnChainRace(rawAddress, elapsedTime, tonConnectUI);
 
     } catch (error) {
       console.error("Error during OnChain Race:", error);
     }
   };
-  
+
   const handleOnChainRaceDataClick = async () => {
     try {
       if (!rawAddress) {
         alert("Please connect your wallet.");
         return;
       }
-  
-      // Initialize TON RPC client on testnet
+
       const endpoint = await getHttpEndpoint({ network: "testnet" });
       const client = new TonClient({ endpoint });
-  
-      // Define the OnChainRace contract address
-      const onChainRaceAddress = Address.parse("kQDW1VLFvS3FJW5rl2tyNfQ-mOfN5nPYGPAHh1vueJsRywwm"); // Replace with your contract address
-  
-      // Call the function to get data from OnChainRace
+
+      const onChainRaceAddress = Address.parse("kQDW1VLFvS3FJW5rl2tyNfQ-mOfN5nPYGPAHh1vueJsRywwm");
+
       await getDataFromOnChainRace(client, onChainRaceAddress);
-  
+
     } catch (error) {
       console.error("Error during OnChain Race Data retrieval:", error);
     }
   };
-  
+
   return (
     <LeaderboardContainer>
       <LeaderboardContent>
@@ -302,12 +302,12 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
               Save Race OnChain
             </StyledButtonSecondary>
             <StyledButtonSecondary
-  onClick={handleOnChainRaceDataClick}
-  style={{ marginTop: '10px' }}
-  disabled={!rawAddress}
->
-  OnChain Race Data
-</StyledButtonSecondary>
+              onClick={handleOnChainRaceDataClick}
+              style={{ marginTop: '10px' }}
+              disabled={!rawAddress}
+            >
+              OnChain Race Data
+            </StyledButtonSecondary>
             <StyledButton onClick={handleSaveScoreConfirm} style={{ marginTop: '10px' }}>Save Score</StyledButton><br></br>
             <StyledButton onClick={handleCloseSaveScoreWindow} style={{ marginTop: '10px' }}>Close</StyledButton>
           </SaveScoreWindowContent>

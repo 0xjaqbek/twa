@@ -40,6 +40,7 @@ export class OnChainRace implements Contract {
             body,
         });
     }
+    
 
     async getRunTime(provider: ContractProvider): Promise<number> {
         const { stack } = await provider.get('get_run_time', []); // No arguments needed
