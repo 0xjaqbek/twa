@@ -247,7 +247,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
       const endpoint = await getHttpEndpoint({ network: "testnet" });
       const client = new TonClient({ endpoint });
 
-      const onChainRaceAddress = Address.parse("kQDW1VLFvS3FJW5rl2tyNfQ-mOfN5nPYGPAHh1vueJsRywwm");
+      const onChainRaceAddress = Address.parse("kQC_8HjVICJndonC88WPdsekT072YY0vvcj3I2oXgmEcDWT1");
 
       await getDataFromRace(client, onChainRaceAddress);
 
