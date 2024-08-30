@@ -4,8 +4,8 @@ import { StyledButton } from './StyledButton';
 import { TonConnectButton, useTonConnectUI } from "@tonconnect/ui-react";
 import { useTonAddress } from "@tonconnect/ui-react";
 import { getLeaderboard, updateLeaderboard, LeaderboardEntry } from './gistService';
-import { sendTransactionToOnChainRace } from './race/scripts/onChainRaceService';
-import { getDataFromOnChainRace } from './race/scripts/getData';
+import { sendRecordTimeToRace } from './race/scripts/onChainRaceService';
+import { getDataFromRace } from './race/scripts/getData';
 import { TonClient, Address } from "@ton/ton";
 import { getHttpEndpoint } from "@orbs-network/ton-access";
 
@@ -230,7 +230,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
       console.log(`User Name: ${userName}`);
       console.log(`Elapsed Time: ${elapsedTime.toFixed(3)} seconds`);
 
-      await sendTransactionToOnChainRace(rawAddress, elapsedTime, tonConnectUI);
+      await sendRecordTimeToRace(rawAddress, elapsedTime, tonConnectUI);
 
     } catch (error) {
       console.error("Error during OnChain Race:", error);
@@ -249,7 +249,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({ elapsedTime, onClose,
 
       const onChainRaceAddress = Address.parse("kQDW1VLFvS3FJW5rl2tyNfQ-mOfN5nPYGPAHh1vueJsRywwm");
 
-      await getDataFromOnChainRace(client, onChainRaceAddress);
+      await getDataFromRace(client, onChainRaceAddress);
 
     } catch (error) {
       console.error("Error during OnChain Race Data retrieval:", error);
