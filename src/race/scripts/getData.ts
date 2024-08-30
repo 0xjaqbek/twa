@@ -13,11 +13,11 @@ export async function getDataFromRace(client: TonClient, raceAddress: Address) {
     // Create a ContractProvider for Race contract
     const raceProvider = client.provider(raceAddress);
 
-    // Retrieve and log race information from the smart contract
+    // Retrieve and log race information from the smart contract| Best Time: ${bestTimeSeconds.toFixed(3)} seconds
     const raceInfo = await raceContract.getInfo(raceProvider);
     const bestTimeSeconds = raceInfo.bestTime / 1000;
     const raceInfoMessage = `
-      Best Time: ${bestTimeSeconds.toFixed(3)} seconds
+      
       Total Fees: ${raceInfo.totalFees.toString()} nanoTON
       Current Tournament Number: ${raceInfo.currentTournamentNumber}
       Best Player Address: ${raceInfo.bestPlayer.toString()}
